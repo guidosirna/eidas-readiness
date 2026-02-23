@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #010f62;
+  --color-blue: #0033ff;
+  --color-text: #62718d;
+  --color-bg-light: #f9f9fa;
+  --color-border: #e8e8e8;
+  --color-border-light: #f0f0f0;
+  --color-accent: #f5a623;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-white antialiased;
+    color: #62718d;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    @apply font-display font-semibold tracking-tight;
+    color: #010f62;
+  }
+
+  h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    color: #010f62;
+  }
+
+  ::selection {
+    background: #0033ff;
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Button system — exact Municipal template: 12px 28px, 2px radius, 16px/600 */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 text-white font-semibold transition-colors;
+    background-color: #0033ff;
+    padding: 12px 28px;
+    border-radius: 2px;
+    font-size: 16px;
+  }
+  .btn-primary:hover {
+    background-color: #010f62;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 font-semibold transition-colors;
+    background-color: #010f62;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 2px;
+    font-size: 16px;
+  }
+  .btn-secondary:hover {
+    background-color: #0033ff;
+  }
+
+  .btn-ghost {
+    color: #0033ff;
+    @apply underline underline-offset-4 decoration-blue-300 font-medium transition-colors hover:opacity-70;
+  }
+
+  /* Card system — 2px radius, subtle shadow */
+  .card {
+    @apply bg-white transition-all duration-300;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
+  }
+  .card:hover {
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  }
+
+  /* Municipal-style card: turns blue on hover, text turns white — immediate */
+  .card-blue-hover {
+    @apply bg-white block;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
+  }
+  .card-blue-hover:hover {
+    background-color: #0033ff;
+    border-color: #0033ff;
+    box-shadow: 0 0 30px rgba(0,51,255,0.3);
+  }
+  .card-blue-hover:hover h2,
+  .card-blue-hover:hover h3,
+  .card-blue-hover:hover h4,
+  .card-blue-hover:hover p,
+  .card-blue-hover:hover span {
+    color: #fff !important;
+  }
+  .card-blue-hover:hover .card-icon {
+    color: #fff !important;
+  }
+  .card-blue-hover:hover .card-icon-box {
+    background-color: rgba(255,255,255,0.15) !important;
+  }
+
+  .card-static {
+    @apply bg-white;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
+  }
+
+  .card-link {
+    @apply bg-white p-6 transition-all;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
+  }
+  .card-link:hover {
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  }
+
+  .link-blue {
+    color: #0033ff;
+    @apply underline underline-offset-4 decoration-blue-300 font-medium transition-colors hover:opacity-70;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20;
+  }
+
+  .hero-padding {
+    @apply pt-12 pb-14 sm:pt-16 sm:pb-20;
+  }
+
+  /* Form system — 2px radius, hex borders, consistent focus */
+  .form-input {
+    @apply w-full px-4 py-3 text-base bg-white transition-colors focus:outline-none;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    color: var(--color-navy);
+  }
+  .form-input::placeholder {
+    color: #a0aec0;
+  }
+  .form-input:focus {
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 2px rgba(0, 51, 255, 0.12);
+  }
+
+  .form-label {
+    @apply block text-base font-medium mb-1.5;
+    color: var(--color-navy);
+  }
+
+  /* Section helpers */
+  .section-border {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-bg-light {
+    background-color: var(--color-bg-light);
+  }
+
+  /* Pixel / geometric dot pattern overlay for navy sections */
+  .pattern-pixels {
+    position: relative;
+    overflow: hidden;
+  }
+  .pattern-pixels::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px),
+      radial-gradient(circle, rgba(255,255,255,0.10) 1px, transparent 1px);
+    background-size: 20px 20px, 14px 14px;
+    background-position: 0 0, 7px 7px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}

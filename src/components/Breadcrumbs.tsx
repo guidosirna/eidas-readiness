@@ -1,0 +1,36 @@
+import Link from "next/link";
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+  return (
+    <nav aria-label="Breadcrumb" className="sticky top-[64px] z-40 bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-3" style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <ol className="flex items-center gap-2 text-sm" style={{ color: "#62718d" }}>
+          <li>
+            <Link href="/" className="hover:underline transition-colors" style={{ color: "#62718d" }}>
+              Home
+            </Link>
+          </li>
+          {items.map((item, i) => (
+            <li key={i} className="flex items-center gap-2">
+              <span aria-hidden="true" style={{ color: "#ccc" }}>/</span>
+              {item.href ? (
+                <Link href={item.href} className="hover:underline transition-colors" style={{ color: "#62718d" }}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="font-medium truncate" style={{ color: "#010f62" }}>
+                  {item.label}
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </nav>
+  );
+}

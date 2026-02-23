@@ -1,0 +1,319 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import JsonLd from "@/components/JsonLd";
+import FaqAccordion from "@/components/FaqAccordion";
+import CtaBlock from "@/components/CtaBlock";
+import { faqItems } from "@/lib/faq-data";
+
+export const metadata: Metadata = {
+  title: "eIDAS 2.0 Readiness Check | Is Your Organization Prepared?",
+  description:
+    "Free eIDAS 2.0 readiness assessment. Evaluate your compliance, identify gaps, and get a personalised action plan for the EU Digital Identity Wallet.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "eIDAS 2.0 Readiness Check | Is Your Organization Prepared?",
+    description:
+      "Free eIDAS 2.0 readiness assessment. Evaluate your compliance, identify gaps, and get a personalised action plan.",
+    type: "website",
+    url: "/",
+  },
+};
+import {
+  Shield,
+  CreditCard,
+  Wifi,
+  ArrowRight,
+  Code2,
+  Scale,
+  Building,
+  Landmark,
+  Heart,
+  ShoppingCart,
+  Plane,
+  FileText,
+  Users,
+  Globe,
+  Lock,
+  Smartphone,
+  ChevronRight,
+} from "lucide-react";
+
+const homepageFaqs = faqItems.slice(0, 4);
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homepageFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "eIDAS 2.0 Readiness",
+  url: "https://eidas-readiness.eu",
+  description: "Free eIDAS 2.0 readiness assessment helping organizations prepare for EU Digital Identity Wallet compliance.",
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "eIDAS 2.0 Readiness",
+  url: "https://eidas-readiness.eu",
+  description: "Assess your organization's readiness for eIDAS 2.0 and the European Digital Identity Wallet.",
+  publisher: { "@type": "Organization", name: "eIDAS 2.0 Readiness" },
+};
+
+
+export default function Home() {
+  return (
+    <>
+      <JsonLd data={faqSchema} />
+      <JsonLd data={organizationSchema} />
+      <JsonLd data={webSiteSchema} />
+
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <section className="relative" style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/office-meeting.jpg')" }} />
+        <div className="absolute inset-0" style={{ backgroundColor: "rgba(1,15,98,0.92)" }} />
+        <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-20 sm:pt-36 sm:pb-24">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-[64px] leading-[1.2] text-white">
+              Is your organization ready for eIDAS&nbsp;2.0?
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+              The EU Digital Identity Wallet becomes mandatory in{" "}
+              <span className="font-semibold" style={{ color: "#f5a623" }}>2026</span>.
+              Find out where you stand in 3 minutes.
+            </p>
+            <div className="mt-10">
+              <a href="/assessment" className="btn-primary">
+                Take the free assessment <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EU Framework logos ────────────────────────────────── */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <p className="text-base font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
+            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14">
+              <Image src="/logos/eu-flag.svg" alt="European Union" width={72} height={48} className="h-12 w-auto" />
+              <Image src="/logos/european-commission.svg" alt="European Commission" width={200} height={44} className="h-9 w-auto" />
+              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={220} height={52} className="h-12 w-auto" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it works — The main value proposition ──────── */}
+      <section style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4 text-center" style={{ color: "#62718d" }}>Free assessment</p>
+          <h2 className="text-3xl sm:text-4xl text-center mb-4">Three steps to your compliance roadmap</h2>
+          <p className="text-center text-lg mb-16 max-w-2xl mx-auto" style={{ color: "#62718d" }}>Understand your readiness, identify gaps, and get a clear action plan.</p>
+
+          <div className="grid gap-8 sm:grid-cols-3 mb-12">
+            {[
+              { num: "01", title: "Answer 12 questions", desc: "Covering identity, authentication, wallet readiness, privacy, and integration.", illustration: "/illustrations/survey.svg" },
+              { num: "02", title: "Get your score", desc: "Readiness score with a breakdown of strengths and gaps.", illustration: "/illustrations/data-report.svg" },
+              { num: "03", title: "Get your action plan", desc: "Tailored recommendations with next steps for your specific gaps.", illustration: "/illustrations/checklist.svg" },
+            ].map((item) => (
+              <div key={item.num} className="bg-white p-8 text-center" style={{ border: "1px solid #e8e8e8", borderRadius: "2px" }}>
+                <div className="flex justify-center mb-6">
+                  <Image src={item.illustration} alt={item.title} width={120} height={120} className="h-24 w-auto" />
+                </div>
+                <p className="text-4xl font-bold mb-4" style={{ color: "#e0e0e0" }}>{item.num}</p>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h3>
+                <p className="text-base" style={{ color: "#62718d" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <a href="/assessment" className="btn-primary">
+              Start the quick check <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── What is eIDAS 2.0 — Context ─────────────────────── */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <div className="grid lg:grid-cols-2 gap-0 items-stretch overflow-hidden" style={{ borderRadius: "2px" }}>
+            {/* Left — text content */}
+            <div className="p-8 sm:p-12 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa" }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>The regulation</p>
+              <h2 className="text-3xl sm:text-4xl mb-6">What is eIDAS 2.0?</h2>
+              <p className="text-lg leading-relaxed mb-8" style={{ color: "#62718d" }}>
+                The EU&apos;s updated digital identity regulation requires every Member State to issue a free{" "}
+                <a href="/glossary/eudiw" className="btn-ghost font-medium">Digital Identity Wallet</a>{" "}
+                to citizens and residents. Organizations in regulated sectors must accept it.
+              </p>
+              <ul className="space-y-4" style={{ color: "#62718d" }}>
+                {[
+                  { bold: "Mandatory acceptance", text: "across finance, healthcare, telecom, and public sector" },
+                  { bold: "Cross-border by default", text: "legal effect across all 27 Member States" },
+                  { bold: "Privacy by design", text: "selective disclosure and data minimisation built in" },
+                ].map((item) => (
+                  <li key={item.bold} className="flex items-start gap-3 text-lg">
+                    <span className="mt-2.5 h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: "#0033ff" }} />
+                    <span><span className="font-medium" style={{ color: "#010f62" }}>{item.bold}</span> {item.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8">
+                <a href="/guide/eidas-2-compliance" className="btn-secondary"><FileText className="h-4 w-4" /> Read the full guide</a>
+              </div>
+            </div>
+
+            {/* Right — blue panel with icon rows */}
+            <div className="p-8 sm:p-12 flex flex-col justify-center" style={{ backgroundColor: "#0033ff" }}>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "rgba(255,255,255,0.6)" }}>Key facts</p>
+              <div className="space-y-6">
+                {[
+                  { icon: Users, number: "450M+", label: "EU citizens will receive a free digital identity wallet" },
+                  { icon: Globe, number: "27", label: "Member States with cross-border recognition" },
+                  { icon: Smartphone, number: "2026", label: "Mandatory wallet acceptance begins for regulated sectors" },
+                  { icon: Lock, number: "100%", label: "Privacy by design with selective disclosure" },
+                ].map((item) => (
+                  <a
+                    key={item.number}
+                    href="/guide/eidas-2-compliance"
+                    className="flex items-center gap-4 p-4 transition-colors group"
+                    style={{ backgroundColor: "rgba(255,255,255,0.08)", borderRadius: "2px" }}
+                  >
+                    <div className="w-10 h-10 shrink-0 flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "2px" }}>
+                      <item.icon className="h-5 w-5 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xl font-bold text-white">{item.number}</p>
+                      <p className="text-sm text-white/70 leading-snug">{item.label}</p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-white/40 shrink-0 transition-transform group-hover:translate-x-1" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Industries — Who is affected ─────────────────────── */}
+      <section style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Affected industries</p>
+          <h2 className="text-3xl sm:text-4xl mb-4">Is your sector affected?</h2>
+          <p className="text-lg mb-12 max-w-2xl" style={{ color: "#62718d" }}>These industries must accept the EU Digital Identity Wallet. Find your sector.</p>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: <CreditCard className="w-10 h-10" />, title: "Financial Services", slug: "financial-services", desc: "Banks, payment providers, and fintechs must accept EUDIW for customer onboarding and strong authentication." },
+              { icon: <Heart className="w-10 h-10" />, title: "Healthcare", slug: "healthcare", desc: "Hospitals, insurers, and health platforms need to verify patient identity and handle health attestations." },
+              { icon: <Landmark className="w-10 h-10" />, title: "Government & Public Sector", slug: "government-public-sector", desc: "All public services offering online access must accept the wallet for citizen authentication." },
+              { icon: <Wifi className="w-10 h-10" />, title: "Telecommunications", slug: "telecommunications", desc: "Telecom operators must accept the wallet for SIM registration and subscriber verification." },
+              { icon: <ShoppingCart className="w-10 h-10" />, title: "E-commerce & Platforms", slug: "ecommerce-platforms", desc: "Very large online platforms must support wallet-based age verification and identity checks." },
+              { icon: <Plane className="w-10 h-10" />, title: "Travel & Transport", slug: "travel-transport", desc: "Airlines, hotels, and mobility providers will need to verify digital travel credentials and identity documents." },
+            ].map((item) => (
+              <a key={item.title} href={`/industries/${item.slug}`} className="card-blue-hover p-6 group">
+                <div className="card-icon mb-5" style={{ color: "#0033ff" }}>
+                  {item.icon}
+                </div>
+                <h4 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h4>
+                <p className="text-base leading-relaxed mb-3" style={{ color: "#62718d" }}>{item.desc}</p>
+                <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
+                  Learn more <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </a>
+            ))}
+          </div>
+          <div className="mt-8">
+            <a href="/industries" className="btn-secondary">View all industries</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mid-page CTA ─────────────────────────────────────── */}
+      <section>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <CtaBlock
+            headline="Understand how these changes affect your business"
+            description="Take our free eIDAS 2.0 readiness assessment and discover which areas of digital identity compliance need your attention."
+            buttonText="Get your readiness score"
+            buttonHref="/assessment"
+          />
+        </div>
+      </section>
+
+      {/* ── Key roles — Who in the org ───────────────────────── */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Who in your organization</p>
+          <h2 className="text-3xl sm:text-4xl mb-4">Key roles that need to prepare</h2>
+          <p className="text-lg mb-12 max-w-2xl" style={{ color: "#62718d" }}>eIDAS 2.0 affects multiple teams. Find out what it means for your position.</p>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            {[
+              { icon: <Shield className="w-10 h-10" />, title: "CTOs and Technical Leaders", slug: "cto-technical-lead", desc: "Responsible for technical infrastructure changes, protocol integration, and wallet connectivity." },
+              { icon: <Scale className="w-10 h-10" />, title: "Compliance Officers", slug: "compliance-officer", desc: "Must understand new regulatory obligations, mandatory acceptance rules, and reporting requirements." },
+              { icon: <Code2 className="w-10 h-10" />, title: "Product Managers", slug: "product-manager", desc: "Need to plan wallet-based identity features, user flows, and credential verification UX." },
+              { icon: <Building className="w-10 h-10" />, title: "Legal Teams", slug: "legal-team", desc: "Must assess liability implications, data protection alignment, and relying party registration." },
+            ].map((item) => (
+              <a key={item.title} href={`/roles/${item.slug}`} className="card-blue-hover p-6 group">
+                <div className="card-icon mb-5" style={{ color: "#0033ff" }}>
+                  {item.icon}
+                </div>
+                <h4 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h4>
+                <p className="text-base leading-relaxed mb-3" style={{ color: "#62718d" }}>{item.desc}</p>
+                <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
+                  Learn more <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </a>
+            ))}
+          </div>
+          <div className="mt-8">
+            <a href="/roles" className="btn-secondary">View all roles</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────────────────────────────────── */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <div className="grid lg:grid-cols-2 gap-16">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>FAQ</p>
+              <h2 className="text-3xl sm:text-4xl mb-4">Common questions</h2>
+              <p className="text-lg mb-8" style={{ color: "#62718d" }}>Quick answers to the most common questions about eIDAS 2.0.</p>
+              <a href="/faq" className="btn-secondary"><FileText className="h-4 w-4" /> See all FAQs</a>
+            </div>
+            <div>
+              <FaqAccordion
+                items={homepageFaqs.map((faq) => ({ question: faq.question, answer: faq.answer }))}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Final CTA ────────────────────────────────────────── */}
+      <section>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <CtaBlock
+            headline="Start preparing today"
+            description="Organizations that act early have time to implement changes thoughtfully. Those that wait risk non-compliance and competitive disadvantage."
+            buttonText="Take the free assessment"
+            buttonHref="/assessment"
+          />
+        </div>
+      </section>
+    </>
+  );
+}
