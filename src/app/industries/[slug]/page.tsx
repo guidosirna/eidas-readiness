@@ -127,7 +127,7 @@ export default function IndustryPage({ params }: PageProps) {
 
       {/* Article content with sidebar — everything in one flow */}
       <section style={{ borderBottom: "1px solid #e8e8e8" }}>
-        <SidebarLayout sections={[
+        <SidebarLayout shareTitle={industry.title} sections={[
           ...industry.sections.map((s, i) => ({ id: `section-${i}`, label: s.heading })),
           ...(industry.keyRequirements.length > 0 ? [{ id: "key-requirements", label: "Key Requirements" }] : []),
           ...(industry.useCases.length > 0 ? [{ id: "use-cases", label: "Use Cases" }] : []),

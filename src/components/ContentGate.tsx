@@ -9,6 +9,9 @@ interface ContentGateProps {
 
 const STORAGE_KEY = "content_unlocked";
 
+const roleOptions = ["CTO / Technical Lead", "Compliance Officer", "Product Manager", "Legal Team", "Other"];
+const industryOptions = ["Financial Services", "Healthcare", "Government", "Telecommunications", "E-Commerce", "Travel & Transport", "Other"];
+
 function encodeFormData(data: Record<string, string>) {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -21,7 +24,7 @@ export default function ContentGate({
 }: ContentGateProps) {
   const [unlocked, setUnlocked] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [email, setEmail] = useState("");
+  const [form, setForm] = useState({ email: "", company: "", role: "", industry: "", country: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const gateRef = useRef<HTMLDivElement>(null);
@@ -48,7 +51,7 @@ export default function ContentGate({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(form.email)) {
       setStatus("error");
       setErrorMessage("Please enter a valid email address.");
       return;
@@ -57,13 +60,16 @@ export default function ContentGate({
     setStatus("loading");
 
     try {
-      // Submit to Netlify Forms
       await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encodeFormData({
           "form-name": "content-gate",
-          email,
+          email: form.email,
+          company: form.company,
+          role: form.role,
+          industry: form.industry,
+          country: form.country,
           source: "content_gate",
           page: typeof window !== "undefined" ? window.location.pathname : "",
         }),
@@ -78,7 +84,6 @@ export default function ContentGate({
     }
   };
 
-  // While checking localStorage, show preview content only (no flash)
   if (checking) {
     return <div>{previewChildren}</div>;
   }
@@ -94,12 +99,20 @@ export default function ContentGate({
     );
   }
 
+  const inputClass = "w-full bg-white px-4 py-3 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10";
+  const inputStyle = { borderRadius: "2px", border: "1px solid #ddd", color: "#010f62" };
+  const selectClass = `${inputClass} appearance-none`;
+
   return (
     <div>
       {/* Hidden Netlify form for bot detection */}
       <form name="content-gate" data-netlify="true" hidden>
         <input type="hidden" name="form-name" value="content-gate" />
         <input name="email" />
+        <input name="company" />
+        <input name="role" />
+        <input name="industry" />
+        <input name="country" />
         <input name="source" />
         <input name="page" />
       </form>
@@ -148,26 +161,73 @@ export default function ContentGate({
               Get the full guide delivered to your inbox
             </h3>
             <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-              Enter your email to unlock the complete guide instantly.
+              Tell us a bit about yourself to unlock the complete guide.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 max-w-sm mx-auto">
+            <form onSubmit={handleSubmit} className="mt-6 text-left space-y-3">
               <input
                 type="email"
-                value={email}
+                value={form.email}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setForm({ ...form, email: e.target.value });
                   if (status === "error") setStatus("idle");
                 }}
-                placeholder="you@company.com"
-                className="w-full bg-white px-5 py-3.5 text-base placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600/10"
-                style={{ borderRadius: "2px", border: "1px solid #ddd", color: "#010f62" }}
+                placeholder="Work email *"
+                className={inputClass}
+                style={inputStyle}
                 disabled={status === "loading"}
+                required
               />
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  value={form.company}
+                  onChange={(e) => setForm({ ...form, company: e.target.value })}
+                  placeholder="Company"
+                  className={inputClass}
+                  style={inputStyle}
+                  disabled={status === "loading"}
+                />
+                <input
+                  type="text"
+                  value={form.country}
+                  onChange={(e) => setForm({ ...form, country: e.target.value })}
+                  placeholder="Country"
+                  className={inputClass}
+                  style={inputStyle}
+                  disabled={status === "loading"}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <select
+                  value={form.role}
+                  onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  className={selectClass}
+                  style={{ ...inputStyle, color: form.role ? "#010f62" : "#94a3b8" }}
+                  disabled={status === "loading"}
+                >
+                  <option value="" disabled>Role</option>
+                  {roleOptions.map((r) => (
+                    <option key={r} value={r}>{r}</option>
+                  ))}
+                </select>
+                <select
+                  value={form.industry}
+                  onChange={(e) => setForm({ ...form, industry: e.target.value })}
+                  className={selectClass}
+                  style={{ ...inputStyle, color: form.industry ? "#010f62" : "#94a3b8" }}
+                  disabled={status === "loading"}
+                >
+                  <option value="" disabled>Industry</option>
+                  {industryOptions.map((ind) => (
+                    <option key={ind} value={ind}>{ind}</option>
+                  ))}
+                </select>
+              </div>
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60 mt-3"
+                className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
                 style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
               >
                 {status === "loading" ? "Unlocking..." : "Get Full Access"}

@@ -71,7 +71,7 @@ export default function RolePage({ params }: PageProps) {
 
       {/* Article content with sidebar — everything in one flow */}
       <section style={{ borderBottom: "1px solid #e8e8e8" }}>
-        <SidebarLayout sections={[
+        <SidebarLayout shareTitle={role.title} sections={[
           ...role.sections.map((s, i) => ({ id: `section-${i}`, label: s.heading })),
           ...(role.keyResponsibilities.length > 0 ? [{ id: "key-responsibilities", label: "Key Responsibilities" }] : []),
           ...(role.complianceActions.length > 0 ? [{ id: "action-plan", label: "Action Plan" }] : []),

@@ -37,7 +37,7 @@ export default function GuidesIndexPage() {
     <>
       <Breadcrumbs items={[{ label: "Compliance Guides" }]} />
 
-      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 py-14 sm:py-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>Compliance Guides</h1>
           <p className="mt-4 text-lg max-w-2xl" style={{ color: "#62718d" }}>

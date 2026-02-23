@@ -79,7 +79,7 @@ export default function Home() {
       <section className="relative" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/office-meeting.jpg')" }} />
         <div className="absolute inset-0" style={{ backgroundColor: "rgba(1,15,98,0.92)" }} />
-        <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-20 sm:pt-44 sm:pb-28 text-center">
+        <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-28 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.15] text-white mx-auto max-w-4xl">
             Is your organization ready for&nbsp;eIDAS&nbsp;2.0?
           </h1>
@@ -98,38 +98,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* EU trust marks — light strip below hero */}
-      <div className="flex items-center justify-center gap-10 py-5" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
-        <Image src="/logos/eu-flag.svg" alt="European Union" width={36} height={24} className="h-6 w-auto" />
-        <Image src="/logos/european-commission.svg" alt="European Commission" width={120} height={24} className="h-5 w-auto" />
-        <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={120} height={24} className="h-5 w-auto" />
-      </div>
-
       {/* ── How it works — The main value proposition ──────── */}
-      <section style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4 text-center" style={{ color: "#62718d" }}>Free assessment</p>
-          <h2 className="text-3xl sm:text-4xl text-center mb-4">Three steps to your compliance roadmap</h2>
-          <p className="text-center text-lg mb-16 max-w-2xl mx-auto" style={{ color: "#62718d" }}>Understand your readiness, identify gaps, and get a clear action plan.</p>
-
-          <div className="grid gap-8 sm:grid-cols-3 mb-12">
-            {[
-              { num: "01", title: "Answer 12 questions", desc: "Covering identity, authentication, wallet readiness, privacy, and integration.", illustration: "/illustrations/survey.svg" },
-              { num: "02", title: "Get your score", desc: "Readiness score with a breakdown of strengths and gaps.", illustration: "/illustrations/data-report.svg" },
-              { num: "03", title: "Get your action plan", desc: "Tailored recommendations with next steps for your specific gaps.", illustration: "/illustrations/checklist.svg" },
-            ].map((item) => (
-              <div key={item.num} className="bg-white p-8 text-center" style={{ border: "1px solid #e8e8e8", borderRadius: "2px" }}>
-                <div className="flex justify-center mb-6">
-                  <Image src={item.illustration} alt={item.title} width={120} height={120} className="h-24 w-auto" />
-                </div>
-                <p className="text-4xl font-bold mb-4" style={{ color: "#e0e0e0" }}>{item.num}</p>
-                <h3 className="text-lg font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h3>
-                <p className="text-base" style={{ color: "#62718d" }}>{item.desc}</p>
-              </div>
-            ))}
+          <div className="text-center mb-16">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>How it works</p>
+            <h2 className="text-3xl sm:text-4xl mb-4">Three steps to your compliance roadmap</h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#62718d" }}>Free, no signup, takes under 5 minutes.</p>
           </div>
 
-          <div className="text-center">
+          <div className="grid sm:grid-cols-3 gap-0">
+            {[
+              { num: "1", title: "Answer 12 questions", desc: "Covering legal obligations, technical readiness, privacy alignment, and integration planning.", icon: FileText },
+              { num: "2", title: "Get your readiness score", desc: "See exactly where you stand across 6 compliance areas with a detailed breakdown.", icon: Shield },
+              { num: "3", title: "Follow your action plan", desc: "Receive prioritised, personalised recommendations tailored to your specific gaps.", icon: ChevronRight },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.num} className="relative flex flex-col items-center text-center px-8 py-10">
+                  {/* Connecting line — hidden on mobile, hidden on last item */}
+                  {i < 2 && (
+                    <div className="hidden sm:block absolute top-16 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px" style={{ backgroundColor: "#e8e8e8" }} />
+                  )}
+                  {/* Step number circle */}
+                  <div
+                    className="relative w-14 h-14 flex items-center justify-center mb-6"
+                    style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
+                  >
+                    <span className="text-xl font-bold text-white">{item.num}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-3" style={{ color: "#010f62" }}>{item.title}</h3>
+                  <p className="text-base leading-relaxed" style={{ color: "#62718d" }}>{item.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-8">
             <a href="/assessment" className="btn-primary">
               Start the quick check <ArrowRight className="h-4 w-4" />
             </a>

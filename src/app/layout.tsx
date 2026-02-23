@@ -74,7 +74,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ScrollReset />
         <Header />
-        <main className="pt-16">{children}</main>
+        <main className="pt-16 md:pt-[100px]">{children}</main>
         <Footer />
         <StickyBanner />
         <HelpChatbot />

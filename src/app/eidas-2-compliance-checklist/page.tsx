@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ChecklistInteractive from "@/components/ChecklistInteractive";
+import ShareButton from "@/components/ShareButton";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Compliance Checklist | 20 Steps to Readiness",
@@ -46,7 +47,23 @@ export default function ComplianceChecklistPage() {
     <>
       <JsonLd data={articleSchema} />
       <Breadcrumbs items={[{ label: "eIDAS 2.0 Compliance Checklist" }]} />
+
+      {/* Hero */}
+      <section className="px-6 py-14 sm:py-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl">
+          <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>
+            eIDAS 2.0 Compliance Checklist
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed" style={{ color: "#62718d" }}>
+            20 actionable steps across 4 domains. Track your progress and ensure your organisation is ready for the EU Digital Identity Wallet.
+          </p>
+        </div>
+      </section>
+
       <div className="mx-auto max-w-7xl px-6">
+        <div className="flex justify-end py-4">
+          <ShareButton title="eIDAS 2.0 Compliance Checklist" variant="compact" />
+        </div>
         <ChecklistInteractive />
       </div>
     </>

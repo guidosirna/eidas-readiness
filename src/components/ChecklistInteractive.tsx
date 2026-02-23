@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
+import ShareButton from "@/components/ShareButton";
 import { trackChecklistToggle } from "@/lib/analytics";
 
 /* ────────────────────────────────────────────────────────────────────── */
@@ -232,6 +233,11 @@ export default function ChecklistInteractive() {
                 </Link>
               ))}
             </div>
+          </div>
+
+          {/* Share */}
+          <div className="mt-6 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
+            <ShareButton title="eIDAS 2.0 Compliance Checklist" variant="compact" />
           </div>
         </div>
       </aside>

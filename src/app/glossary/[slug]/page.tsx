@@ -5,6 +5,7 @@ import { glossaryTerms, getTermBySlug } from "@/lib/glossary-data";
 import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import ShareButton from "@/components/ShareButton";
 
 const categoryColors: Record<string, string> = {
   "Core Regulation": "bg-blue-50 text-blue-700",
@@ -91,23 +92,28 @@ export default function GlossaryTermPage({ params }: PageProps) {
       <Breadcrumbs items={[{ label: "Glossary", href: "/glossary" }, { label: term.term }]} />
 
       {/* Hero */}
-      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 py-14 sm:py-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-4xl">
           <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>
             {term.term}
           </h1>
           <div className="mt-4">
-            <span
-              className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${getCategoryBadgeClass(term.category)}`}
+            <Link
+              href={`/glossary?category=${encodeURIComponent(term.category)}`}
+              className={`inline-block px-3 py-1 text-xs font-medium transition-opacity hover:opacity-80 ${getCategoryBadgeClass(term.category)}`}
+              style={{ borderRadius: "2px" }}
             >
               {term.category}
-            </span>
+            </Link>
           </div>
         </div>
       </section>
 
       <article className="px-6 pt-10 pb-12 sm:pt-12 sm:pb-16">
         <div className="mx-auto max-w-4xl">
+          {/* Share */}
+          <ShareButton title={term.term} variant="compact" />
+
           {/* Short definition highlight */}
           <div className="mt-8 p-5" style={{ backgroundColor: "#f9f9fa", borderLeft: "3px solid #0033ff", borderRadius: "2px" }}>
             <p className="text-base leading-relaxed sm:text-lg sm:leading-relaxed" style={{ color: "#010f62" }}>
@@ -147,7 +153,8 @@ export default function GlossaryTermPage({ params }: PageProps) {
                       {rt.shortDefinition}
                     </p>
                     <span
-                      className={`mt-3 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryBadgeClass(rt.category)}`}
+                      className={`mt-3 inline-block px-2.5 py-0.5 text-xs font-medium ${getCategoryBadgeClass(rt.category)}`}
+                      style={{ borderRadius: "2px" }}
                     >
                       {rt.category}
                     </span>

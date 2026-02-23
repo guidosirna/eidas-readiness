@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock, Mail } from "lucide-react";
 import Image from "next/image";
 
 const learnFeatured = [
@@ -36,7 +36,7 @@ type ActiveMenu = "learn" | "prepare" | null;
 
 function LearnMenu({ onClose }: { onClose: () => void }) {
   return (
-    <div className="grid grid-cols-5 gap-0" style={{ width: "720px" }}>
+    <div className="grid grid-cols-5 gap-0">
       {/* Featured guides — 3 cols */}
       <div className="col-span-3 p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
         <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Guides</p>
@@ -88,11 +88,11 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
 
 function PrepareMenu({ onClose }: { onClose: () => void }) {
   return (
-    <div className="grid grid-cols-7 gap-0" style={{ width: "760px" }}>
-      {/* By Role — 3 cols */}
-      <div className="col-span-3 p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
+    <div className="grid grid-cols-2 gap-0">
+      {/* By Role */}
+      <div className="p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
         <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Role</p>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {prepareByRole.map((link) => {
             const Icon = link.icon;
             return (
@@ -100,11 +100,11 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
                 key={link.href}
                 href={link.href}
                 onClick={onClose}
-                className="flex items-center gap-2.5 p-2.5 transition-colors hover:bg-gray-50 group"
+                className="flex items-center gap-2 px-2 py-2.5 transition-colors hover:bg-gray-50 group"
                 style={{ borderRadius: "2px" }}
               >
                 <Icon className="h-4 w-4 shrink-0" style={{ color: "#0033ff" }} />
-                <span className="text-sm font-medium group-hover:opacity-80" style={{ color: "#010f62" }}>{link.label}</span>
+                <span className="text-sm font-medium whitespace-nowrap group-hover:opacity-80" style={{ color: "#010f62" }}>{link.label}</span>
               </a>
             );
           })}
@@ -114,8 +114,8 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      {/* By Industry — 4 cols */}
-      <div className="col-span-4 p-6">
+      {/* By Industry */}
+      <div className="p-6">
         <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Industry</p>
         <div className="grid grid-cols-2 gap-1">
           {prepareByIndustry.map((link) => {
@@ -154,19 +154,22 @@ function MegaMenu({
   return (
     <div className="absolute top-full left-0 right-0 z-50">
       <div
-        className="bg-white shadow-xl"
+        className="relative bg-white shadow-xl overflow-hidden"
         style={{ borderTop: "3px solid #0033ff", borderBottom: "1px solid #e8e8e8" }}
         onMouseLeave={onClose}
       >
-        <div className="mx-auto max-w-7xl px-6 flex">
-          <div className="flex-1">
+        {/* Gray bg that extends from CTA sidebar to right viewport edge */}
+        <div className="absolute top-0 right-0 bottom-0 w-1/2" style={{ backgroundColor: "#f9f9fa" }} />
+
+        <div className="relative mx-auto max-w-7xl pl-6 flex">
+          <div className="flex-1 min-w-0 bg-white">
             {active === "learn" ? <LearnMenu onClose={onClose} /> : <PrepareMenu onClose={onClose} />}
           </div>
 
           {/* CTA sidebar */}
-          <div className="w-64 p-6 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa", borderLeft: "1px solid #e8e8e8" }}>
+          <div className="w-64 shrink-0 p-6 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa", borderLeft: "1px solid #e8e8e8" }}>
             <p className="text-sm font-semibold mb-2" style={{ color: "#010f62" }}>Ready to check your compliance?</p>
-            <p className="text-xs mb-4" style={{ color: "#62718d" }}>Answer 12 questions and get a personalised readiness score.</p>
+            <p className="text-xs mb-4 leading-relaxed" style={{ color: "#62718d" }}>Answer 12 questions and get a personalised readiness score.</p>
             <a
               href="/assessment"
               onClick={onClose}

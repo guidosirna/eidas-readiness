@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ShareButton from "@/components/ShareButton";
 
 interface SidebarSection {
   id: string;
@@ -11,9 +12,10 @@ interface SidebarLayoutProps {
   sections: SidebarSection[];
   children: React.ReactNode;
   sidebarFooter?: React.ReactNode;
+  shareTitle?: string;
 }
 
-export default function SidebarLayout({ sections, children, sidebarFooter }: SidebarLayoutProps) {
+export default function SidebarLayout({ sections, children, sidebarFooter, shareTitle }: SidebarLayoutProps) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -28,7 +30,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
           setActiveId(topEntry.target.id);
         }
       },
-      { rootMargin: "-142px 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-160px 0px -60% 0px", threshold: 0 }
     );
 
     const elements = sections
@@ -43,7 +45,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 152;
+      const top = el.getBoundingClientRect().top + window.scrollY - 160;
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
@@ -51,7 +53,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
   return (
     <div className="mx-auto max-w-7xl px-6">
       {/* Mobile pill bar */}
-      <div className="lg:hidden sticky top-[100px] md:top-[132px] z-30 -mx-6 px-6 py-3 bg-white overflow-x-auto" style={{ borderBottom: "1px solid #e8e8e8" }}>
+      <div className="lg:hidden sticky top-[109px] md:top-[145px] z-30 -mx-6 px-6 py-3 bg-white overflow-x-auto" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="flex gap-2 min-w-max">
           {sections.map((s) => (
             <button
@@ -75,7 +77,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
       <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 py-20">
         {/* Sidebar */}
         <aside className="hidden lg:block">
-          <nav className="sticky top-[124px] md:top-[156px]">
+          <nav className="sticky top-[109px] md:top-[145px]">
             <ul className="space-y-1">
               {sections.map((s) => (
                 <li key={s.id}>
@@ -94,12 +96,19 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
                 </li>
               ))}
             </ul>
+            {shareTitle && (
+              <div className="mt-8 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
+                <ShareButton title={shareTitle} variant="compact" />
+              </div>
+            )}
             {sidebarFooter && <div className="mt-6">{sidebarFooter}</div>}
           </nav>
         </aside>
 
         {/* Content */}
-        <div className="max-w-none min-w-0">{children}</div>
+        <div className="max-w-none min-w-0">
+          {children}
+        </div>
       </div>
     </div>
   );

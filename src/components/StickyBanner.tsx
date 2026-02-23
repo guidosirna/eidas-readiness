@@ -10,13 +10,11 @@ export default function StickyBanner() {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
-  // Show after 3 seconds
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Hide on interactive tool pages
   if (pathname?.startsWith("/assessment")) return null;
   if (pathname?.startsWith("/eidas-2-compliance-checklist")) return null;
   if (dismissed) return null;
@@ -27,45 +25,48 @@ export default function StickyBanner() {
       style={{
         backgroundColor: "#fff",
         borderTop: "1px solid #e8e8e8",
-        boxShadow: "0 -4px 30px rgba(0,0,0,0.08)",
+        boxShadow: "0 -6px 30px rgba(0,0,0,0.08)",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(100%)",
         transition: "opacity 0.4s ease, transform 0.4s ease",
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <div className="mx-auto max-w-7xl px-6 py-5 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-center sm:text-left">
-          <p className="text-lg sm:text-xl font-semibold" style={{ color: "#010f62" }}>
+      <div className="mx-auto max-w-7xl px-6 py-5 flex items-center gap-5">
+        {/* Close */}
+        <button
+          type="button"
+          onClick={() => {
+            setDismissed(true);
+            trackBannerDismiss();
+            window.dispatchEvent(new CustomEvent("banner-dismissed"));
+          }}
+          className="shrink-0 p-2 transition-colors hover:bg-gray-100"
+          style={{ borderRadius: "2px" }}
+          aria-label="Dismiss banner"
+        >
+          <X className="h-5 w-5" style={{ color: "#62718d" }} />
+        </button>
+
+        {/* Text */}
+        <div className="flex-1 min-w-0 hidden sm:block">
+          <p className="text-base font-semibold" style={{ color: "#010f62" }}>
             Is your organisation ready for eIDAS 2.0?
           </p>
-          <p className="text-base mt-1 hidden sm:block" style={{ color: "#62718d" }}>
-            Answer 12 questions and get your free compliance readiness score.
+          <p className="text-sm mt-0.5" style={{ color: "#62718d" }}>
+            Answer 12 questions and get your compliance readiness score.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="/assessment"
-            className="btn-primary shrink-0"
-            style={{ padding: "14px 32px" }}
-            onClick={() => trackBannerClick()}
-          >
-            Take the Quick Check <ArrowRight className="h-4 w-4" />
-          </a>
-          <button
-            type="button"
-            onClick={() => {
-              setDismissed(true);
-              trackBannerDismiss();
-              window.dispatchEvent(new CustomEvent("banner-dismissed"));
-            }}
-            className="shrink-0 p-2 transition-colors hover:bg-gray-100"
-            style={{ borderRadius: "2px" }}
-            aria-label="Dismiss banner"
-          >
-            <X className="h-5 w-5" style={{ color: "#62718d" }} />
-          </button>
-        </div>
+
+        {/* CTA */}
+        <a
+          href="/assessment"
+          className="btn-primary shrink-0 text-base"
+          style={{ padding: "12px 28px" }}
+          onClick={() => trackBannerClick()}
+        >
+          Take the Quick Check <ArrowRight className="h-4 w-4" />
+        </a>
       </div>
     </div>
   );

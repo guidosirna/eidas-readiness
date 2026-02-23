@@ -133,7 +133,7 @@ export default function HelpChatbot() {
         ref={bubbleRef}
         className="fixed right-6 z-50 max-w-xs"
         style={{
-          bottom: bannerDismissed ? "100px" : "180px",
+          bottom: "100px",
           opacity: showBubble && !open ? 1 : 0,
           transform: showBubble && !open ? "translateY(0)" : "translateY(8px)",
           transition: "bottom 0.4s ease, opacity 0.3s ease, transform 0.3s ease",
@@ -170,7 +170,7 @@ export default function HelpChatbot() {
         ref={chatRef}
         className="fixed right-6 z-50 w-80 bg-white shadow-xl"
         style={{
-          bottom: bannerDismissed ? "100px" : "180px",
+          bottom: "100px",
           borderRadius: "2px",
           border: "1px solid #e8e8e8",
           opacity: open ? 1 : 0,
@@ -310,7 +310,7 @@ export default function HelpChatbot() {
         onClick={handleToggle}
         className="fixed right-6 z-50 w-14 h-14 flex items-center justify-center shadow-lg"
         style={{
-          bottom: bannerDismissed ? "24px" : "108px",
+          bottom: "24px",
           backgroundColor: "#0033ff",
           borderRadius: "50%",
           border: "2px solid rgba(255,255,255,0.3)",
