@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { glossaryTerms } from "@/lib/glossary-data";
@@ -61,7 +62,9 @@ export default function GlossaryPage() {
       </section>
 
       {/* Interactive glossary content with search + filters */}
-      <GlossaryPageClient />
+      <Suspense>
+        <GlossaryPageClient />
+      </Suspense>
 
       {/* CTA */}
       <section style={{ backgroundColor: "#f9f9fa" }}>
