@@ -67,12 +67,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/eidas-2-compliance-checklist/interactive`,
-      lastModified: LAST_UPDATED,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
       url: `${BASE_URL}/roles`,
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',

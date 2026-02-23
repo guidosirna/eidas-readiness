@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { trackChecklistToggle } from "@/lib/analytics";
 
 /* ────────────────────────────────────────────────────────────────────── */
@@ -77,7 +77,7 @@ const STORAGE_KEY = "eidas-checklist-checked";
 
 function CheckIconEmpty() {
   return (
-    <svg className="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ color: "#e8e8e8" }}>
+    <svg className="h-5 w-5 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ color: "#e8e8e8" }}>
       <rect x="1" y="1" width="18" height="18" rx="1" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
@@ -85,7 +85,7 @@ function CheckIconEmpty() {
 
 function CheckIconFilled() {
   return (
-    <svg className="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ color: "#0033ff" }}>
+    <svg className="h-5 w-5 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ color: "#0033ff" }}>
       <rect x="1" y="1" width="18" height="18" rx="1" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="1.5" />
       <path d="M6.5 10.5l2.5 2.5 4.5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -209,28 +209,29 @@ export default function ChecklistInteractive() {
             })}
           </ul>
 
-          <div className="mt-6 pt-6 space-y-3" style={{ borderTop: "1px solid #e8e8e8" }}>
-            <Link
-              href="/eidas-2-compliance-checklist"
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
-              style={{ color: "#0033ff" }}
-            >
-              <ArrowLeft className="h-3.5 w-3.5" /> Full checklist view
-            </Link>
+          {/* Related links */}
+          <div className="mt-6 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Related</p>
+            <div className="space-y-2">
+              <Link href="/assessment" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
+                Take the Assessment →
+              </Link>
+              <Link href="/guide/eidas-2-compliance" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
+                Compliance Guide →
+              </Link>
+              <Link href="/eidas-2-timeline" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
+                Timeline →
+              </Link>
+            </div>
           </div>
         </div>
       </aside>
 
       {/* Mobile: compact header */}
       <div className="lg:hidden mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <Link
-            href="/eidas-2-compliance-checklist"
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
-            style={{ color: "#0033ff" }}
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Full checklist
-          </Link>
+        <h2 className="text-xl font-semibold mb-1" style={{ color: "#010f62" }}>Compliance Checklist</h2>
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm" style={{ color: "#62718d" }}>20 items across 4 domains</span>
           <span className="text-sm font-semibold" style={{ color: "#0033ff" }}>{completedCount}/{TOTAL_ITEMS}</span>
         </div>
         <div className="w-full h-1.5 overflow-hidden mb-4" style={{ backgroundColor: "#e8e8e8", borderRadius: "2px" }}>
@@ -289,25 +290,20 @@ export default function ChecklistInteractive() {
         {/* Navigation */}
         <div className="mt-8 flex items-center justify-between gap-4">
           {currentCat > 0 ? (
-            <button onClick={goBack} className="btn-secondary">
+            <button onClick={goBack} className="btn-secondary inline-flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" /> Previous
             </button>
           ) : (
             <div />
           )}
           {currentCat < categories.length - 1 ? (
-            <button onClick={goNext} className="btn-primary">
+            <button onClick={goNext} className="btn-primary inline-flex items-center gap-2">
               Next category <ArrowRight className="h-4 w-4" />
             </button>
           ) : (
-            <div className="text-center">
-              <p className="text-sm font-medium mb-2" style={{ color: completedCount === TOTAL_ITEMS ? "#22c55e" : "#010f62" }}>
-                {completedCount === TOTAL_ITEMS ? "All items complete!" : `${completedCount} of ${TOTAL_ITEMS} complete`}
-              </p>
-              <Link href="/assessment" className="btn-primary inline-flex">
-                Take the Assessment <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+            <Link href="/assessment" className="btn-primary inline-flex items-center gap-2">
+              Take the Assessment <ArrowRight className="h-4 w-4" />
+            </Link>
           )}
         </div>
       </div>

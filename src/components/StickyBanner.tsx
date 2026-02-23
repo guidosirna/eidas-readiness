@@ -18,7 +18,7 @@ export default function StickyBanner() {
 
   // Hide on interactive tool pages
   if (pathname?.startsWith("/assessment")) return null;
-  if (pathname?.includes("/interactive")) return null;
+  if (pathname?.startsWith("/eidas-2-compliance-checklist")) return null;
   if (dismissed) return null;
 
   return (
