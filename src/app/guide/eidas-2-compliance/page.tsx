@@ -123,7 +123,7 @@ export default function EidasComplianceGuidePage() {
       <Breadcrumbs items={[{ label: "Guides", href: "/guide" }, { label: "eIDAS 2.0 Compliance Guide" }]} />
 
       {/* Hero */}
-      <section className="px-6 pt-12 pb-14 sm:pt-16 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-4xl">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: "#62718d" }}>
             Compliance Guide

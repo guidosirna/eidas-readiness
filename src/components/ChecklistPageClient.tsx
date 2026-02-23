@@ -278,7 +278,7 @@ export default function ChecklistPageClient() {
     <div className="space-y-12">
       {/* Sticky progress bar — sticks below header + breadcrumb + mobile pill bar */}
       <div
-        className="sticky top-[140px] lg:top-[108px] z-20 -mx-6 px-6"
+        className="sticky top-[140px] md:top-[172px] lg:top-[140px] z-20 -mx-6 px-6"
         style={{ backgroundColor: "#fff", borderBottom: "1px solid #e8e8e8" }}
       >
         <div className="py-3 flex items-center gap-4">

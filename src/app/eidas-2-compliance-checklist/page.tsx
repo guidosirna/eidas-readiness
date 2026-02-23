@@ -6,7 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import SidebarLayout from "@/components/SidebarLayout";
 import ChecklistPageClient from "@/components/ChecklistPageClient";
 import { checklistSidebarSections } from "@/lib/checklist-data";
-import { BookOpen, Smartphone, Clock, ClipboardCheck, HelpCircle, BookA, ChevronRight } from "lucide-react";
+import { BookOpen, Smartphone, Clock, ClipboardCheck, HelpCircle, BookA, ChevronRight, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Compliance Checklist | 20 Steps to Readiness",
@@ -59,7 +59,7 @@ export default function ComplianceChecklistPage() {
       <Breadcrumbs items={[{ label: "eIDAS 2.0 Compliance Checklist" }]} />
 
       {/* Hero */}
-      <section className="px-6 pt-12 pb-14 sm:pt-16 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl">
           <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>
             eIDAS 2.0 Compliance Checklist
@@ -70,6 +70,14 @@ export default function ComplianceChecklistPage() {
             Covering legal, technical, organisational, and data-protection
             requirements.
           </p>
+          <div className="mt-6">
+            <Link
+              href="/eidas-2-compliance-checklist/interactive"
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              Start interactive walkthrough <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

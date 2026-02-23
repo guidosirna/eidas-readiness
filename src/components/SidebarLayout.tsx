@@ -28,7 +28,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
           setActiveId(topEntry.target.id);
         }
       },
-      { rootMargin: "-110px 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-142px 0px -60% 0px", threshold: 0 }
     );
 
     const elements = sections
@@ -43,7 +43,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 120;
+      const top = el.getBoundingClientRect().top + window.scrollY - 152;
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
@@ -51,7 +51,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
   return (
     <div className="mx-auto max-w-7xl px-6">
       {/* Mobile pill bar */}
-      <div className="lg:hidden sticky top-[100px] z-30 -mx-6 px-6 py-3 bg-white overflow-x-auto" style={{ borderBottom: "1px solid #e8e8e8" }}>
+      <div className="lg:hidden sticky top-[100px] md:top-[132px] z-30 -mx-6 px-6 py-3 bg-white overflow-x-auto" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="flex gap-2 min-w-max">
           {sections.map((s) => (
             <button
@@ -75,7 +75,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter }: Sid
       <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 py-20">
         {/* Sidebar */}
         <aside className="hidden lg:block">
-          <nav className="sticky top-[124px]">
+          <nav className="sticky top-[124px] md:top-[156px]">
             <ul className="space-y-1">
               {sections.map((s) => (
                 <li key={s.id}>

@@ -58,7 +58,7 @@ export default function ContentGate({
 
     try {
       // Submit to Netlify Forms
-      await fetch("/", {
+      await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encodeFormData({

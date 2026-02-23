@@ -140,7 +140,7 @@
   }
 
   .hero-padding {
-    @apply pt-12 pb-14 sm:pt-16 sm:pb-20;
+    @apply pt-20 pb-14 sm:pt-24 sm:pb-20;
   }
 
   /* Form system — 2px radius, hex borders, consistent focus */

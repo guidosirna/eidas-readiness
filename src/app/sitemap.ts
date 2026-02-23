@@ -25,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/assessment/quick-check`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${BASE_URL}/guide/eidas-2-compliance`,
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
@@ -56,6 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/eidas-2-compliance-checklist`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/eidas-2-compliance-checklist/interactive`,
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,

@@ -79,22 +79,21 @@ export default function Home() {
       <section className="relative" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/office-meeting.jpg')" }} />
         <div className="absolute inset-0" style={{ backgroundColor: "rgba(1,15,98,0.92)" }} />
-        <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-20 sm:pt-36 sm:pb-24">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-[64px] leading-[1.2] text-white">
-              Is your organization ready for eIDAS&nbsp;2.0?
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
-              The EU Digital Identity Wallet becomes mandatory in{" "}
-              <span className="font-semibold" style={{ color: "#f5a623" }}>2026</span>.
-              Find out where you stand in 3 minutes.
-            </p>
-            <div className="mt-10">
-              <a href="/assessment" className="btn-primary">
-                Take the free assessment <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+        <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-20 sm:pt-44 sm:pb-28 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.15] text-white mx-auto max-w-4xl">
+            Is your organization ready for&nbsp;eIDAS&nbsp;2.0?
+          </h1>
+          <p className="mt-6 max-w-2xl mx-auto text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+            The EU Digital Identity Wallet becomes mandatory in{" "}
+            <span className="font-semibold text-white">2026</span>.
+            Find out where you stand in 3&nbsp;minutes.
+          </p>
+          <div className="mt-10">
+            <a href="/assessment" className="btn-primary inline-flex">
+              Take the free assessment <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
+
         </div>
       </section>
 
@@ -102,7 +101,7 @@ export default function Home() {
       <section style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <p className="text-base font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
+            <p className="text-sm font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
             <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14">
               <Image src="/logos/eu-flag.svg" alt="European Union" width={72} height={48} className="h-12 w-auto" />
               <Image src="/logos/european-commission.svg" alt="European Commission" width={200} height={44} className="h-9 w-auto" />
@@ -145,61 +144,67 @@ export default function Home() {
       </section>
 
       {/* ── What is eIDAS 2.0 — Context ─────────────────────── */}
-      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+      <section className="relative overflow-hidden" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="grid lg:grid-cols-2 gap-0 items-stretch overflow-hidden" style={{ borderRadius: "2px" }}>
-            {/* Left — text content */}
-            <div className="p-8 sm:p-12 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa" }}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>The regulation</p>
-              <h2 className="text-3xl sm:text-4xl mb-6">What is eIDAS 2.0?</h2>
-              <p className="text-lg leading-relaxed mb-8" style={{ color: "#62718d" }}>
-                The EU&apos;s updated digital identity regulation requires every Member State to issue a free{" "}
-                <a href="/glossary/eudiw" className="btn-ghost font-medium">Digital Identity Wallet</a>{" "}
-                to citizens and residents. Organizations in regulated sectors must accept it.
-              </p>
-              <ul className="space-y-4" style={{ color: "#62718d" }}>
-                {[
-                  { bold: "Mandatory acceptance", text: "across finance, healthcare, telecom, and public sector" },
-                  { bold: "Cross-border by default", text: "legal effect across all 27 Member States" },
-                  { bold: "Privacy by design", text: "selective disclosure and data minimisation built in" },
-                ].map((item) => (
-                  <li key={item.bold} className="flex items-start gap-3 text-lg">
-                    <span className="mt-2.5 h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: "#0033ff" }} />
-                    <span><span className="font-medium" style={{ color: "#010f62" }}>{item.bold}</span> {item.text}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8">
-                <a href="/guide/eidas-2-compliance" className="btn-secondary"><FileText className="h-4 w-4" /> Read the full guide</a>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-0 items-start">
+            {/* Left — image with displacement (extends beyond grid) */}
+            <div className="relative lg:-ml-6 lg:-mr-6">
+              <div className="relative overflow-hidden" style={{ borderRadius: "2px" }}>
+                <Image
+                  src="/images/eu-parliament.jpg"
+                  alt="European Parliament"
+                  width={720}
+                  height={540}
+                  className="w-full h-auto object-cover"
+                  style={{ minHeight: "480px" }}
+                />
               </div>
             </div>
 
-            {/* Right — blue panel with icon rows */}
-            <div className="p-8 sm:p-12 flex flex-col justify-center" style={{ backgroundColor: "#0033ff" }}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "rgba(255,255,255,0.6)" }}>Key facts</p>
-              <div className="space-y-6">
-                {[
-                  { icon: Users, number: "450M+", label: "EU citizens will receive a free digital identity wallet" },
-                  { icon: Globe, number: "27", label: "Member States with cross-border recognition" },
-                  { icon: Smartphone, number: "2026", label: "Mandatory wallet acceptance begins for regulated sectors" },
-                  { icon: Lock, number: "100%", label: "Privacy by design with selective disclosure" },
-                ].map((item) => (
-                  <a
-                    key={item.number}
-                    href="/guide/eidas-2-compliance"
-                    className="flex items-center gap-4 p-4 transition-colors group"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)", borderRadius: "2px" }}
-                  >
-                    <div className="w-10 h-10 shrink-0 flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "2px" }}>
-                      <item.icon className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xl font-bold text-white">{item.number}</p>
-                      <p className="text-sm text-white/70 leading-snug">{item.label}</p>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-white/40 shrink-0 transition-transform group-hover:translate-x-1" />
+            {/* Right — heading + blue panel */}
+            <div className="flex flex-col lg:pl-12">
+              <div className="mb-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl leading-tight mb-6" style={{ color: "#010f62" }}>
+                  What is eIDAS&nbsp;2.0?
+                </h2>
+                <p className="text-lg leading-relaxed" style={{ color: "#62718d" }}>
+                  The EU&apos;s updated digital identity regulation requires every Member State to issue a free{" "}
+                  <a href="/glossary/eudiw" className="btn-ghost font-medium">Digital Identity Wallet</a>{" "}
+                  to citizens and residents. Organizations in regulated sectors must accept it.
+                </p>
+              </div>
+
+              {/* Blue panel with icon rows — displaced downward to overlap */}
+              <div className="p-8 sm:p-10 flex flex-col" style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}>
+                <div className="space-y-4">
+                  {[
+                    { icon: Users, number: "450M+", label: "EU citizens will receive a free digital identity wallet" },
+                    { icon: Globe, number: "27", label: "Member States with cross-border recognition" },
+                    { icon: Smartphone, number: "2026", label: "Mandatory wallet acceptance begins for regulated sectors" },
+                    { icon: Lock, number: "100%", label: "Privacy by design with selective disclosure" },
+                  ].map((item) => (
+                    <a
+                      key={item.number}
+                      href="/guide/eidas-2-compliance"
+                      className="flex items-center gap-4 p-4 transition-colors group"
+                      style={{ backgroundColor: "rgba(255,255,255,0.08)", borderRadius: "2px" }}
+                    >
+                      <div className="w-10 h-10 shrink-0 flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "2px" }}>
+                        <item.icon className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xl font-bold text-white">{item.number}</p>
+                        <p className="text-sm text-white/70 leading-snug">{item.label}</p>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-white/40 shrink-0 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  ))}
+                </div>
+                <div className="mt-6">
+                  <a href="/guide/eidas-2-compliance" className="inline-flex items-center gap-2 text-white font-semibold text-base hover:opacity-80 transition-opacity">
+                    <FileText className="h-4 w-4" /> Read the full guide <ArrowRight className="h-4 w-4" />
                   </a>
-                ))}
+                </div>
               </div>
             </div>
           </div>

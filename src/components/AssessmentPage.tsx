@@ -1,8 +1,5 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import AssessmentWizard from "@/components/AssessmentWizard";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Scale,
   Server,
@@ -10,7 +7,6 @@ import {
   Users,
   FileCheck,
   GitBranch,
-  ArrowLeft,
   ArrowRight,
   Check,
   Clock,
@@ -27,63 +23,27 @@ const sixAreas = [
   { icon: GitBranch, title: "Integration Planning", desc: "API capabilities and EUDIW roadmap" },
 ];
 
-
 export default function AssessmentPage() {
-  const [showWizard, setShowWizard] = useState(false);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [showWizard]);
-
-  if (showWizard) {
-    return (
-      <main className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-6 pt-8">
-          <button
-            onClick={() => setShowWizard(false)}
-            className="inline-flex items-center gap-1.5 text-base transition-colors mb-4"
-            style={{ color: "#62718d" }}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to overview
-          </button>
-        </div>
-        <AssessmentWizard />
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero: left text + right white card */}
+      {/* Hero: left text + right white card with CTA */}
       <section className="relative" style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/eu-parliament.jpg')" }} />
         <div className="absolute inset-0" style={{ backgroundColor: "rgba(1,15,98,0.92)" }} />
-        <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-20 sm:pt-32 sm:pb-24">
+        <div className="relative mx-auto max-w-7xl px-6 pt-32 pb-20 sm:pt-40 sm:pb-24">
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-center">
-            {/* Left: headline + CTA (3 cols) */}
+            {/* Left: headline (3 cols) */}
             <div className="lg:col-span-3">
-              <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "rgba(255,255,255,0.45)" }}>
-                Free compliance assessment
-              </p>
               <h1 className="text-4xl sm:text-5xl lg:text-[52px] leading-[1.12] font-semibold text-white mb-5">
                 Is your organisation ready for eIDAS&nbsp;2.0?
               </h1>
-              <p className="text-lg text-white/60 leading-relaxed mb-8 max-w-xl">
+              <p className="text-lg text-white/60 leading-relaxed max-w-xl">
                 Answer 12 targeted questions and get a compliance readiness score with a personalised action plan.
               </p>
-              <button
-                onClick={() => setShowWizard(true)}
-                className="btn-primary text-lg gap-2"
-                style={{ padding: "16px 40px" }}
-              >
-                Start the Quick Check
-                <ArrowRight className="h-5 w-5" />
-              </button>
             </div>
-            {/* Right: white card with logos inside (2 cols) */}
+            {/* Right: white card with CTA inside (2 cols) */}
             <div className="lg:col-span-2 bg-white p-8 sm:p-9" style={{ borderRadius: "2px" }}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#62718d" }}>What to expect</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-6" style={{ color: "#62718d" }}>What to expect</p>
               <ul className="space-y-5">
                 {[
                   { icon: Clock, text: "Takes under 5 minutes" },
@@ -97,10 +57,29 @@ export default function AssessmentPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-7 pt-6 flex items-center gap-5" style={{ borderTop: "1px solid #e8e8e8" }}>
-                <Image src="/logos/eu-flag.svg" alt="European Union" width={48} height={32} className="h-8 w-auto" />
-                <Image src="/logos/european-commission.svg" alt="European Commission" width={180} height={40} className="h-8 w-auto" />
+              <div className="mt-7 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
+                <Link
+                  href="/assessment/quick-check"
+                  className="btn-primary w-full justify-center text-base gap-2"
+                  style={{ padding: "14px 28px" }}
+                >
+                  Start the Quick Check <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EU Framework logos — matching homepage */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <p className="text-sm font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
+            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14">
+              <Image src="/logos/eu-flag.svg" alt="European Union" width={72} height={48} className="h-12 w-auto" />
+              <Image src="/logos/european-commission.svg" alt="European Commission" width={200} height={44} className="h-9 w-auto" />
+              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={220} height={52} className="h-12 w-auto" />
             </div>
           </div>
         </div>
@@ -163,13 +142,13 @@ export default function AssessmentPage() {
             <h2 className="relative text-2xl sm:text-3xl font-semibold text-white">Ready to find out where you stand?</h2>
             <p className="relative mt-4 text-base text-white/60 max-w-2xl mx-auto leading-relaxed">Answer 12 targeted questions and receive a personalised compliance roadmap in minutes.</p>
             <div className="relative mt-8">
-              <button
-                onClick={() => setShowWizard(true)}
+              <Link
+                href="/assessment/quick-check"
                 className="inline-flex items-center gap-2 bg-white font-semibold transition-colors hover:bg-gray-100 cursor-pointer"
                 style={{ color: "#010f62", padding: "12px 28px", borderRadius: "2px", fontSize: "16px" }}
               >
                 Start the Quick Check <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

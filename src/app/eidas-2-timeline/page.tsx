@@ -121,7 +121,7 @@ export default function EidasTimelinePage() {
       <Breadcrumbs items={[{ label: "eIDAS 2.0 Timeline" }]} />
 
       {/* Hero */}
-      <section className="px-6 pt-12 pb-14 sm:pt-16 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl">
           <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>
             eIDAS 2.0 Timeline &amp; Key Deadlines
@@ -225,7 +225,7 @@ export default function EidasTimelinePage() {
                     Icon: Wifi,
                     title: "Regulated industries",
                     desc: "Telecoms, healthcare, travel, and energy face mandatory acceptance between 2026 and 2027.",
-                    href: "/industries/telecommunications",
+                    href: "/industries",
                   },
                 ].map((item) => (
                   <Link

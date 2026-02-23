@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2 } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock } from "lucide-react";
 
 const learnFeatured = [
   { href: "/guide/eidas-2-compliance", label: "eIDAS 2.0 Compliance Guide", description: "Everything you need to know about the regulation, requirements, and implementation steps", icon: BookOpen },
@@ -203,7 +203,26 @@ export default function Header() {
   useEffect(() => () => clearTimeout(closeTimeout.current), []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white" style={{ borderBottom: "1px solid #e8e8e8" }}>
+    <header className="fixed top-0 left-0 right-0 z-50">
+      {/* ── Utility bar ─────────────────────────────────── */}
+      <div className="hidden md:block" style={{ backgroundColor: "#010f62" }}>
+        <div className="mx-auto max-w-7xl px-6 flex items-center justify-between h-9">
+          <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+            A free resource for EU digital identity compliance
+          </p>
+          <div className="flex items-center gap-5">
+            <a href="/faq" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>FAQ</a>
+            <a href="/glossary" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Glossary</a>
+            <span className="w-px h-3.5" style={{ backgroundColor: "rgba(255,255,255,0.2)" }} />
+            <span className="inline-flex items-center gap-1.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <Globe className="h-3.5 w-3.5" /> English
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main header bar ─────────────────────────────── */}
+      <div className="bg-white" style={{ borderBottom: "1px solid #e8e8e8" }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex h-16 items-center justify-between">
           <a href="/" className="flex items-baseline gap-1">
@@ -238,7 +257,25 @@ export default function Header() {
                 Prepare
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "prepare" ? "rotate-180" : ""}`} />
               </button>
+
+              {/* Direct links */}
+              <span className="w-px h-5 mx-1" style={{ backgroundColor: "#e8e8e8" }} />
+              <a href="/eidas-2-timeline" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+                Timeline
+              </a>
+              <a href="/eidas-2-compliance-checklist" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+                Checklist
+              </a>
             </div>
+
+            {/* Assessment CTA */}
+            <a
+              href="/assessment"
+              className="ml-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white transition-colors"
+              style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
+            >
+              Assessment <ArrowRight className="h-3.5 w-3.5" />
+            </a>
           </nav>
 
           <button
@@ -252,6 +289,7 @@ export default function Header() {
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
+      </div>
       </div>
 
       {/* Mega menu dropdown */}
@@ -314,6 +352,16 @@ export default function Header() {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* Direct links */}
+            <div className="pt-4 space-y-1" style={{ borderTop: "1px solid #e8e8e8" }}>
+              <a href="/eidas-2-timeline" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+                Timeline
+              </a>
+              <a href="/eidas-2-compliance-checklist" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+                Checklist
+              </a>
             </div>
 
             <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>

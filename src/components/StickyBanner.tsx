@@ -16,8 +16,9 @@ export default function StickyBanner() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Hide on the assessment page itself
-  if (pathname === "/assessment") return null;
+  // Hide on interactive tool pages
+  if (pathname?.startsWith("/assessment")) return null;
+  if (pathname?.includes("/interactive")) return null;
   if (dismissed) return null;
 
   return (

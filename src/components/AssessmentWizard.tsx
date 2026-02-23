@@ -527,7 +527,7 @@ export default function AssessmentWizard() {
 
       try {
         // Submit to Netlify Forms
-        await fetch("/", {
+        await fetch("/__forms.html", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encodeFormData({
@@ -559,7 +559,7 @@ export default function AssessmentWizard() {
   );
 
   return (
-    <div className="flex items-start justify-center px-4 py-12 md:py-20">
+    <div>
       <div className="w-full max-w-xl card-static p-6 md:p-10">
         {/* Hidden Netlify form for bot detection */}
         <form name="assessment" data-netlify="true" hidden>

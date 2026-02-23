@@ -31,7 +31,7 @@ export default function RolesIndexPage() {
     <>
       <JsonLd data={jsonLd} />
       <Breadcrumbs items={[{ label: "eIDAS 2.0 by Role" }]} />
-      <section className="px-6 pt-12 pb-14 sm:pt-16 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+      <section className="px-6 pt-20 pb-14 sm:pt-24 sm:pb-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>eIDAS 2.0 Readiness by Role</h1>
           <p className="mt-4 text-lg max-w-2xl" style={{ color: "#62718d" }}>Different roles carry different responsibilities under eIDAS 2.0. Find the guidance tailored to your position.</p>
