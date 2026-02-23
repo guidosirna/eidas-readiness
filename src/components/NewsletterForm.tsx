@@ -71,7 +71,7 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
             </form>
           )}
           {status === "error" && <p className="mt-2 text-sm text-red-500">{errorMessage}</p>}
-          <p className="mt-3 text-xs" style={{ color: "#62718d" }}>We respect your privacy. Unsubscribe at any time.</p>
+          <p className="mt-3 text-sm" style={{ color: "#62718d" }}>We respect your privacy. Unsubscribe at any time.</p>
         </div>
       </div>
     );
@@ -100,7 +100,7 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
         </form>
       )}
       {status === "error" && <p className="mt-2 text-sm text-red-400">{errorMessage}</p>}
-      <p className="text-xs text-white/40 mt-3">We respect your privacy. Unsubscribe at any time.</p>
+      <p className="text-sm text-white/40 mt-3">We respect your privacy. Unsubscribe at any time.</p>
     </div>
   );
 }

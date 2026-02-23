@@ -245,7 +245,7 @@ export default function EidasTimelinePage() {
 
             {/* Related Resources — light blue style */}
             <div id="related-resources" className="-mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
               <div className="space-y-1.5">
                 {[
                   {

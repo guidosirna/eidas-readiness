@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Shield, Code2, Scale, LayoutGrid, ArrowRight } from "lucide-react";
+import { Shield, Code2, Scale, LayoutGrid, ArrowUpRight } from "lucide-react";
 import { roles } from "@/lib/roles-data";
 import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
@@ -52,7 +52,7 @@ export default function RolesIndexPage() {
                   <h2 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{role.title}</h2>
                   <p className="text-base line-clamp-3 mb-3" style={{ color: "#62718d" }}>{role.shortDescription}</p>
                   <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
-                    Learn more <ArrowRight className="h-3.5 w-3.5" />
+                    Learn more <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
                   </span>
                 </a>
               );

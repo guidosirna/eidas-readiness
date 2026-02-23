@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Shield, Code2, Scale, LayoutGrid, Check, ArrowRight, ChevronRight } from "lucide-react";
+import { Shield, Code2, Scale, LayoutGrid, Check, ArrowUpRight, ChevronRight } from "lucide-react";
 import { roles, getRoleBySlug } from "@/lib/roles-data";
 import { getIndustryBySlug } from "@/lib/industries-data";
 import JsonLd from "@/components/JsonLd";
@@ -132,7 +132,7 @@ export default function RolePage({ params }: PageProps) {
             <div className="grid lg:grid-cols-2 gap-10">
               {relatedRoles.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related roles</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related roles</p>
                   <div className="space-y-1.5">
                     {relatedRoles.map((r) => (
                       <a key={r.slug} href={`/roles/${r.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>
@@ -148,7 +148,7 @@ export default function RolePage({ params }: PageProps) {
               )}
               {relatedIndustries.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related industries</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related industries</p>
                   <div className="space-y-1.5">
                     {relatedIndustries.map((ind) => (
                       <a key={ind.slug} href={`/industries/${ind.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>

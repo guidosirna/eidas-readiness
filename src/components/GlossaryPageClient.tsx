@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { glossaryTerms, getTermsByCategory } from "@/lib/glossary-data";
 import FilterPills from "@/components/FilterPills";
@@ -10,8 +11,16 @@ const categories = Array.from(
 ).sort();
 
 export default function GlossaryPageClient() {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cat = searchParams.get("category");
+    if (cat && categories.includes(cat)) {
+      setActiveCategory(cat);
+    }
+  }, [searchParams]);
 
   const filteredByCategory = useMemo(() => {
     if (!activeCategory) return glossaryTerms;

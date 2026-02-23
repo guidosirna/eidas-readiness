@@ -105,7 +105,7 @@ export default function ShareButton({ title, variant = "inline" }: ShareButtonPr
   if (variant === "compact") {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-widest mr-1" style={{ color: "#62718d" }}>Share</span>
+        <span className="text-sm font-semibold uppercase tracking-widest mr-1" style={{ color: "#62718d" }}>Share</span>
         <button type="button" onClick={shareToX} className={buttonBase} style={buttonStyle} aria-label="Share on X" title="Share on X">
           <XIcon className="h-3.5 w-3.5" />
         </button>
@@ -131,7 +131,7 @@ export default function ShareButton({ title, variant = "inline" }: ShareButtonPr
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#62718d" }}>Share this page</p>
+      <p className="text-sm font-semibold uppercase tracking-widest" style={{ color: "#62718d" }}>Share this page</p>
       <div className="flex items-center gap-2">
         <button type="button" onClick={shareToX} className={buttonBase} style={buttonStyle} aria-label="Share on X" title="Share on X">
           <XIcon className="h-4 w-4" />

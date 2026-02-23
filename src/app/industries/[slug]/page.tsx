@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, Check, ArrowRight, ChevronRight, Clock } from "lucide-react";
+import { CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, Check, ArrowUpRight, ChevronRight, Clock } from "lucide-react";
 import { industries, getIndustryBySlug } from "@/lib/industries-data";
 import { getRoleBySlug } from "@/lib/roles-data";
 import JsonLd from "@/components/JsonLd";
@@ -165,7 +165,7 @@ export default function IndustryPage({ params }: PageProps) {
                   <a href="/eidas-2-timeline" className="text-sm font-semibold hover:underline" style={{ color: "#0033ff" }}>
                     View the full eIDAS 2.0 compliance timeline
                   </a>
-                  <ArrowRight className="h-3.5 w-3.5" style={{ color: "#0033ff" }} />
+                  <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" style={{ color: "#0033ff" }} />
                 </div>
               </div>
             )}
@@ -201,7 +201,7 @@ export default function IndustryPage({ params }: PageProps) {
             <div className="grid lg:grid-cols-2 gap-10">
               {relatedIndustries.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related industries</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related industries</p>
                   <div className="space-y-1.5">
                     {relatedIndustries.map((ind) => (
                       <a key={ind.slug} href={`/industries/${ind.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>
@@ -217,7 +217,7 @@ export default function IndustryPage({ params }: PageProps) {
               )}
               {relatedRoles.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related roles</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related roles</p>
                   <div className="space-y-1.5">
                     {relatedRoles.map((r) => (
                       <a key={r.slug} href={`/roles/${r.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>

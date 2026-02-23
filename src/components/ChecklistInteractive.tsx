@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, ChevronRight } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import { trackChecklistToggle } from "@/lib/analytics";
 
@@ -156,7 +156,7 @@ export default function ChecklistInteractive() {
   };
 
   return (
-    <div className="lg:grid lg:grid-cols-2 lg:gap-16 py-12 lg:py-16">
+    <div className="lg:grid lg:gap-16 py-12 lg:py-16" style={{ gridTemplateColumns: "5fr 7fr" }}>
       {/* Left panel — progress overview */}
       <aside className="hidden lg:block">
         <div className="sticky top-[124px] md:top-[156px]">
@@ -181,7 +181,7 @@ export default function ChecklistInteractive() {
           </div>
 
           {/* Category list */}
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Categories</p>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Categories</p>
           <ul className="space-y-1">
             {categories.map((c, i) => {
               const catDone = c.items.filter((item) => checked.has(item.id)).length;
@@ -200,7 +200,7 @@ export default function ChecklistInteractive() {
                     }}
                   >
                     <span>{c.name}</span>
-                    <span className="text-xs shrink-0 flex items-center gap-1" style={{ color: isComplete ? "#22c55e" : "#62718d" }}>
+                    <span className="text-sm shrink-0 flex items-center gap-1" style={{ color: isComplete ? "#22c55e" : "#62718d" }}>
                       {isComplete && <Check className="h-3 w-3" />}
                       {catDone}/{c.items.length}
                     </span>
@@ -212,7 +212,7 @@ export default function ChecklistInteractive() {
 
           {/* Related links */}
           <div className="mt-6 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
-            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Related</p>
+            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Related</p>
             <div className="space-y-1">
               {[
                 { href: "/assessment", label: "Readiness Assessment", desc: "Get a personalised compliance score" },
@@ -228,7 +228,7 @@ export default function ChecklistInteractive() {
                   <ChevronRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
                   <div className="min-w-0">
                     <p className="text-sm font-medium" style={{ color: "#010f62" }}>{link.label}</p>
-                    <p className="text-xs line-clamp-1" style={{ color: "#62718d" }}>{link.desc}</p>
+                    <p className="text-sm line-clamp-1" style={{ color: "#62718d" }}>{link.desc}</p>
                   </div>
                 </Link>
               ))}
@@ -261,7 +261,7 @@ export default function ChecklistInteractive() {
       <div className="min-w-0">
         {/* Category header */}
         <div className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#62718d" }}>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-2" style={{ color: "#62718d" }}>
             Category {currentCat + 1} of {categories.length}
           </p>
           <h3 className="text-2xl sm:text-3xl font-semibold mb-2" style={{ color: "#010f62" }}>{cat.name}</h3>
@@ -313,11 +313,11 @@ export default function ChecklistInteractive() {
           )}
           {currentCat < categories.length - 1 ? (
             <button onClick={goNext} className="btn-primary inline-flex items-center gap-2">
-              Next category <ArrowRight className="h-4 w-4" />
+              Next category <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </button>
           ) : (
             <Link href="/assessment" className="btn-primary inline-flex items-center gap-2">
-              Take the Assessment <ArrowRight className="h-4 w-4" />
+              Take the Assessment <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </Link>
           )}
         </div>

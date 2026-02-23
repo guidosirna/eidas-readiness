@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ChecklistInteractive from "@/components/ChecklistInteractive";
-import ShareButton from "@/components/ShareButton";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Compliance Checklist | 20 Steps to Readiness",
@@ -61,9 +60,6 @@ export default function ComplianceChecklistPage() {
       </section>
 
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex justify-end py-4">
-          <ShareButton title="eIDAS 2.0 Compliance Checklist" variant="compact" />
-        </div>
         <ChecklistInteractive />
       </div>
     </>

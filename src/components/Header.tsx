@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock, Mail } from "lucide-react";
+import { Menu, X, ArrowUpRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock, Mail } from "lucide-react";
 import Image from "next/image";
 
 const learnFeatured = [
@@ -39,7 +39,7 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
     <div className="grid grid-cols-5 gap-0">
       {/* Featured guides — 3 cols */}
       <div className="col-span-3 p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
-        <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Guides</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Guides</p>
         <div className="space-y-1">
           {learnFeatured.map((link) => {
             const Icon = link.icon;
@@ -66,7 +66,7 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
 
       {/* Secondary links — 2 cols */}
       <div className="col-span-2 p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Resources</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Resources</p>
         <div className="space-y-1">
           {learnSecondary.map((link) => (
             <a
@@ -77,7 +77,7 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
               style={{ borderRadius: "2px" }}
             >
               <span className="block text-sm font-semibold group-hover:opacity-80" style={{ color: "#010f62" }}>{link.label}</span>
-              <span className="block text-xs mt-0.5" style={{ color: "#62718d" }}>{link.description}</span>
+              <span className="block text-sm mt-0.5" style={{ color: "#62718d" }}>{link.description}</span>
             </a>
           ))}
         </div>
@@ -91,7 +91,7 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
     <div className="grid grid-cols-2 gap-0">
       {/* By Role */}
       <div className="p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
-        <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Role</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Role</p>
         <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {prepareByRole.map((link) => {
             const Icon = link.icon;
@@ -110,13 +110,13 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
           })}
         </div>
         <div className="mt-4 pt-3" style={{ borderTop: "1px solid #e8e8e8" }}>
-          <a href="/roles" onClick={onClose} className="text-xs font-semibold" style={{ color: "#0033ff" }}>View all roles &rarr;</a>
+          <a href="/roles" onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all roles &rarr;</a>
         </div>
       </div>
 
       {/* By Industry */}
       <div className="p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Industry</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Industry</p>
         <div className="grid grid-cols-2 gap-1">
           {prepareByIndustry.map((link) => {
             const Icon = link.icon;
@@ -135,7 +135,7 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
           })}
         </div>
         <div className="mt-4 pt-3" style={{ borderTop: "1px solid #e8e8e8" }}>
-          <a href="/industries" onClick={onClose} className="text-xs font-semibold" style={{ color: "#0033ff" }}>View all industries &rarr;</a>
+          <a href="/industries" onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all industries &rarr;</a>
         </div>
       </div>
     </div>
@@ -169,14 +169,14 @@ function MegaMenu({
           {/* CTA sidebar */}
           <div className="w-64 shrink-0 p-6 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa", borderLeft: "1px solid #e8e8e8" }}>
             <p className="text-sm font-semibold mb-2" style={{ color: "#010f62" }}>Ready to check your compliance?</p>
-            <p className="text-xs mb-4 leading-relaxed" style={{ color: "#62718d" }}>Answer 12 questions and get a personalised readiness score.</p>
+            <p className="text-sm mb-4 leading-relaxed" style={{ color: "#62718d" }}>Answer 12 questions and get a personalised readiness score.</p>
             <a
               href="/assessment"
               onClick={onClose}
               className="btn-primary justify-center text-sm"
               style={{ padding: "10px 16px" }}
             >
-              eIDAS Quick Check <ArrowRight className="h-4 w-4" />
+              eIDAS Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </a>
           </div>
         </div>
@@ -281,7 +281,7 @@ export default function Header() {
               className="ml-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white transition-colors"
               style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
             >
-              Assessment <ArrowRight className="h-3.5 w-3.5" />
+              Assessment <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
             </a>
           </nav>
 
@@ -345,13 +345,13 @@ export default function Header() {
               </button>
               {mobileAccordion === "prepare" && (
                 <div className="pb-2 pl-2 space-y-1">
-                  <p className="text-xs font-semibold uppercase tracking-widest mt-1 mb-2" style={{ color: "#62718d" }}>By Role</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mt-1 mb-2" style={{ color: "#62718d" }}>By Role</p>
                   {prepareByRole.map((link) => (
                     <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
                       {link.label}
                     </a>
                   ))}
-                  <p className="text-xs font-semibold uppercase tracking-widest mt-3 mb-2" style={{ color: "#62718d" }}>By Industry</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mt-3 mb-2" style={{ color: "#62718d" }}>By Industry</p>
                   {prepareByIndustry.map((link) => (
                     <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
                       {link.label}

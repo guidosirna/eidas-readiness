@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { questions, MAX_SCORE } from "@/lib/questions";
 import { trackAssessmentStart, trackAssessmentComplete, trackLeadSubmit } from "@/lib/analytics";
 import type {
@@ -424,7 +424,7 @@ function ResultsScreen({ result }: { result: AssessmentResult }) {
                 className="p-4"
                 style={{ borderRadius: "2px", border: "1px solid #e8e8e8", borderLeft: `3px solid ${config.scoreColor}` }}
               >
-                <span className="text-xs font-medium uppercase tracking-wider"
+                <span className="text-sm font-medium uppercase tracking-wider"
                   style={{ color: "#0033ff" }}>
                   {AREA_LABELS[q.area]}
                 </span>
@@ -462,7 +462,7 @@ function ResultsScreen({ result }: { result: AssessmentResult }) {
           We&apos;ll send a detailed breakdown of your results and recommended next steps to your inbox.
         </p>
         <a href="/guide/eidas-2-compliance" className="relative inline-flex items-center gap-2 bg-white font-semibold transition-colors hover:bg-gray-100" style={{ color: "#010f62", padding: "10px 24px", borderRadius: "2px", fontSize: "14px" }}>
-          Read the full compliance guide <ArrowRight className="h-4 w-4" />
+          Read the full compliance guide <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
     </div>

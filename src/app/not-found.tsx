@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata = {
   title: "Page Not Found",
@@ -21,7 +21,7 @@ export default function NotFound() {
           href="/"
           className="btn-primary inline-flex items-center gap-2"
         >
-          Back to home <ArrowRight className="h-4 w-4" />
+          Back to home <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </Link>
       </div>
     </div>

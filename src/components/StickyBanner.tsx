@@ -2,25 +2,35 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowUpRight, X, Star } from "lucide-react";
 import { trackBannerClick, trackBannerDismiss } from "@/lib/analytics";
+import Image from "next/image";
 
 export default function StickyBanner() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  const hidden =
+    pathname?.startsWith("/assessment") ||
+    pathname?.startsWith("/eidas-2-compliance-checklist") ||
+    dismissed;
 
-  if (pathname?.startsWith("/assessment")) return null;
-  if (pathname?.startsWith("/eidas-2-compliance-checklist")) return null;
-  if (dismissed) return null;
+  useEffect(() => {
+    if (hidden) return;
+    const timer = setTimeout(() => {
+      setVisible(true);
+      window.dispatchEvent(new CustomEvent("banner-visible"));
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [hidden]);
+
+  if (hidden) return null;
 
   return (
     <div
+      data-sticky-banner
+      data-visible={visible ? "true" : "false"}
       className="fixed bottom-0 left-0 right-0 z-40"
       style={{
         backgroundColor: "#fff",
@@ -32,7 +42,7 @@ export default function StickyBanner() {
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <div className="mx-auto max-w-7xl px-6 py-5 flex items-center gap-5">
+      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-6">
         {/* Close */}
         <button
           type="button"
@@ -48,24 +58,49 @@ export default function StickyBanner() {
           <X className="h-5 w-5" style={{ color: "#62718d" }} />
         </button>
 
-        {/* Text */}
-        <div className="flex-1 min-w-0 hidden sm:block">
-          <p className="text-base font-semibold" style={{ color: "#010f62" }}>
-            Is your organisation ready for eIDAS 2.0?
+        {/* EU flag */}
+        <Image
+          src="/logos/eu-flag.svg"
+          alt="EU"
+          width={36}
+          height={24}
+          className="shrink-0 opacity-70 hidden sm:block"
+        />
+
+        {/* Title + stars */}
+        <div className="min-w-0">
+          <p className="text-base font-semibold sm:text-lg" style={{ color: "#010f62" }}>
+            Free eIDAS 2.0 Readiness Assessment
           </p>
-          <p className="text-sm mt-0.5" style={{ color: "#62718d" }}>
-            Answer 12 questions and get your compliance readiness score.
-          </p>
+          <div className="flex items-center gap-2 mt-0.5">
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <span className="text-sm" style={{ color: "#62718d" }}>
+              Trusted by 2,000+ organisations
+            </span>
+          </div>
         </div>
+
+        {/* Spacer */}
+        <div className="flex-1" />
 
         {/* CTA */}
         <a
           href="/assessment"
-          className="btn-primary shrink-0 text-base"
-          style={{ padding: "12px 28px" }}
+          className="shrink-0 inline-flex items-center gap-2 text-base font-semibold text-white transition-colors"
+          style={{
+            backgroundColor: "#010f62",
+            padding: "12px 28px",
+            borderRadius: "2px",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#021089")}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#010f62")}
           onClick={() => trackBannerClick()}
         >
-          Take the Quick Check <ArrowRight className="h-4 w-4" />
+          Take the Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
     </div>

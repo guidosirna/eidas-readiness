@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface CtaBlockProps {
   headline: string;
@@ -23,7 +23,7 @@ export default function CtaBlock({
           <p className="text-sm truncate" style={{ color: "#62718d" }}>{description}</p>
         </div>
         <a href={buttonHref} className="shrink-0 btn-primary">
-          {buttonText} <ArrowRight className="h-4 w-4" />
+          {buttonText} <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
     );
@@ -39,7 +39,7 @@ export default function CtaBlock({
           className="inline-flex items-center gap-2 bg-white font-semibold transition-colors hover:bg-gray-100"
           style={{ color: "#010f62", padding: "12px 28px", borderRadius: "2px", fontSize: "16px" }}
         >
-          {buttonText} <ArrowRight className="h-4 w-4" />
+          {buttonText} <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
     </div>

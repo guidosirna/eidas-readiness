@@ -144,7 +144,7 @@ export default function FaqPageClient() {
       <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 py-12 sm:py-16">
         {/* Sidebar — desktop only */}
         <aside className="hidden lg:block">
-          <nav className="sticky top-[124px]">
+          <nav className="sticky top-[117px] md:top-[153px]">
             <ul className="space-y-1">
               {faqCategories.map((cat) => {
                 const count = countPerCategory[cat] ?? 0;
@@ -165,7 +165,7 @@ export default function FaqPageClient() {
                       }}
                     >
                       <span>{cat}</span>
-                      <span className="text-xs" style={{ color: isActive ? "#0033ff" : "#a0aec0" }}>{count}</span>
+                      <span className="text-sm" style={{ color: isActive ? "#0033ff" : "#a0aec0" }}>{count}</span>
                     </button>
                   </li>
                 );

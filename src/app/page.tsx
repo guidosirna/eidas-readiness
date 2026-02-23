@@ -22,7 +22,7 @@ import {
   Shield,
   CreditCard,
   Wifi,
-  ArrowRight,
+  ArrowUpRight,
   Code2,
   Scale,
   Building,
@@ -90,7 +90,7 @@ export default function Home() {
           </p>
           <div className="mt-10">
             <a href="/assessment" className="btn-primary inline-flex">
-              Take the free assessment <ArrowRight className="h-4 w-4" />
+              Take the free assessment <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </a>
           </div>
 
@@ -102,7 +102,7 @@ export default function Home() {
       <section style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="text-center mb-16">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>How it works</p>
+            <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>How it works</p>
             <h2 className="text-3xl sm:text-4xl mb-4">Three steps to your compliance roadmap</h2>
             <p className="text-lg max-w-2xl mx-auto" style={{ color: "#62718d" }}>Free, no signup, takes under 5 minutes.</p>
           </div>
@@ -136,7 +136,7 @@ export default function Home() {
 
           <div className="text-center mt-8">
             <a href="/assessment" className="btn-primary">
-              Start the quick check <ArrowRight className="h-4 w-4" />
+              Start the quick check <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </a>
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function Home() {
                 </div>
                 <div className="mt-6">
                   <a href="/guide/eidas-2-compliance" className="inline-flex items-center gap-2 text-white font-semibold text-base hover:opacity-80 transition-opacity">
-                    <FileText className="h-4 w-4" /> Read the full guide <ArrowRight className="h-4 w-4" />
+                    <FileText className="h-4 w-4" /> Read the full guide <ArrowUpRight className="h-4 w-4 arrow-animate" />
                   </a>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function Home() {
       {/* ── Industries — Who is affected ─────────────────────── */}
       <section style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Affected industries</p>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Affected industries</p>
           <h2 className="text-3xl sm:text-4xl mb-4">Is your sector affected?</h2>
           <p className="text-lg mb-12 max-w-2xl" style={{ color: "#62718d" }}>These industries must accept the EU Digital Identity Wallet. Find your sector.</p>
 
@@ -233,7 +233,7 @@ export default function Home() {
                 <h4 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h4>
                 <p className="text-base leading-relaxed mb-3" style={{ color: "#62718d" }}>{item.desc}</p>
                 <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
-                  Learn more <ArrowRight className="h-3.5 w-3.5" />
+                  Learn more <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
                 </span>
               </a>
             ))}
@@ -259,7 +259,7 @@ export default function Home() {
       {/* ── Key roles — Who in the org ───────────────────────── */}
       <section style={{ borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Who in your organization</p>
+          <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Who in your organization</p>
           <h2 className="text-3xl sm:text-4xl mb-4">Key roles that need to prepare</h2>
           <p className="text-lg mb-12 max-w-2xl" style={{ color: "#62718d" }}>eIDAS 2.0 affects multiple teams. Find out what it means for your position.</p>
 
@@ -277,7 +277,7 @@ export default function Home() {
                 <h4 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{item.title}</h4>
                 <p className="text-base leading-relaxed mb-3" style={{ color: "#62718d" }}>{item.desc}</p>
                 <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
-                  Learn more <ArrowRight className="h-3.5 w-3.5" />
+                  Learn more <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
                 </span>
               </a>
             ))}
@@ -293,7 +293,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-16">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>FAQ</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>FAQ</p>
               <h2 className="text-3xl sm:text-4xl mb-4">Common questions</h2>
               <p className="text-lg mb-8" style={{ color: "#62718d" }}>Quick answers to the most common questions about eIDAS 2.0.</p>
               <a href="/faq" className="btn-secondary"><FileText className="h-4 w-4" /> See all FAQs</a>

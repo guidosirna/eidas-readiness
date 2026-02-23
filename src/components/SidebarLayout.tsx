@@ -60,7 +60,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter, share
               key={s.id}
               type="button"
               onClick={() => handleClick(s.id)}
-              className="whitespace-nowrap px-3 py-1.5 text-xs font-medium transition-colors"
+              className="whitespace-nowrap px-3 py-1.5 text-sm font-medium transition-colors"
               style={{
                 borderRadius: "2px",
                 backgroundColor: activeId === s.id ? "#0033ff" : "#f0f0f0",
@@ -106,7 +106,7 @@ export default function SidebarLayout({ sections, children, sidebarFooter, share
         </aside>
 
         {/* Content */}
-        <div className="max-w-none min-w-0">
+        <div className="max-w-none min-w-0 [&>div>section:first-of-type>h2:first-child]:mt-0 [&>section:first-of-type>h2:first-child]:mt-0">
           {children}
         </div>
       </div>

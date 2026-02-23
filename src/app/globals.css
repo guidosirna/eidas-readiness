@@ -172,6 +172,15 @@
     background-color: var(--color-bg-light);
   }
 
+  /* Arrow hover animation — rotate */
+  .arrow-animate {
+    transition: transform 0.2s ease;
+  }
+  a:hover .arrow-animate,
+  button:hover .arrow-animate {
+    transform: rotate(45deg);
+  }
+
   /* Pixel / geometric dot pattern overlay for navy sections */
   .pattern-pixels {
     position: relative;

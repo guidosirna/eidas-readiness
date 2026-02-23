@@ -14,7 +14,7 @@ export default function HelpChatbot() {
     }
     return false;
   });
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [bannerActive, setBannerActive] = useState(false);
   const [step, setStep] = useState<Step>("initial");
   const [form, setForm] = useState({ name: "", email: "", company: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -24,11 +24,28 @@ export default function HelpChatbot() {
   const bubbleRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Listen for banner dismiss to move bubble down
+  // Detect banner presence via DOM polling
   useEffect(() => {
-    const handler = () => setBannerDismissed(true);
-    window.addEventListener("banner-dismissed", handler);
-    return () => window.removeEventListener("banner-dismissed", handler);
+    const check = () => {
+      const banner = document.querySelector("[data-sticky-banner]");
+      setBannerActive(!!banner && banner.getAttribute("data-visible") === "true");
+    };
+
+    // Events for instant response
+    const showHandler = () => setBannerActive(true);
+    const dismissHandler = () => setBannerActive(false);
+    window.addEventListener("banner-visible", showHandler);
+    window.addEventListener("banner-dismissed", dismissHandler);
+
+    // Poll DOM as reliable fallback (cheap query, runs forever)
+    const interval = setInterval(check, 1000);
+    check();
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("banner-visible", showHandler);
+      window.removeEventListener("banner-dismissed", dismissHandler);
+    };
   }, []);
 
   // Show notification bubble after 5s, but only once per session
@@ -133,7 +150,7 @@ export default function HelpChatbot() {
         ref={bubbleRef}
         className="fixed right-6 z-50 max-w-xs"
         style={{
-          bottom: "100px",
+          bottom: bannerActive ? "180px" : "100px",
           opacity: showBubble && !open ? 1 : 0,
           transform: showBubble && !open ? "translateY(0)" : "translateY(8px)",
           transition: "bottom 0.4s ease, opacity 0.3s ease, transform 0.3s ease",
@@ -170,7 +187,7 @@ export default function HelpChatbot() {
         ref={chatRef}
         className="fixed right-6 z-50 w-80 bg-white shadow-xl"
         style={{
-          bottom: "100px",
+          bottom: bannerActive ? "180px" : "100px",
           borderRadius: "2px",
           border: "1px solid #e8e8e8",
           opacity: open ? 1 : 0,
@@ -285,7 +302,7 @@ export default function HelpChatbot() {
               >
                 {submitting ? "Sending..." : "Get in Touch"}
               </button>
-              {error && <p className="text-xs text-red-500">{error}</p>}
+              {error && <p className="text-sm text-red-500">{error}</p>}
             </form>
           )}
 
@@ -310,7 +327,7 @@ export default function HelpChatbot() {
         onClick={handleToggle}
         className="fixed right-6 z-50 w-14 h-14 flex items-center justify-center shadow-lg"
         style={{
-          bottom: "24px",
+          bottom: bannerActive ? "100px" : "24px",
           backgroundColor: "#0033ff",
           borderRadius: "50%",
           border: "2px solid rgba(255,255,255,0.3)",

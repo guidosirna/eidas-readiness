@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, BookOpen, Shield } from "lucide-react";
+import { ArrowUpRight, BookOpen, Shield } from "lucide-react";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
@@ -61,7 +61,7 @@ export default function GuidesIndexPage() {
                       <h2 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{guide.title}</h2>
                       <p className="text-base leading-relaxed mb-3" style={{ color: "#62718d" }}>{guide.description}</p>
                       <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2 transition-all" style={{ color: "#0033ff" }}>
-                        Read guide <ArrowRight className="h-3.5 w-3.5" />
+                        Read guide <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
                       </span>
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import {
-  CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, ArrowRight,
+  CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, ArrowUpRight,
 } from "lucide-react";
 import { industries } from "@/lib/industries-data";
 import JsonLd from "@/components/JsonLd";
@@ -56,7 +56,7 @@ export default function IndustriesIndexPage() {
                   <h2 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>{industry.title}</h2>
                   <p className="text-base line-clamp-3 mb-3" style={{ color: "#62718d" }}>{industry.shortDescription}</p>
                   <span className="inline-flex items-center gap-1 text-base font-semibold group-hover:gap-2" style={{ color: "#0033ff" }}>
-                    Learn more <ArrowRight className="h-3.5 w-3.5" />
+                    Learn more <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" />
                   </span>
                 </a>
               );

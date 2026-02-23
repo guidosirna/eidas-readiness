@@ -27,54 +27,53 @@ export default function AssessmentQuickCheck() {
     <>
       <Breadcrumbs items={[{ label: "Assessment", href: "/assessment" }, { label: "Quick Check" }]} />
       <div className="mx-auto max-w-7xl px-6">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 py-12 lg:py-16">
+        <div className="lg:grid lg:gap-16 py-12 lg:py-16" style={{ gridTemplateColumns: "5fr 7fr" }}>
           {/* Left sidebar — context panel */}
           <aside className="hidden lg:block">
             <div className="sticky top-[124px] md:top-[156px]">
-              <h2 className="text-xl font-semibold mb-2" style={{ color: "#010f62" }}>Quick Check</h2>
-              <p className="text-sm leading-relaxed mb-8" style={{ color: "#62718d" }}>
+              <h2 className="font-display text-2xl font-semibold mb-3" style={{ color: "#010f62" }}>Quick Check</h2>
+              <p className="text-base leading-relaxed mb-10" style={{ color: "#62718d" }}>
                 12 questions across 6 compliance areas. Takes under 5&nbsp;minutes.
               </p>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Areas we evaluate</p>
-              <ul className="space-y-3">
+              <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Areas we evaluate</p>
+              <ul className="space-y-5">
                 {sixAreas.map((card) => {
                   const Icon = card.icon;
                   return (
-                    <li key={card.title} className="flex items-start gap-3">
-                      <div className="w-8 h-8 shrink-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,51,255,0.08)", borderRadius: "2px" }}>
-                        <Icon className="h-3.5 w-3.5" style={{ color: "#0033ff" }} />
+                    <li key={card.title} className="flex items-start gap-4">
+                      <div className="w-10 h-10 shrink-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,51,255,0.08)", borderRadius: "2px" }}>
+                        <Icon className="h-5 w-5" style={{ color: "#0033ff" }} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium" style={{ color: "#010f62" }}>{card.title}</p>
-                        <p className="text-sm leading-snug" style={{ color: "#62718d" }}>{card.desc}</p>
+                        <p className="text-base font-semibold" style={{ color: "#010f62" }}>{card.title}</p>
+                        <p className="text-base leading-relaxed" style={{ color: "#62718d" }}>{card.desc}</p>
                       </div>
                     </li>
                   );
                 })}
               </ul>
-              <div className="mt-8 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
+              <div className="mt-10 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
                 <Link
                   href="/assessment"
-                  className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
+                  className="inline-flex items-center gap-2 text-base font-medium transition-colors hover:opacity-70"
                   style={{ color: "#0033ff" }}
                 >
-                  <ArrowLeft className="h-3.5 w-3.5" /> Back to overview
+                  <ArrowLeft className="h-4 w-4" /> Back to overview
                 </Link>
               </div>
             </div>
           </aside>
 
           {/* Mobile: compact header */}
-          <div className="lg:hidden mb-6">
+          <div className="lg:hidden mb-8">
             <Link
               href="/assessment"
-              className="inline-flex items-center gap-2 text-sm font-medium mb-4 transition-colors hover:opacity-70"
-              style={{ color: "#0033ff" }}
+              className="btn-ghost mb-4"
             >
-              <ArrowLeft className="h-3.5 w-3.5" /> Back to overview
+              <ArrowLeft className="h-4 w-4" /> Back to overview
             </Link>
-            <h2 className="text-2xl font-semibold" style={{ color: "#010f62" }}>Quick Check</h2>
-            <p className="text-sm mt-1" style={{ color: "#62718d" }}>12 questions · Under 5 minutes</p>
+            <h2 className="font-display text-2xl font-semibold" style={{ color: "#010f62" }}>Quick Check</h2>
+            <p className="text-base mt-1" style={{ color: "#62718d" }}>12 questions · Under 5 minutes</p>
           </div>
 
           {/* Right: the wizard */}

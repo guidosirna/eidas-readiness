@@ -8,11 +8,11 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ShareButton from "@/components/ShareButton";
 
 const categoryColors: Record<string, string> = {
-  "Core Regulation": "bg-blue-50 text-blue-700",
-  "Digital Identity": "bg-sky-50 text-sky-700",
-  "Trust Services": "bg-amber-50 text-amber-700",
-  "Technical Standards": "bg-purple-50 text-purple-700",
-  Governance: "bg-emerald-50 text-emerald-700",
+  "Core Regulation": "bg-blue-50 text-blue-700 hover:bg-blue-100",
+  "Digital Identity": "bg-sky-50 text-sky-700 hover:bg-sky-100",
+  "Trust Services": "bg-amber-50 text-amber-700 hover:bg-amber-100",
+  "Technical Standards": "bg-purple-50 text-purple-700 hover:bg-purple-100",
+  Governance: "bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
 };
 
 function getCategoryBadgeClass(category: string): string {
@@ -100,7 +100,7 @@ export default function GlossaryTermPage({ params }: PageProps) {
           <div className="mt-4">
             <Link
               href={`/glossary?category=${encodeURIComponent(term.category)}`}
-              className={`inline-block px-3 py-1 text-xs font-medium transition-opacity hover:opacity-80 ${getCategoryBadgeClass(term.category)}`}
+              className={`inline-block px-4 py-2 text-base font-medium transition-colors ${getCategoryBadgeClass(term.category)}`}
               style={{ borderRadius: "2px" }}
             >
               {term.category}
@@ -153,7 +153,7 @@ export default function GlossaryTermPage({ params }: PageProps) {
                       {rt.shortDefinition}
                     </p>
                     <span
-                      className={`mt-3 inline-block px-2.5 py-0.5 text-xs font-medium ${getCategoryBadgeClass(rt.category)}`}
+                      className={`mt-3 inline-block px-4 py-2 text-base font-medium transition-colors ${getCategoryBadgeClass(rt.category)}`}
                       style={{ borderRadius: "2px" }}
                     >
                       {rt.category}

@@ -83,7 +83,7 @@ export default function EudiwPreparationGuidePage() {
       {/* Hero */}
       <section className="px-6 py-14 sm:py-20" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
         <div className="mx-auto max-w-4xl">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: "#62718d" }}>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#62718d" }}>
             Preparation Guide
           </p>
           <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "#010f62" }}>
@@ -1184,7 +1184,7 @@ export default function EudiwPreparationGuidePage() {
 
           {/* Related Resources */}
           <div className="mt-16 -mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
+            <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
             <div className="space-y-1.5">
               {[
                 { href: "/guide/eidas-2-compliance", label: "eIDAS 2.0 Compliance Guide", desc: "Deep-dive into every requirement of the regulation." },

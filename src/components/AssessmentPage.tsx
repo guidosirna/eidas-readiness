@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ShieldCheck,
-  ArrowRight,
+  ArrowUpRight,
   Check,
   Clock,
   BarChart3,
@@ -45,7 +45,6 @@ export default function AssessmentPage() {
             </div>
             {/* Right: white card with CTA inside (2 cols) */}
             <div className="lg:col-span-2 bg-white p-8 sm:p-9" style={{ borderRadius: "2px" }}>
-              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0" width={200} height={52} className="h-11 w-auto mb-7" />
               <p className="text-sm font-semibold uppercase tracking-widest mb-6" style={{ color: "#62718d" }}>What to expect</p>
               <ul className="space-y-5">
                 {[
@@ -66,7 +65,7 @@ export default function AssessmentPage() {
                   className="btn-primary w-full justify-center text-base gap-2"
                   style={{ padding: "14px 28px" }}
                 >
-                  Start the Quick Check <ArrowRight className="h-4 w-4" />
+                  Start the Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
                 </Link>
                 <button
                   type="button"
@@ -88,7 +87,7 @@ export default function AssessmentPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left: what you get */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>What you get</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>What you get</p>
               <h2 className="text-3xl sm:text-4xl mb-6">Your personalised compliance roadmap</h2>
               <p className="text-base leading-relaxed mb-8" style={{ color: "#62718d" }}>
                 After completing the assessment, you receive a detailed breakdown of your organisation&apos;s eIDAS 2.0 readiness, with specific recommendations tailored to your current maturity level.
@@ -106,10 +105,11 @@ export default function AssessmentPage() {
                   </li>
                 ))}
               </ul>
+              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0" width={200} height={52} className="h-11 w-auto mt-8" />
             </div>
             {/* Right: six areas grid */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Assessment scope</p>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Assessment scope</p>
               <h3 className="text-2xl sm:text-3xl mb-6">Six areas we evaluate</h3>
               <div className="grid gap-5">
                 {sixAreas.map((card) => (
@@ -139,7 +139,7 @@ export default function AssessmentPage() {
                 className="inline-flex items-center gap-2 bg-white font-semibold transition-colors hover:bg-gray-100 cursor-pointer"
                 style={{ color: "#010f62", padding: "12px 28px", borderRadius: "2px", fontSize: "16px" }}
               >
-                Start the Quick Check <ArrowRight className="h-4 w-4" />
+                Start the Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
               </Link>
             </div>
           </div>
