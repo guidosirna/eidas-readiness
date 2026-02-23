@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Scale,
   Server,
@@ -66,20 +66,10 @@ export default function AssessmentPage() {
                   Start the Quick Check <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* EU Framework logos — matching homepage */}
-      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <p className="text-sm font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
-            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14">
-              <Image src="/logos/eu-flag.svg" alt="European Union" width={72} height={48} className="h-12 w-auto" />
-              <Image src="/logos/european-commission.svg" alt="European Commission" width={200} height={44} className="h-9 w-auto" />
-              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={220} height={52} className="h-12 w-auto" />
+              <div className="mt-6 flex items-center justify-center gap-6">
+                <Image src="/logos/eu-flag.svg" alt="EU" width={28} height={20} className="h-4 w-auto" />
+                <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0" width={100} height={20} className="h-4 w-auto" />
+              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
 import { trackChecklistToggle } from "@/lib/analytics";
 
 /* ────────────────────────────────────────────────────────────────────── */
@@ -212,16 +212,25 @@ export default function ChecklistInteractive() {
           {/* Related links */}
           <div className="mt-6 pt-6" style={{ borderTop: "1px solid #e8e8e8" }}>
             <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#62718d" }}>Related</p>
-            <div className="space-y-2">
-              <Link href="/assessment" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
-                Take the Assessment →
-              </Link>
-              <Link href="/guide/eidas-2-compliance" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
-                Compliance Guide →
-              </Link>
-              <Link href="/eidas-2-timeline" className="text-sm font-medium transition-colors hover:opacity-70 block" style={{ color: "#0033ff" }}>
-                Timeline →
-              </Link>
+            <div className="space-y-1">
+              {[
+                { href: "/assessment", label: "Readiness Assessment", desc: "Get a personalised compliance score" },
+                { href: "/guide/eidas-2-compliance", label: "Compliance Guide", desc: "Deep-dive into every requirement" },
+                { href: "/eidas-2-timeline", label: "Timeline", desc: "Key dates and milestones" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex items-center gap-2.5 px-3 py-2 group transition-colors hover:bg-gray-50"
+                  style={{ borderRadius: "2px" }}
+                >
+                  <ChevronRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium" style={{ color: "#010f62" }}>{link.label}</p>
+                    <p className="text-xs line-clamp-1" style={{ color: "#62718d" }}>{link.desc}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>

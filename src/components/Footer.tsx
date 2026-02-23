@@ -1,3 +1,4 @@
+import Image from "next/image";
 import NewsletterForm from "./NewsletterForm";
 
 const assessmentLinks = [
@@ -48,9 +49,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
-            <a href="/" className="inline-flex items-baseline gap-1">
-              <span className="font-display text-base font-bold tracking-tight text-white">eIDAS</span>
-              <span className="font-display text-base font-normal tracking-tight text-white/60">Readiness</span>
+            <a href="/" className="inline-flex items-center gap-2.5">
+              <Image src="/logos/eu-flag.svg" alt="EU" width={28} height={20} className="h-5 w-auto" />
+              <span className="flex items-baseline gap-1">
+                <span className="font-display text-base font-bold tracking-tight text-white">eIDAS</span>
+                <span className="font-display text-base font-normal tracking-tight text-white/60">Readiness</span>
+              </span>
             </a>
             <p className="mt-4 text-sm leading-relaxed text-white/60 max-w-xs">
               A free resource helping European organizations understand and

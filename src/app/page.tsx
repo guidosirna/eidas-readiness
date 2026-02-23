@@ -94,22 +94,16 @@ export default function Home() {
             </a>
           </div>
 
+
         </div>
       </section>
 
-      {/* ── EU Framework logos ────────────────────────────────── */}
-      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <p className="text-sm font-medium" style={{ color: "#62718d" }}>Based on the European regulatory framework</p>
-            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-14">
-              <Image src="/logos/eu-flag.svg" alt="European Union" width={72} height={48} className="h-12 w-auto" />
-              <Image src="/logos/european-commission.svg" alt="European Commission" width={200} height={44} className="h-9 w-auto" />
-              <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={220} height={52} className="h-12 w-auto" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* EU trust marks — light strip below hero */}
+      <div className="flex items-center justify-center gap-10 py-5" style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>
+        <Image src="/logos/eu-flag.svg" alt="European Union" width={36} height={24} className="h-6 w-auto" />
+        <Image src="/logos/european-commission.svg" alt="European Commission" width={120} height={24} className="h-5 w-auto" />
+        <Image src="/logos/eidas-regulation.svg" alt="eIDAS 2.0 Regulation" width={120} height={24} className="h-5 w-auto" />
+      </div>
 
       {/* ── How it works — The main value proposition ──────── */}
       <section style={{ backgroundColor: "#f9f9fa", borderBottom: "1px solid #e8e8e8" }}>

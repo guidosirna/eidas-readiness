@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, ArrowRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock } from "lucide-react";
+import Image from "next/image";
 
 const learnFeatured = [
   { href: "/guide/eidas-2-compliance", label: "eIDAS 2.0 Compliance Guide", description: "Everything you need to know about the regulation, requirements, and implementation steps", icon: BookOpen },
@@ -225,9 +226,12 @@ export default function Header() {
       <div className="bg-white" style={{ borderBottom: "1px solid #e8e8e8" }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex h-16 items-center justify-between">
-          <a href="/" className="flex items-baseline gap-1">
-            <span className="font-display text-lg font-bold tracking-tight" style={{ color: "#010f62" }}>eIDAS</span>
-            <span className="font-display text-lg font-normal tracking-tight" style={{ color: "#010f62" }}>Readiness</span>
+          <a href="/" className="flex items-center gap-2.5">
+            <Image src="/logos/eu-flag.svg" alt="EU" width={28} height={20} className="h-5 w-auto" />
+            <span className="flex items-baseline gap-1">
+              <span className="font-display text-lg font-bold tracking-tight" style={{ color: "#010f62" }}>eIDAS</span>
+              <span className="font-display text-lg font-normal tracking-tight" style={{ color: "#010f62" }}>Readiness</span>
+            </span>
           </a>
 
           <nav className="hidden md:flex items-center h-full">
