@@ -77,11 +77,11 @@ export default function GlossaryTermPage({ params }: PageProps) {
     "@type": "DefinedTerm",
     name: term.term,
     description: term.shortDefinition,
-    url: `https://eidas-readiness.eu/glossary/${term.slug}`,
+    url: `https://www.eidasreadiness.com/glossary/${term.slug}`,
     inDefinedTermSet: {
       "@type": "DefinedTermSet",
       name: "eIDAS 2.0 & Digital Identity Glossary",
-      url: "https://eidas-readiness.eu/glossary",
+      url: "https://www.eidasreadiness.com/glossary",
     },
   };
 

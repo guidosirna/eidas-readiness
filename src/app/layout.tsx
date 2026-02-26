@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     "EU regulation",
     "identity wallet",
   ],
-  metadataBase: new URL("https://eidas-readiness.eu"),
+  metadataBase: new URL("https://www.eidasreadiness.com"),
   openGraph: {
     type: "website",
     locale: "en_US",

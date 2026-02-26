@@ -29,16 +29,16 @@ export default function ComplianceChecklistPage() {
     author: {
       "@type": "Organization",
       name: "eIDAS Readiness",
-      url: "https://eidas-readiness.eu",
+      url: "https://www.eidasreadiness.com",
     },
     publisher: {
       "@type": "Organization",
       name: "eIDAS Readiness",
-      url: "https://eidas-readiness.eu",
+      url: "https://www.eidasreadiness.com",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://eidas-readiness.eu/eidas-2-compliance-checklist",
+      "@id": "https://www.eidasreadiness.com/eidas-2-compliance-checklist",
     },
   };
 

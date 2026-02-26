@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/_next/'],
     },
-    sitemap: 'https://eidas-readiness.eu/sitemap.xml',
+    sitemap: 'https://www.eidasreadiness.com/sitemap.xml',
   }
 }

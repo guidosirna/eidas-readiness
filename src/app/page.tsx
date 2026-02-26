@@ -54,7 +54,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "eIDAS 2.0 Readiness",
-  url: "https://eidas-readiness.eu",
+  url: "https://www.eidasreadiness.com",
   description: "Free eIDAS 2.0 readiness assessment helping organizations prepare for EU Digital Identity Wallet compliance.",
 };
 
@@ -62,7 +62,7 @@ const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "eIDAS 2.0 Readiness",
-  url: "https://eidas-readiness.eu",
+  url: "https://www.eidasreadiness.com",
   description: "Assess your organization's readiness for eIDAS 2.0 and the European Digital Identity Wallet.",
   publisher: { "@type": "Organization", name: "eIDAS 2.0 Readiness" },
 };

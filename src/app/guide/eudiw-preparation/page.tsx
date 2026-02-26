@@ -47,16 +47,16 @@ export default function EudiwPreparationGuidePage() {
     author: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://eidas-readiness.eu",
+      url: "https://www.eidasreadiness.com",
     },
     publisher: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://eidas-readiness.eu",
+      url: "https://www.eidasreadiness.com",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://eidas-readiness.eu/guide/eudiw-preparation",
+      "@id": "https://www.eidasreadiness.com/guide/eudiw-preparation",
     },
     wordCount: 2800,
     articleSection: "Compliance Guides",

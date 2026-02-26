@@ -47,7 +47,7 @@ export default function RolePage({ params }: PageProps) {
   const heroImage = roleImages[role.slug] ?? "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&q=80";
   const relatedRoles = role.relatedRoles.map((slug) => getRoleBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getRoleBySlug>>[];
   const relatedIndustries = role.relatedIndustries.map((slug) => getIndustryBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getIndustryBySlug>>[];
-  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: role.title, description: role.metaDescription, url: `https://eidas-readiness.eu/roles/${role.slug}` };
+  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: role.title, description: role.metaDescription, url: `https://www.eidasreadiness.com/roles/${role.slug}` };
 
   return (
     <>

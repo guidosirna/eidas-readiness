@@ -25,7 +25,7 @@ const roleMeta: Record<string, { icon: React.ElementType }> = {
 };
 
 export default function RolesIndexPage() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 Readiness by Role", description: "Role-specific eIDAS 2.0 compliance guidance.", url: "https://eidas-readiness.eu/roles" };
+  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 Readiness by Role", description: "Role-specific eIDAS 2.0 compliance guidance.", url: "https://www.eidasreadiness.com/roles" };
 
   return (
     <>

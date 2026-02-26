@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Redirects for removed pages
+[[redirects]]
+  from = "/eidas-2-compliance-checklist/interactive"
+  to = "/eidas-2-compliance-checklist"
+  status = 301
+
 # Security and caching headers
 [[headers]]
   for = "/*"

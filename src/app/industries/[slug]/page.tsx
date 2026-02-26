@@ -103,7 +103,7 @@ export default function IndustryPage({ params }: PageProps) {
   const ucImages = useCaseImages[industry.slug] ?? [];
   const relatedIndustries = industry.relatedIndustries.map((slug) => getIndustryBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getIndustryBySlug>>[];
   const relatedRoles = industry.relatedRoles.map((slug) => getRoleBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getRoleBySlug>>[];
-  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: industry.title, description: industry.metaDescription, url: `https://eidas-readiness.eu/industries/${industry.slug}` };
+  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: industry.title, description: industry.metaDescription, url: `https://www.eidasreadiness.com/industries/${industry.slug}` };
 
   return (
     <>

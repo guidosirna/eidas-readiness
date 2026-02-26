@@ -21,7 +21,7 @@ const webAppJsonLd = {
   name: "eIDAS 2.0 Readiness Assessment",
   description:
     "Evaluate your organization's preparedness for eIDAS 2.0 and the EU Digital Identity Wallet. Free assessment with actionable recommendations.",
-  url: "https://eidas-readiness.eu/assessment",
+  url: "https://www.eidasreadiness.com/assessment",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Any",
   offers: {

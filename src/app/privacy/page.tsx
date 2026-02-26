@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           <div>
             <h2 className="text-2xl mb-4">4. Your Rights Under GDPR</h2>
             <p className="leading-relaxed" style={{ color: "#62718d" }}>
-              As a data subject under the General Data Protection Regulation, you have the right to access, rectify, erase, restrict processing of, and port your personal data. You may also object to processing and withdraw consent at any time. To exercise these rights, contact us at privacy@eidas-readiness.eu.
+              As a data subject under the General Data Protection Regulation, you have the right to access, rectify, erase, restrict processing of, and port your personal data. You may also object to processing and withdraw consent at any time. To exercise these rights, contact us at privacy@eidasreadiness.com.
             </p>
           </div>
           <div>
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
           <div>
             <h2 className="text-2xl mb-4">6. Contact</h2>
             <p className="leading-relaxed" style={{ color: "#62718d" }}>
-              For privacy-related inquiries, please contact us at privacy@eidas-readiness.eu.
+              For privacy-related inquiries, please contact us at privacy@eidasreadiness.com.
             </p>
           </div>
         </div>

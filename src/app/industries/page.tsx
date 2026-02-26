@@ -29,7 +29,7 @@ const industryMeta: Record<string, { icon: React.ElementType }> = {
 };
 
 export default function IndustriesIndexPage() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 by Industry", description: "Sector-specific eIDAS 2.0 compliance guidance.", url: "https://eidas-readiness.eu/industries" };
+  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 by Industry", description: "Sector-specific eIDAS 2.0 compliance guidance.", url: "https://www.eidasreadiness.com/industries" };
 
   return (
     <>
