@@ -14,6 +14,7 @@ const learnSecondary = [
   { href: "/glossary", label: "Glossary", description: "Key terms and definitions explained" },
   { href: "/eidas-2-timeline", label: "Timeline", description: "Key dates and regulatory milestones" },
   { href: "/eidas-2-compliance-checklist", label: "Compliance Checklist", description: "Step-by-step compliance tracker" },
+  { href: "/eidas-timestamp", label: "Timestamp Tool", description: "Trusted timestamping for documents" },
 ];
 
 const prepareByRole = [
