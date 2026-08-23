@@ -162,10 +162,10 @@ export default function ContentGate({
             </div>
 
             <h3 className="text-xl font-display font-semibold sm:text-2xl" style={{ color: "#010f62" }}>
-              Get the full guide delivered to your inbox
+              Unlock the full guide
             </h3>
             <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-              Tell us a bit about yourself to unlock the complete guide.
+              Tell us a bit about yourself and keep reading.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 text-left space-y-3">
@@ -243,7 +243,7 @@ export default function ContentGate({
             )}
 
             <p className="mt-4 text-sm" style={{ color: "#62718d" }}>
-              Free, no spam. Unsubscribe anytime.
+              Free, no spam.
             </p>
           </div>
         </div>
