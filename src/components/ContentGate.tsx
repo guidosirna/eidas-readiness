@@ -41,7 +41,20 @@ export default function ContentGate({
       // localStorage unavailable
     }
 
-    if (alreadyUnlocked) {
+    // A personal link from the guide email. Not enforcement — the page is open
+    // either way — but the key identifies whose link was used, so a link doing
+    // the rounds shows up as one key across many visitors.
+    const key = new URLSearchParams(window.location.search).get("k");
+
+    if (key) {
+      try {
+        localStorage.setItem(STORAGE_KEY, "true");
+      } catch {
+        // localStorage unavailable: unlocked for this page view only
+      }
+      setUnlocked(true);
+      trackGateUnlock(`${page}?k=${key}`, "link");
+    } else if (alreadyUnlocked) {
       setUnlocked(true);
       trackGateUnlock(page, "returning");
     } else {

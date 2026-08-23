@@ -51,7 +51,10 @@ export function trackGateView(page: string) {
 }
 
 /** Gate cleared, whether by submitting the form or by a stored unlock. */
-export function trackGateUnlock(page: string, method: "form" | "returning") {
+export function trackGateUnlock(
+  page: string,
+  method: "form" | "returning" | "link"
+) {
   trackEvent("content_gate_unlock", "conversion", `${page} (${method})`);
 }
 
