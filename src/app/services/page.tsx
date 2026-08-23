@@ -61,7 +61,7 @@ export default function ServicesRoute() {
             url: BASE_URL,
           },
           // Only the audit publishes a figure. The other two are quoted, so
-          // no price is emitted for them — structured data is public.
+          // no price is emitted for them, structured data is public.
           offers: service.price
             ? {
                 "@type": "Offer",

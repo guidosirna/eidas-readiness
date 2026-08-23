@@ -12,7 +12,7 @@ export interface RelatedResource {
 
 /**
  * The related-resources block that sits at the foot of the long-form pages.
- * Client-side so the outbound clicks register in GA — this is how we see which
+ * Client-side so the outbound clicks register in GA, this is how we see which
  * internal routes actually earn attention.
  */
 export default function RelatedResources({

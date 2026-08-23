@@ -10,7 +10,7 @@
  *     notification is a fixed template that cannot be styled.
  *
  * Netlify stores the submission before invoking this function, so a failure here
- * never costs a lead — the worst case is an email that did not go out.
+ * never costs a lead, the worst case is an email that did not go out.
  */
 import { createHmac } from "node:crypto";
 
@@ -44,7 +44,7 @@ const GUIDES: Record<string, { title: string; blurb: string }> = {
 };
 
 /**
- * A per-recipient key on the guide link. It does not gate anything — the page
+ * A per-recipient key on the guide link. It does not gate anything, the page
  * stays open so search engines keep indexing it. It makes forwarding visible:
  * one key showing up across many sessions is a link that got passed around.
  */
@@ -89,12 +89,12 @@ function guideEmail(page: string, link: string): { subject: string; html: string
     html: shell(
       `<h1 style="margin:0 0 8px;font-size:22px;line-height:1.3;color:${NAVY}">${escapeHtml(guide.title)}</h1>
 <p style="margin:0 0 20px;color:${GRAY}">${escapeHtml(guide.blurb)}</p>
-<p style="margin:0;color:${GRAY}">Here is your copy. The link is yours — keep it to come back to the guide whenever you need it.</p>
+<p style="margin:0;color:${GRAY}">Here is your copy. The link is yours, so you can come back to the guide whenever you need it.</p>
 ${button(link, "Read the guide")}
 <p style="margin:0 0 6px;font-size:14px;color:${GRAY}">Two things that pair well with it:</p>
 <ul style="margin:0;padding-left:20px;font-size:14px;color:${GRAY}">
-<li style="margin-bottom:6px"><a href="${SITE}/assessment" style="color:${BLUE}">The readiness assessment</a> — twelve questions, a score across six compliance areas.</li>
-<li><a href="${SITE}/eidas-2-timeline" style="color:${BLUE}">The timeline</a> — the dates that actually bind you.</li>
+<li style="margin-bottom:6px"><a href="${SITE}/assessment" style="color:${BLUE}">The readiness assessment</a>: twelve questions, a score across six compliance areas.</li>
+<li><a href="${SITE}/eidas-2-timeline" style="color:${BLUE}">The timeline</a>: the dates that actually bind you.</li>
 </ul>`
     ),
   };
@@ -118,10 +118,34 @@ function notificationEmail(sub: Submission): { subject: string; html: string } {
     newsletter: "Newsletter",
   };
 
-  const who = [data.name, data.company].filter(Boolean).join(" · ") || email;
-  const subject = data.service
-    ? `${label[form] || form}: ${data.service} — ${data.company || domain || email}`
-    : `${label[form] || form} — ${data.company || domain || email}`;
+  const who = [data.name, data.company].filter(Boolean).join(" \u00b7 ") || email;
+
+  /**
+   * The subject has to survive a phone notification: what happened, then who.
+   * The company is the useful identifier; the email domain stands in when the
+   * form did not ask for a company, and the address itself is the last resort.
+   */
+  const identity = data.company || domain || email;
+  const subject = (() => {
+    switch (form) {
+      case "contact-expert":
+        return data.service
+          ? `Quote request: ${data.service} (${identity})`
+          : `New enquiry from ${identity}`;
+      case "assessment":
+        return data.percentage
+          ? `Assessment ${data.percentage}% ${data.level || ""}, ${identity}`.replace(/ ,/, ",")
+          : `Assessment completed by ${identity}`;
+      case "content-gate":
+        return `Guide unlocked by ${identity}`;
+      case "chatbot":
+        return `Chatbot lead: ${identity}`;
+      case "newsletter":
+        return `Newsletter signup: ${identity}`;
+      default:
+        return `New submission from ${identity}`;
+    }
+  })();
 
   const campaign = data.utm_source
     ? `${data.utm_source}${data.utm_medium ? " / " + data.utm_medium : ""}${

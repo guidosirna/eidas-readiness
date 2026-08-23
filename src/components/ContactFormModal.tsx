@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { X, Send } from "lucide-react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { checkWorkEmail } from "@/lib/work-email";
 
 interface ContactFormModalProps {
   open: boolean;
@@ -47,9 +48,10 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    const check = checkWorkEmail(form.email);
+    if (!check.ok) {
       setStatus("error");
-      setErrorMessage("Please enter a valid email address.");
+      setErrorMessage(check.message);
       return;
     }
     setStatus("loading");

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
+import { checkWorkEmail } from "@/lib/work-email";
 import {
   trackGateView,
   trackGateUnlock,
@@ -41,8 +42,8 @@ export default function ContentGate({
       // localStorage unavailable
     }
 
-    // A personal link from the guide email. Not enforcement — the page is open
-    // either way — but the key identifies whose link was used, so a link doing
+    // A personal link from the guide email. Not enforcement, the page is open
+    // either way, but the key identifies whose link was used, so a link doing
     // the rounds shows up as one key across many visitors.
     const key = new URLSearchParams(window.location.search).get("k");
 
@@ -67,15 +68,13 @@ export default function ContentGate({
   const previewChildren = childArray.slice(0, previewSections);
   const gatedChildren = childArray.slice(previewSections);
 
-  const validateEmail = (value: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateEmail(form.email)) {
+    const check = checkWorkEmail(form.email);
+    if (!check.ok) {
       setStatus("error");
-      setErrorMessage("Please enter a valid email address.");
+      setErrorMessage(check.message);
       return;
     }
 
@@ -130,7 +129,7 @@ export default function ContentGate({
 
   return (
     <div>
-      {/* This form is registered in public/__forms.html — Netlify's build-time
+      {/* This form is registered in public/__forms.html, Netlify's build-time
           parser cannot see client-rendered markup, so declaring it here would
           have no effect. */}
 

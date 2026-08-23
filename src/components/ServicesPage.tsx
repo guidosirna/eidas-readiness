@@ -112,7 +112,7 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-6 py-20">
           <p className="mb-10 max-w-3xl text-lg leading-relaxed" style={{ color: "#62718d" }}>
             Three levels of engagement. Take the one that matches where you
-            are — the Implementation Roadmap includes the Readiness Audit.
+            are. The Implementation Roadmap includes the Readiness Audit.
           </p>
           <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
             {services.map((service, i) => {

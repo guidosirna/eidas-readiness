@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { trackChatbotOpen, trackLeadSubmit } from "@/lib/analytics";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
+import { checkWorkEmail } from "@/lib/work-email";
 
 type Step = "initial" | "options" | "lead-form" | "submitted" | "assessment";
 
@@ -122,8 +123,9 @@ export default function HelpChatbot() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      setError("Please enter a valid email address.");
+    const check = checkWorkEmail(form.email);
+    if (!check.ok) {
+      setError(check.message);
       return;
     }
     setSubmitting(true);

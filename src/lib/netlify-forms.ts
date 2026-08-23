@@ -3,7 +3,7 @@
  *
  * Netlify registers forms by parsing static HTML at deploy time and silently
  * DROPS any submitted field that is not declared there. Our forms are all
- * client-rendered, so `public/__forms.html` is their only declaration — and it
+ * client-rendered, so `public/__forms.html` is their only declaration, and it
  * is generated from `netlify-forms.schema.json` on every build.
  *
  * To add a field: add it to the schema. Nothing else declares fields.
@@ -29,7 +29,7 @@ function encodeFormData(data: Record<string, string>) {
 }
 
 /**
- * Warns about fields Netlify will discard. Cannot be fixed at runtime — the
+ * Warns about fields Netlify will discard. Cannot be fixed at runtime, the
  * point is to make the loss loud during development instead of invisible in
  * production, which is how four fields of the content gate went missing.
  */
@@ -66,7 +66,7 @@ export async function submitNetlifyForm(
 
   if (res.ok) return;
 
-  // There is no Netlify form handler in `next dev` — the static file answers 405 —
+  // There is no Netlify form handler in `next dev`, the static file answers 405 , 
   // so locally we log the payload and let the flow continue. Anything else, and
   // anything at all in production, is a real failure the caller must see.
   if (process.env.NODE_ENV !== "production" && (res.status === 405 || res.status === 404)) {

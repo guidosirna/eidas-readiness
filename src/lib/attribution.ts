@@ -2,7 +2,7 @@
  * Campaign attribution for leads.
  *
  * GA4 reads utm_* off the URL for its own reports, but the lead that lands in
- * Netlify carries none of it — so a submission cannot be traced back to the
+ * Netlify carries none of it, so a submission cannot be traced back to the
  * campaign that produced it. This captures the parameters on the first page of
  * a visit and keeps them for the rest of the session, because people rarely
  * convert on the page they landed on.
