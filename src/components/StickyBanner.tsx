@@ -79,7 +79,7 @@ export default function StickyBanner() {
               ))}
             </div>
             <span className="text-sm" style={{ color: "#62718d" }}>
-              Trusted by 2,000+ organisations
+              Trusted by top European organisations
             </span>
           </div>
         </div>
