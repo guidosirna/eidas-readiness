@@ -15,7 +15,14 @@ interface ContentGateProps {
   previewSections?: number;
 }
 
-const STORAGE_KEY = "content_unlocked";
+/**
+ * One key per guide, so each one is unlocked on its own and each one sends its
+ * own email. The old single key stays honoured for reading, never written
+ * again: whoever already gave us their address should not be asked twice for a
+ * guide they had already unlocked.
+ */
+const storageKey = (page: string) => `content_unlocked:${page}`;
+const LEGACY_KEY = "content_unlocked";
 
 const roleOptions = ["CTO / Technical Lead", "Compliance Officer", "Product Manager", "Legal Team", "Other"];
 const industryOptions = ["Financial Services", "Healthcare", "Government", "Telecommunications", "E-Commerce", "Travel & Transport", "Other"];
@@ -37,7 +44,9 @@ export default function ContentGate({
 
     let alreadyUnlocked = false;
     try {
-      alreadyUnlocked = localStorage.getItem(STORAGE_KEY) === "true";
+      alreadyUnlocked =
+        localStorage.getItem(storageKey(page)) === "true" ||
+        localStorage.getItem(LEGACY_KEY) === "true";
     } catch {
       // localStorage unavailable
     }
@@ -49,7 +58,7 @@ export default function ContentGate({
 
     if (key) {
       try {
-        localStorage.setItem(STORAGE_KEY, "true");
+        localStorage.setItem(storageKey(page), "true");
       } catch {
         // localStorage unavailable: unlocked for this page view only
       }
@@ -78,6 +87,25 @@ export default function ContentGate({
       return;
     }
 
+    const missing = (
+      [
+        ["company", "your company"],
+        ["country", "your country"],
+        ["role", "your role"],
+        ["industry", "your industry"],
+      ] as const
+    ).filter(([field]) => !form[field].trim());
+
+    if (missing.length > 0) {
+      setStatus("error");
+      setErrorMessage(
+        missing.length === 1
+          ? `Please add ${missing[0][1]}.`
+          : "Please complete every field."
+      );
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -98,7 +126,7 @@ export default function ContentGate({
     }
 
     try {
-      localStorage.setItem(STORAGE_KEY, "true");
+      localStorage.setItem(storageKey(currentPagePath()), "true");
     } catch {
       // localStorage unavailable: unlock for this page view only
     }
@@ -177,7 +205,8 @@ export default function ContentGate({
               Unlock the full guide
             </h3>
             <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-              Tell us a bit about yourself and keep reading.
+              Tell us about yourself. You keep reading here, and a copy lands
+              in your inbox.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 text-left space-y-3">
@@ -199,19 +228,21 @@ export default function ContentGate({
                   type="text"
                   value={form.company}
                   onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  placeholder="Company"
+                  placeholder="Company *"
                   className={inputClass}
                   style={inputStyle}
                   disabled={status === "loading"}
+                  required
                 />
                 <input
                   type="text"
                   value={form.country}
                   onChange={(e) => setForm({ ...form, country: e.target.value })}
-                  placeholder="Country"
+                  placeholder="Country *"
                   className={inputClass}
                   style={inputStyle}
                   disabled={status === "loading"}
+                  required
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -221,8 +252,9 @@ export default function ContentGate({
                   className={selectClass}
                   style={{ ...inputStyle, color: form.role ? "#010f62" : "#94a3b8" }}
                   disabled={status === "loading"}
+                  required
                 >
-                  <option value="" disabled>Role</option>
+                  <option value="" disabled>Role *</option>
                   {roleOptions.map((r) => (
                     <option key={r} value={r}>{r}</option>
                   ))}
@@ -233,8 +265,9 @@ export default function ContentGate({
                   className={selectClass}
                   style={{ ...inputStyle, color: form.industry ? "#010f62" : "#94a3b8" }}
                   disabled={status === "loading"}
+                  required
                 >
-                  <option value="" disabled>Industry</option>
+                  <option value="" disabled>Industry *</option>
                   {industryOptions.map((ind) => (
                     <option key={ind} value={ind}>{ind}</option>
                   ))}

@@ -100,69 +100,99 @@ ${button(link, "Read the guide")}
   };
 }
 
-/** Fields worth reading first; everything else goes in the details table. */
-const HEADLINE_FIELDS = ["name", "company", "email", "service", "role", "industry", "country"];
+/** Shown in the qualifying line, so they never repeat in the details below. */
+const SHOWN_ABOVE = [
+  "name",
+  "company",
+  "email",
+  "service",
+  "role",
+  "industry",
+  "country",
+  "referrer",
+  "landing_page",
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+];
+
+const LABELS: Record<string, string> = {
+  "content-gate": "Content gate",
+  assessment: "Readiness assessment",
+  "contact-expert": "Talk to an expert",
+  chatbot: "Help chatbot",
+  newsletter: "Newsletter",
+};
+
+function subjectFor(form: string, data: Record<string, string>, identity: string): string {
+  switch (form) {
+    case "contact-expert":
+      return data.service
+        ? `Quote request: ${data.service} (${identity})`
+        : `New enquiry from ${identity}`;
+    case "assessment":
+      return data.percentage
+        ? `Assessment ${data.percentage}% ${data.level || ""}, ${identity}`.replace(" ,", ",")
+        : `Assessment completed by ${identity}`;
+    case "content-gate":
+      return `Guide unlocked by ${identity}`;
+    case "chatbot":
+      return `Chatbot lead: ${identity}`;
+    case "newsletter":
+      return `Newsletter signup: ${identity}`;
+    default:
+      return `New submission from ${identity}`;
+  }
+}
 
 function notificationEmail(sub: Submission): { subject: string; html: string } {
   const data = sub.data || {};
   const form = sub.form_name || "unknown";
   const email = data.email || "";
-  const domain = email.includes("@") ? email.split("@")[1] : "";
-  const freeMail = /^(gmail|hotmail|outlook|yahoo|proton|protonmail|icloud)\./.test(domain + ".");
+  const domain = email.includes("@") ? email.slice(email.lastIndexOf("@") + 1) : "";
 
-  const label: Record<string, string> = {
-    "content-gate": "Content gate",
-    assessment: "Readiness assessment",
-    "contact-expert": "Talk to an expert",
-    chatbot: "Help chatbot",
-    newsletter: "Newsletter",
-  };
-
-  const who = [data.name, data.company].filter(Boolean).join(" \u00b7 ") || email;
-
-  /**
-   * The subject has to survive a phone notification: what happened, then who.
-   * The company is the useful identifier; the email domain stands in when the
-   * form did not ask for a company, and the address itself is the last resort.
-   */
   const identity = data.company || domain || email;
-  const subject = (() => {
-    switch (form) {
-      case "contact-expert":
-        return data.service
-          ? `Quote request: ${data.service} (${identity})`
-          : `New enquiry from ${identity}`;
-      case "assessment":
-        return data.percentage
-          ? `Assessment ${data.percentage}% ${data.level || ""}, ${identity}`.replace(/ ,/, ",")
-          : `Assessment completed by ${identity}`;
-      case "content-gate":
-        return `Guide unlocked by ${identity}`;
-      case "chatbot":
-        return `Chatbot lead: ${identity}`;
-      case "newsletter":
-        return `Newsletter signup: ${identity}`;
-      default:
-        return `New submission from ${identity}`;
-    }
-  })();
+  const headline = data.name || data.company || email || "New submission";
 
-  const campaign = data.utm_source
-    ? `${data.utm_source}${data.utm_medium ? " / " + data.utm_medium : ""}${
-        data.utm_campaign ? " · " + data.utm_campaign : ""
+  // Everything that qualifies the lead on one line, in the order it gets read.
+  const qualifiers = [data.name ? data.company : "", data.country, data.industry, data.role]
+    .filter(Boolean)
+    .join(" \u00b7 ");
+
+  // Only paths and names here. Mail clients turn bare URLs into links of their
+  // own, which is how one lead ended up looking like five different links.
+  const origin = data.utm_source
+    ? `Campaign: ${[data.utm_source, data.utm_medium].filter(Boolean).join(" / ")}${
+        data.utm_campaign ? ` \u00b7 ${data.utm_campaign}` : ""
       }`
-    : data.referrer || "direct";
+    : data.referrer
+      ? `From ${data.referrer.replace(/^https?:\/\//, "").split("/")[0]}`
+      : "Direct visit";
 
-  const highlights = HEADLINE_FIELDS.filter((f) => data[f])
-    .map(
-      (f) =>
-        `<tr><td style="padding:5px 0;color:${GRAY};font-size:14px;width:110px">${f}</td>
-<td style="padding:5px 0;color:${NAVY};font-size:15px;font-weight:600">${escapeHtml(data[f])}</td></tr>`
-    )
-    .join("");
+  const score =
+    form === "assessment" && data.percentage
+      ? `<p style="margin:0 0 20px;padding:14px 16px;background:#f0f4ff;border-radius:2px;color:${NAVY}">
+<strong style="font-size:20px">${escapeHtml(data.percentage)}%</strong> ${escapeHtml(
+          data.level || ""
+        )}${data.weak_areas ? `<br><span style="font-size:14px;color:${GRAY}">weak areas: ${escapeHtml(data.weak_areas)}</span>` : ""}</p>`
+      : "";
+
+  const service = data.service
+    ? `<p style="margin:0 0 20px;padding:12px 16px;background:#f0f4ff;border-radius:2px;color:${NAVY};font-weight:600">${escapeHtml(
+        data.service
+      )}</p>`
+    : "";
+
+  const message = data.message
+    ? `<p style="margin:0 0 20px;padding:14px 16px;border-left:3px solid ${LINE};color:${NAVY}">${escapeHtml(
+        data.message
+      )}</p>`
+    : "";
 
   const rest = Object.keys(data)
-    .filter((k) => !HEADLINE_FIELDS.includes(k) && data[k] && k !== "ip" && k !== "user_agent")
+    .filter((k) => !SHOWN_ABOVE.includes(k) && data[k] && k !== "ip" && k !== "user_agent")
     .map(
       (k) =>
         `<tr><td style="padding:4px 0;color:${GRAY};font-size:13px;width:150px">${escapeHtml(k)}</td>
@@ -170,31 +200,32 @@ function notificationEmail(sub: Submission): { subject: string; html: string } {
     )
     .join("");
 
-  const score =
-    form === "assessment" && data.percentage
-      ? `<p style="margin:0 0 20px;padding:14px 16px;background:#f0f4ff;border-radius:2px;color:${NAVY}">
-<strong style="font-size:20px">${escapeHtml(data.percentage)}%</strong> &middot; ${escapeHtml(
-          data.level || ""
-        )}${data.weak_areas ? ` &middot; weak areas: ${escapeHtml(data.weak_areas)}` : ""}</p>`
-      : "";
-
   return {
-    subject,
+    subject: subjectFor(form, data, identity),
     html: shell(
-      `<p style="margin:0 0 4px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:${BLUE}">${escapeHtml(
-        label[form] || form
+      `<p style="margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:${BLUE}">${escapeHtml(
+        LABELS[form] || form
       )}</p>
-<h1 style="margin:0 0 4px;font-size:22px;line-height:1.3;color:${NAVY}">${escapeHtml(who)}</h1>
-<p style="margin:0 0 20px;font-size:14px;color:${GRAY}">${escapeHtml(campaign)}${
-        freeMail ? " &middot; personal address" : domain ? " &middot; " + escapeHtml(domain) : ""
-      }</p>
-${score}
-<table role="presentation" cellpadding="0" cellspacing="0" width="100%">${highlights}</table>
-${email ? button("mailto:" + encodeURIComponent(email), "Reply to " + escapeHtml(email)) : ""}
+<h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;color:${NAVY}">${escapeHtml(headline)}</h1>
+${
+  qualifiers
+    ? `<p style="margin:0 0 2px;font-size:15px;color:${NAVY}">${escapeHtml(qualifiers)}</p>`
+    : ""
+}
+<p style="margin:0 0 20px;font-size:13px;color:${GRAY}">${escapeHtml(origin)}</p>
+${service}${score}${message}
+${
+  email
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 8px"><tr><td style="background:${BLUE};border-radius:2px">
+<a href="mailto:${escapeHtml(email)}" style="display:inline-block;padding:13px 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none">Reply to ${escapeHtml(
+        email
+      )}</a></td></tr></table>`
+    : ""
+}
 ${
   rest
-    ? `<p style="margin:24px 0 8px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:${GRAY}">Everything else</p>
-<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid ${LINE};padding-top:8px">${rest}</table>`
+    ? `<p style="margin:24px 0 8px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:${GRAY}">Details</p>
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid ${LINE}">${rest}</table>`
     : ""
 }`
     ),
