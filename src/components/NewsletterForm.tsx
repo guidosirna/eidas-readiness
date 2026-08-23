@@ -1,17 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { submitNetlifyForm } from "@/lib/netlify-forms";
 
 interface NewsletterFormProps {
   variant: "inline" | "banner";
   headline?: string;
   description?: string;
-}
-
-function encodeFormData(data: Record<string, string>) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
 }
 
 export default function NewsletterForm({ variant, headline, description }: NewsletterFormProps) {
@@ -30,18 +25,14 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
     }
     setStatus("loading");
     try {
-      await fetch("/__forms.html", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData({
-          "form-name": "newsletter",
-          email,
-          source: "newsletter",
-        }),
+      await submitNetlifyForm("newsletter", {
+        email,
+        source: "newsletter",
       });
       setStatus("success");
       setEmail("");
-    } catch {
+    } catch (err) {
+      console.error("Newsletter submission failed:", err);
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
     }
@@ -50,13 +41,6 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
   if (variant === "banner") {
     return (
       <div className="py-12 sm:py-16">
-        {/* Hidden Netlify form */}
-        <form name="newsletter" data-netlify="true" hidden>
-          <input type="hidden" name="form-name" value="newsletter" />
-          <input name="email" />
-          <input name="source" />
-        </form>
-
         <div className="mx-auto max-w-md text-center">
           {headline && <h3 className="text-xl font-semibold sm:text-2xl" style={{ color: "#010f62" }}>{headline}</h3>}
           {description && <p className="mt-2 text-sm" style={{ color: "#62718d" }}>{description}</p>}
@@ -80,13 +64,6 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
   // Inline variant (for dark footer)
   return (
     <div className="max-w-md">
-      {/* Hidden Netlify form */}
-      <form name="newsletter" data-netlify="true" hidden>
-        <input type="hidden" name="form-name" value="newsletter" />
-        <input name="email" />
-        <input name="source" />
-      </form>
-
       {headline && <h3 className="text-base font-semibold text-white">{headline}</h3>}
       {description && <p className="text-sm text-white/60 mt-1">{description}</p>}
       {status === "success" ? (

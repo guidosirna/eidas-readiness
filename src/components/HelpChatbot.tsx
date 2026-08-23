@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { trackChatbotOpen, trackLeadSubmit } from "@/lib/analytics";
+import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 
 type Step = "initial" | "options" | "lead-form" | "submitted" | "assessment";
 
@@ -128,15 +129,15 @@ export default function HelpChatbot() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, source: "chatbot" }),
+      await submitNetlifyForm("chatbot", {
+        ...form,
+        source: "chatbot",
+        page: currentPagePath(),
       });
-      if (!res.ok) throw new Error();
       setStep("submitted");
       trackLeadSubmit("chatbot");
-    } catch {
+    } catch (err) {
+      console.error("Chatbot lead submission failed:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);

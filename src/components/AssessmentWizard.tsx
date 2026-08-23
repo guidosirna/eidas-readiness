@@ -13,6 +13,7 @@ import type {
   LeadFormData,
 } from "@/types/assessment";
 import { AREA_LABELS } from "@/types/assessment";
+import { submitNetlifyForm } from "@/lib/netlify-forms";
 
 /* ------------------------------------------------------------------ */
 /*  Scoring                                                            */
@@ -54,15 +55,6 @@ function calculateResult(answers: AssessmentAnswers): AssessmentResult {
   }));
 
   return { score, maxScore: MAX_SCORE, percentage, level, weakAreas, areaScores };
-}
-
-/* ------------------------------------------------------------------ */
-/*  Netlify Forms helper                                               */
-/* ------------------------------------------------------------------ */
-function encodeFormData(data: Record<string, string>) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
 }
 
 /* ------------------------------------------------------------------ */
@@ -526,27 +518,24 @@ export default function AssessmentWizard() {
       }
 
       try {
-        // Submit to Netlify Forms
-        await fetch("/__forms.html", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encodeFormData({
-            "form-name": "assessment",
-            name: formData.name,
-            company: formData.company,
-            email: formData.email,
-            industry: formData.industry,
-            company_size: formData.companySize,
-            score: String(assessmentResult.score),
-            percentage: String(assessmentResult.percentage),
-            level: assessmentResult.level,
-            weak_areas: assessmentResult.weakAreas.join(","),
-            ...areaScoresFlat,
-            ...answersFlat,
-          }),
+        // Submit to Netlify Forms. Deliberately non-blocking: if capture fails we
+        // still show the user their results, but the real error is logged so a
+        // misconfigured form is visible in the console instead of silently lost.
+        await submitNetlifyForm("assessment", {
+          name: formData.name,
+          company: formData.company,
+          email: formData.email,
+          industry: formData.industry,
+          company_size: formData.companySize,
+          score: String(assessmentResult.score),
+          percentage: String(assessmentResult.percentage),
+          level: assessmentResult.level,
+          weak_areas: assessmentResult.weakAreas.join(","),
+          ...areaScoresFlat,
+          ...answersFlat,
         });
-      } catch {
-        console.error("Failed to save lead");
+      } catch (err) {
+        console.error("Failed to save assessment lead:", err);
       }
 
       setResult(assessmentResult);
@@ -561,29 +550,6 @@ export default function AssessmentWizard() {
   return (
     <div>
       <div className="w-full max-w-xl card-static p-6 md:p-10">
-        {/* Hidden Netlify form for bot detection */}
-        <form name="assessment" data-netlify="true" hidden>
-          <input type="hidden" name="form-name" value="assessment" />
-          <input name="name" />
-          <input name="company" />
-          <input name="email" />
-          <input name="industry" />
-          <input name="company_size" />
-          <input name="score" />
-          <input name="percentage" />
-          <input name="level" />
-          <input name="weak_areas" />
-          <input name="area_legal" />
-          <input name="area_technical" />
-          <input name="area_security" />
-          <input name="area_organizational" />
-          <input name="area_documentation" />
-          <input name="area_integration" />
-          {questions.map((q) => (
-            <input key={q.id} name={`q${q.id}_${q.area}`} />
-          ))}
-        </form>
-
         {/* Header */}
         {step === "questions" && currentQuestion === 0 && (
           <div className="mb-10 animate-fadeIn">

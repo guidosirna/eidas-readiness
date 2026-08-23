@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 
 interface ContentGateProps {
   children: React.ReactNode;
@@ -11,12 +12,6 @@ const STORAGE_KEY = "content_unlocked";
 
 const roleOptions = ["CTO / Technical Lead", "Compliance Officer", "Product Manager", "Legal Team", "Other"];
 const industryOptions = ["Financial Services", "Healthcare", "Government", "Telecommunications", "E-Commerce", "Travel & Transport", "Other"];
-
-function encodeFormData(data: Record<string, string>) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-}
 
 export default function ContentGate({
   children,
@@ -60,28 +55,29 @@ export default function ContentGate({
     setStatus("loading");
 
     try {
-      await fetch("/__forms.html", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData({
-          "form-name": "content-gate",
-          email: form.email,
-          company: form.company,
-          role: form.role,
-          industry: form.industry,
-          country: form.country,
-          source: "content_gate",
-          page: typeof window !== "undefined" ? window.location.pathname : "",
-        }),
+      await submitNetlifyForm("content-gate", {
+        email: form.email,
+        company: form.company,
+        role: form.role,
+        industry: form.industry,
+        country: form.country,
+        source: "content_gate",
+        page: currentPagePath(),
       });
-
-      localStorage.setItem(STORAGE_KEY, "true");
-      setUnlocked(true);
-      setStatus("success");
-    } catch {
+    } catch (err) {
+      console.error("Content gate submission failed:", err);
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+      return;
     }
+
+    try {
+      localStorage.setItem(STORAGE_KEY, "true");
+    } catch {
+      // localStorage unavailable: unlock for this page view only
+    }
+    setUnlocked(true);
+    setStatus("success");
   };
 
   if (checking) {
@@ -105,17 +101,9 @@ export default function ContentGate({
 
   return (
     <div>
-      {/* Hidden Netlify form for bot detection */}
-      <form name="content-gate" data-netlify="true" hidden>
-        <input type="hidden" name="form-name" value="content-gate" />
-        <input name="email" />
-        <input name="company" />
-        <input name="role" />
-        <input name="industry" />
-        <input name="country" />
-        <input name="source" />
-        <input name="page" />
-      </form>
+      {/* This form is registered in public/__forms.html — Netlify's build-time
+          parser cannot see client-rendered markup, so declaring it here would
+          have no effect. */}
 
       {/* Preview content */}
       {previewChildren}
@@ -128,7 +116,7 @@ export default function ContentGate({
           style={{ maxHeight: "300px" }}
           aria-hidden="true"
         >
-          <div>{gatedChildren}</div>
+          <div className="gated-content">{gatedChildren}</div>
           <div
             className="absolute inset-0 pointer-events-none"
             style={{

@@ -58,6 +58,15 @@ export default function EudiwPreparationGuidePage() {
       "@type": "WebPage",
       "@id": "https://www.eidasreadiness.com/guide/eudiw-preparation",
     },
+    // Registration-wall markup: tells Google the section behind ContentGate is
+    // intentionally gated, so serving it in the DOM is not treated as cloaking.
+    // https://developers.google.com/search/docs/appearance/structured-data/paywalled-content
+    isAccessibleForFree: false,
+    hasPart: {
+      "@type": "WebPageElement",
+      isAccessibleForFree: false,
+      cssSelector: ".gated-content",
+    },
     wordCount: 2800,
     articleSection: "Compliance Guides",
     keywords: [

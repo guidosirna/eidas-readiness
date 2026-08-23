@@ -1,7 +1,14 @@
+<!--
+  GENERATED FILE — do not edit.
+  Source: src/lib/netlify-forms.schema.json
+  Regenerate: node scripts/generate-netlify-forms.mjs (runs automatically on build)
+
+  Netlify parses this file at deploy time to register forms and their fields.
+  Any field submitted but not declared here is silently discarded.
+-->
 <html>
   <head><title>Forms</title></head>
   <body>
-    <!-- Assessment form -->
     <form name="assessment" data-netlify="true" hidden>
       <input type="hidden" name="form-name" value="assessment" />
       <input name="name" />
@@ -19,19 +26,52 @@
       <input name="area_organizational" />
       <input name="area_documentation" />
       <input name="area_integration" />
+      <input name="q1_technical" />
+      <input name="q2_technical" />
+      <input name="q3_legal" />
+      <input name="q4_integration" />
+      <input name="q5_security" />
+      <input name="q6_integration" />
+      <input name="q7_integration" />
+      <input name="q8_technical" />
+      <input name="q9_organizational" />
+      <input name="q10_legal" />
+      <input name="q11_organizational" />
+      <input name="q12_documentation" />
     </form>
 
-    <!-- Newsletter form -->
     <form name="newsletter" data-netlify="true" hidden>
       <input type="hidden" name="form-name" value="newsletter" />
       <input name="email" />
       <input name="source" />
     </form>
 
-    <!-- Content gate form -->
     <form name="content-gate" data-netlify="true" hidden>
       <input type="hidden" name="form-name" value="content-gate" />
       <input name="email" />
+      <input name="company" />
+      <input name="role" />
+      <input name="industry" />
+      <input name="country" />
+      <input name="source" />
+      <input name="page" />
+    </form>
+
+    <form name="contact-expert" data-netlify="true" hidden>
+      <input type="hidden" name="form-name" value="contact-expert" />
+      <input name="name" />
+      <input name="email" />
+      <input name="company" />
+      <input name="message" />
+      <input name="page" />
+      <input name="source" />
+    </form>
+
+    <form name="chatbot" data-netlify="true" hidden>
+      <input type="hidden" name="form-name" value="chatbot" />
+      <input name="name" />
+      <input name="email" />
+      <input name="company" />
       <input name="source" />
       <input name="page" />
     </form>

@@ -2,16 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X, Send } from "lucide-react";
+import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 
 interface ContactFormModalProps {
   open: boolean;
   onClose: () => void;
-}
-
-function encodeFormData(data: Record<string, string>) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
 }
 
 export default function ContactFormModal({ open, onClose }: ContactFormModalProps) {
@@ -46,17 +41,14 @@ export default function ContactFormModal({ open, onClose }: ContactFormModalProp
     }
     setStatus("loading");
     try {
-      await fetch("/__forms.html", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData({
-          "form-name": "contact-expert",
-          ...form,
-          page: typeof window !== "undefined" ? window.location.pathname : "",
-        }),
+      await submitNetlifyForm("contact-expert", {
+        ...form,
+        source: "contact_expert",
+        page: currentPagePath(),
       });
       setStatus("success");
-    } catch {
+    } catch (err) {
+      console.error("Contact form submission failed:", err);
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
     }
@@ -66,16 +58,6 @@ export default function ContactFormModal({ open, onClose }: ContactFormModalProp
 
   return (
     <>
-      {/* Hidden Netlify form for bot detection */}
-      <form name="contact-expert" data-netlify="true" hidden>
-        <input type="hidden" name="form-name" value="contact-expert" />
-        <input name="name" />
-        <input name="email" />
-        <input name="company" />
-        <input name="message" />
-        <input name="page" />
-      </form>
-
       <div
         ref={overlayRef}
         className="fixed inset-0 z-[60] flex items-center justify-center px-4"
