@@ -274,6 +274,9 @@ export default function Header() {
               <a href="/eidas-2-compliance-checklist" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
                 Checklist
               </a>
+              <a href="/services" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+                Services
+              </a>
             </div>
 
             {/* Assessment CTA */}
@@ -369,6 +372,9 @@ export default function Header() {
               </a>
               <a href="/eidas-2-compliance-checklist" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
                 Checklist
+              </a>
+              <a href="/services" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+                Services
               </a>
             </div>
 

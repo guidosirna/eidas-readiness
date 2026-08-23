@@ -5,6 +5,7 @@ const assessmentLinks = [
   { href: "/assessment", label: "eIDAS 2.0 Readiness Assessment" },
   { href: "/eidas-2-compliance-checklist", label: "eIDAS 2.0 Compliance Checklist" },
   { href: "/eidas-2-timeline", label: "eIDAS 2.0 Timeline & Key Dates" },
+  { href: "/services", label: "Consulting Services" },
 ];
 
 const industryLinks = [
