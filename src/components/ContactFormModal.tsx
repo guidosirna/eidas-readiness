@@ -3,17 +3,30 @@
 import { useState, useEffect, useRef } from "react";
 import { X, Send } from "lucide-react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
+import { trackLeadSubmit } from "@/lib/analytics";
 
 interface ContactFormModalProps {
   open: boolean;
   onClose: () => void;
+  /** Name of the engagement the enquiry came from, recorded with the lead. */
+  service?: string;
 }
 
-export default function ContactFormModal({ open, onClose }: ContactFormModalProps) {
+export default function ContactFormModal({ open, onClose, service }: ContactFormModalProps) {
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  // The modal stays mounted between openings, so a previous success screen would
+  // greet the next enquiry. Reset whenever it opens, or when it reopens for a
+  // different engagement.
+  useEffect(() => {
+    if (!open) return;
+    setForm({ name: "", email: "", company: "", message: "" });
+    setStatus("idle");
+    setErrorMessage("");
+  }, [open, service]);
 
   useEffect(() => {
     if (open) {
@@ -44,9 +57,11 @@ export default function ContactFormModal({ open, onClose }: ContactFormModalProp
       await submitNetlifyForm("contact-expert", {
         ...form,
         source: "contact_expert",
+        service: service ?? "",
         page: currentPagePath(),
       });
       setStatus("success");
+      trackLeadSubmit("contact_expert", service);
     } catch (err) {
       console.error("Contact form submission failed:", err);
       setStatus("error");
@@ -100,11 +115,21 @@ export default function ContactFormModal({ open, onClose }: ContactFormModalProp
               </div>
             ) : (
               <>
+                {service && (
+                  <p
+                    className="mb-2 text-sm font-semibold uppercase tracking-wide"
+                    style={{ color: "#0033ff" }}
+                  >
+                    {service}
+                  </p>
+                )}
                 <h3 className="text-xl font-display font-semibold sm:text-2xl" style={{ color: "#010f62" }}>
                   Talk to an expert
                 </h3>
                 <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-                  Leave your details and our eIDAS 2.0 specialists will reach out.
+                  {service
+                    ? "Leave your details and we will come back with scope, timing, and a quote."
+                    : "Leave your details and our eIDAS 2.0 specialists will reach out."}
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
