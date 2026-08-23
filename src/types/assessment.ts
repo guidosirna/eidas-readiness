@@ -58,11 +58,3 @@ export interface LeadFormData {
   companySize: string;
 }
 
-export interface LeadPayload extends Partial<LeadFormData> {
-  email: string;
-  source: "checker" | "landing" | "content_gate" | "newsletter";
-  assessment_score?: number | null;
-  assessment_level?: AssessmentLevel | null;
-  assessment_answers?: Record<string, number> | null;
-  area_scores?: Record<string, number> | null;
-}
