@@ -2,6 +2,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
+import {
+  trackGateView,
+  trackGateUnlock,
+  trackGuideView,
+  trackLeadSubmit,
+} from "@/lib/analytics";
 
 interface ContentGateProps {
   children: React.ReactNode;
@@ -25,13 +31,21 @@ export default function ContentGate({
   const gateRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const page = currentPagePath();
+    trackGuideView(page);
+
+    let alreadyUnlocked = false;
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "true") {
-        setUnlocked(true);
-      }
+      alreadyUnlocked = localStorage.getItem(STORAGE_KEY) === "true";
     } catch {
       // localStorage unavailable
+    }
+
+    if (alreadyUnlocked) {
+      setUnlocked(true);
+      trackGateUnlock(page, "returning");
+    } else {
+      trackGateView(page);
     }
     setChecking(false);
   }, []);
@@ -78,6 +92,8 @@ export default function ContentGate({
     }
     setUnlocked(true);
     setStatus("success");
+    trackLeadSubmit("content_gate", currentPagePath());
+    trackGateUnlock(currentPagePath(), "form");
   };
 
   if (checking) {

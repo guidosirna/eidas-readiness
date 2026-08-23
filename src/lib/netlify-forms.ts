@@ -9,10 +9,18 @@
  * To add a field: add it to the schema. Nothing else declares fields.
  */
 import schema from "./netlify-forms.schema.json";
+import { getAttribution } from "./attribution";
 
-export type NetlifyFormName = keyof typeof schema;
+/** "_common" holds the attribution fields every form carries; it is not a form. */
+export type NetlifyFormName = Exclude<keyof typeof schema, "_common">;
 
-const declaredFields: Record<string, readonly string[]> = schema;
+const { _common: commonFields, ...formSchemas } = schema;
+const declaredFields: Record<string, readonly string[]> = Object.fromEntries(
+  Object.entries(formSchemas).map(([name, fields]) => [
+    name,
+    [...fields, ...commonFields],
+  ])
+);
 
 function encodeFormData(data: Record<string, string>) {
   return Object.keys(data)
@@ -46,12 +54,14 @@ export async function submitNetlifyForm(
   formName: NetlifyFormName,
   data: Record<string, string>
 ): Promise<void> {
-  warnUndeclaredFields(formName, data);
+  // Attribution rides along on every submission, so no caller can forget it.
+  const payload = { ...data, ...getAttribution() };
+  warnUndeclaredFields(formName, payload);
 
   const res = await fetch("/__forms.html", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: encodeFormData({ "form-name": formName, ...data }),
+    body: encodeFormData({ "form-name": formName, ...payload }),
   });
 
   if (res.ok) return;

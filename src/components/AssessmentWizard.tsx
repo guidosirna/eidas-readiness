@@ -13,7 +13,7 @@ import type {
   LeadFormData,
 } from "@/types/assessment";
 import { AREA_LABELS } from "@/types/assessment";
-import { submitNetlifyForm } from "@/lib/netlify-forms";
+import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 
 /* ------------------------------------------------------------------ */
 /*  Scoring                                                            */
@@ -522,6 +522,8 @@ export default function AssessmentWizard() {
         // still show the user their results, but the real error is logged so a
         // misconfigured form is visible in the console instead of silently lost.
         await submitNetlifyForm("assessment", {
+          source: "assessment",
+          page: currentPagePath(),
           name: formData.name,
           company: formData.company,
           email: formData.email,

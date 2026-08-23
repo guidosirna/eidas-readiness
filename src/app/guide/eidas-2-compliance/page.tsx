@@ -5,8 +5,8 @@ import CtaBlock from "@/components/CtaBlock";
 import ContentGate from "@/components/ContentGate";
 import SidebarLayout from "@/components/SidebarLayout";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import RelatedResources from "@/components/RelatedResources";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Compliance Guide: What You Need to Know",
@@ -1296,25 +1296,16 @@ export default function EidasComplianceGuidePage() {
 
           {/* Related Resources */}
           <div className="mt-16 -mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-            <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
-            <div className="space-y-1.5">
-              {[
+          <RelatedResources
+            resources={[
                 { href: "/guide/eudiw-preparation", label: "EUDIW Preparation Guide", desc: "Technical roadmap for wallet integration." },
                 { href: "/eidas-2-timeline", label: "eIDAS 2.0 Timeline", desc: "Key dates and enforcement milestones." },
                 { href: "/eidas-2-compliance-checklist", label: "eIDAS 2.0 Compliance Checklist", desc: "Track your compliance progress step by step." },
                 { href: "/assessment", label: "Readiness Assessment", desc: "Get a personalised score and action plan." },
                 { href: "/faq", label: "FAQ", desc: "Answers to common eIDAS 2.0 questions." },
                 { href: "/glossary", label: "Glossary", desc: "Definitions for eIDAS 2.0 key terms." },
-              ].map((link) => (
-                <Link key={link.href} href={link.href} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>
-                  <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
-                  <div className="min-w-0">
-                    <h3 className="text-sm font-semibold" style={{ color: "#010f62" }}>{link.label}</h3>
-                    <p className="text-sm line-clamp-1 mt-0.5" style={{ color: "#62718d" }}>{link.desc}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            ]}
+          />
           </div>
 
           {/* CTA */}

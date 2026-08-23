@@ -4,8 +4,9 @@ import TimelineVisual from "@/components/TimelineVisual";
 import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import RelatedResources from "@/components/RelatedResources";
 import SidebarLayout from "@/components/SidebarLayout";
-import { BookOpen, Smartphone, ClipboardCheck, ListChecks, BookA, CreditCard, Landmark, Wifi, ChevronRight } from "lucide-react";
+import { BookOpen, Smartphone, ClipboardCheck, ListChecks, BookA, CreditCard, Landmark, Wifi } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Timeline & Key Deadlines",
@@ -245,49 +246,35 @@ export default function EidasTimelinePage() {
 
             {/* Related Resources — light blue style */}
             <div id="related-resources" className="-mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-              <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>Related resources</p>
-              <div className="space-y-1.5">
-                {[
-                  {
-                    href: "/guide/eidas-2-compliance",
-                    label: "eIDAS 2.0 Compliance Guide",
-                    desc: "Step-by-step roadmap to meet every regulatory requirement.",
-                  },
-                  {
-                    href: "/assessment",
-                    label: "Readiness Assessment",
-                    desc: "Find out where your organisation stands today.",
-                  },
-                  {
-                    href: "/eidas-2-compliance-checklist",
-                    label: "Compliance Checklist",
-                    desc: "A hands-on checklist to track your progress.",
-                  },
-                  {
-                    href: "/glossary/eudiw",
-                    label: "EUDIW (European Digital Identity Wallet)",
-                    desc: "What the wallet is and how it works.",
-                  },
-                  {
-                    href: "/glossary/arf",
-                    label: "ARF (Architecture Reference Framework)",
-                    desc: "The technical blueprint behind the wallet ecosystem.",
-                  },
-                ].map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60"
-                    style={{ borderRadius: "2px" }}
-                  >
-                    <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-semibold" style={{ color: "#010f62" }}>{link.label}</h3>
-                      <p className="text-sm line-clamp-1 mt-0.5" style={{ color: "#62718d" }}>{link.desc}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+          <RelatedResources
+            resources={[
+              {
+                href: "/guide/eidas-2-compliance",
+                label: "eIDAS 2.0 Compliance Guide",
+                desc: "Step-by-step roadmap to meet every regulatory requirement.",
+              },
+              {
+                href: "/assessment",
+                label: "Readiness Assessment",
+                desc: "Find out where your organisation stands today.",
+              },
+              {
+                href: "/eidas-2-compliance-checklist",
+                label: "Compliance Checklist",
+                desc: "A hands-on checklist to track your progress.",
+              },
+              {
+                href: "/glossary/eudiw",
+                label: "EUDIW (European Digital Identity Wallet)",
+                desc: "What the wallet is and how it works.",
+              },
+              {
+                href: "/glossary/arf",
+                label: "ARF (Architecture Reference Framework)",
+                desc: "The technical blueprint behind the wallet ecosystem.",
+              },
+            ]}
+          />
             </div>
           </div>
         </SidebarLayout>

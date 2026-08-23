@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { submitNetlifyForm } from "@/lib/netlify-forms";
+import { trackLeadSubmit } from "@/lib/analytics";
 
 interface NewsletterFormProps {
   variant: "inline" | "banner";
@@ -31,6 +32,7 @@ export default function NewsletterForm({ variant, headline, description }: Newsl
       });
       setStatus("success");
       setEmail("");
+      trackLeadSubmit("newsletter", variant);
     } catch (err) {
       console.error("Newsletter submission failed:", err);
       setStatus("error");

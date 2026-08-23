@@ -1,15 +1,71 @@
 {
-  "assessment": [
-    "name", "company", "email", "industry", "company_size",
-    "score", "percentage", "level", "weak_areas",
-    "area_legal", "area_technical", "area_security",
-    "area_organizational", "area_documentation", "area_integration",
-    "q1_technical", "q2_technical", "q3_legal", "q4_integration",
-    "q5_security", "q6_integration", "q7_integration", "q8_technical",
-    "q9_organizational", "q10_legal", "q11_organizational", "q12_documentation"
+  "_common": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+    "referrer",
+    "landing_page"
   ],
-  "newsletter": ["email", "source"],
-  "content-gate": ["email", "company", "role", "industry", "country", "source", "page"],
-  "contact-expert": ["name", "email", "company", "message", "page", "source"],
-  "chatbot": ["name", "email", "company", "source", "page"]
+  "assessment": [
+    "name",
+    "company",
+    "email",
+    "industry",
+    "company_size",
+    "score",
+    "percentage",
+    "level",
+    "weak_areas",
+    "area_legal",
+    "area_technical",
+    "area_security",
+    "area_organizational",
+    "area_documentation",
+    "area_integration",
+    "q1_technical",
+    "q2_technical",
+    "q3_legal",
+    "q4_integration",
+    "q5_security",
+    "q6_integration",
+    "q7_integration",
+    "q8_technical",
+    "q9_organizational",
+    "q10_legal",
+    "q11_organizational",
+    "q12_documentation",
+    "source",
+    "page"
+  ],
+  "newsletter": [
+    "email",
+    "source"
+  ],
+  "content-gate": [
+    "email",
+    "company",
+    "role",
+    "industry",
+    "country",
+    "source",
+    "page"
+  ],
+  "contact-expert": [
+    "name",
+    "email",
+    "company",
+    "message",
+    "page",
+    "source",
+    "service"
+  ],
+  "chatbot": [
+    "name",
+    "email",
+    "company",
+    "source",
+    "page"
+  ]
 }

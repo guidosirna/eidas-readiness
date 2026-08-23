@@ -41,8 +41,18 @@ export function trackChecklistProgress(completed: number, total: number) {
   trackEvent("checklist_progress", "engagement", `${completed}/${total}`, completed);
 }
 
-export function trackLeadSubmit(source: string) {
-  trackEvent("lead_submit", "conversion", source);
+export function trackLeadSubmit(source: string, detail?: string) {
+  trackEvent("lead_submit", "conversion", detail ? `${source}: ${detail}` : source);
+}
+
+/** Gate rendered: the denominator for the readwall conversion rate. */
+export function trackGateView(page: string) {
+  trackEvent("content_gate_view", "engagement", page);
+}
+
+/** Gate cleared, whether by submitting the form or by a stored unlock. */
+export function trackGateUnlock(page: string, method: "form" | "returning") {
+  trackEvent("content_gate_unlock", "conversion", `${page} (${method})`);
 }
 
 export function trackChatbotOpen() {

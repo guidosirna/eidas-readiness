@@ -1,4 +1,7 @@
+"use client";
+
 import { ArrowUpRight } from "lucide-react";
+import { trackCtaClick } from "@/lib/analytics";
 
 interface CtaBlockProps {
   headline: string;
@@ -22,7 +25,7 @@ export default function CtaBlock({
           <p className="text-base font-semibold truncate" style={{ color: "#010f62" }}>{headline}</p>
           <p className="text-sm truncate" style={{ color: "#62718d" }}>{description}</p>
         </div>
-        <a href={buttonHref} className="shrink-0 btn-primary">
+        <a href={buttonHref} className="shrink-0 btn-primary" onClick={() => trackCtaClick(`${headline} → ${buttonText}`)}>
           {buttonText} <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
@@ -36,6 +39,7 @@ export default function CtaBlock({
       <div className="relative mt-8">
         <a
           href={buttonHref}
+          onClick={() => trackCtaClick(`${headline} → ${buttonText}`)}
           className="inline-flex items-center gap-2 bg-white font-semibold transition-colors hover:bg-gray-100"
           style={{ color: "#010f62", padding: "12px 28px", borderRadius: "2px", fontSize: "16px" }}
         >

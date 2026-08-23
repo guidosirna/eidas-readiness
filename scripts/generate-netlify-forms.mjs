@@ -18,11 +18,15 @@ const outPath = join(root, "public/__forms.html");
 
 const schema = JSON.parse(readFileSync(schemaPath, "utf8"));
 
-const forms = Object.entries(schema)
+// "_common" is not a form: its fields (campaign attribution) are appended to
+// every form, because submitNetlifyForm attaches them to every submission.
+const { _common: common = [], ...formSchemas } = schema;
+
+const forms = Object.entries(formSchemas)
   .map(([name, fields]) => {
     const inputs = [
       `      <input type="hidden" name="form-name" value="${name}" />`,
-      ...fields.map((f) => `      <input name="${f}" />`),
+      ...[...fields, ...common].map((f) => `      <input name="${f}" />`),
     ].join("\n");
     return `    <form name="${name}" data-netlify="true" hidden>\n${inputs}\n    </form>`;
   })
@@ -47,7 +51,12 @@ ${forms}
 `
 );
 
-const total = Object.values(schema).reduce((n, f) => n + f.length, 0);
+const formCount = Object.keys(formSchemas).length;
+const total = Object.values(formSchemas).reduce(
+  (n, f) => n + f.length + common.length,
+  0
+);
 console.log(
-  `Generated public/__forms.html: ${Object.keys(schema).length} forms, ${total} fields.`
+  `Generated public/__forms.html: ${formCount} forms, ${total} fields ` +
+    `(${common.length} attribution fields on each).`
 );
