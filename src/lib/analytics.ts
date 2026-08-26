@@ -29,6 +29,20 @@ export function trackAssessmentComplete(score: number) {
   trackEvent("assessment_complete", "engagement", "Completed assessment", score);
 }
 
+/**
+ * Fires once per question the user answers (1-indexed). This is the per-step
+ * signal GA4 Funnel Exploration needs to compute where people drop off; there
+ * is deliberately no separate abandonment event.
+ */
+export function trackAssessmentStep(questionNumber: number) {
+  trackEvent(
+    "assessment_step",
+    "engagement",
+    `Question ${questionNumber}`,
+    questionNumber
+  );
+}
+
 export function trackChecklistToggle(itemId: number, checked: boolean) {
   trackEvent(
     checked ? "checklist_check" : "checklist_uncheck",
