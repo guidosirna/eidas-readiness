@@ -8,6 +8,7 @@ import {
   trackGateUnlock,
   trackGuideView,
   trackLeadSubmit,
+  trackLeadEnriched,
 } from "@/lib/analytics";
 
 interface ContentGateProps {
@@ -23,6 +24,12 @@ interface ContentGateProps {
  */
 const storageKey = (page: string) => `content_unlocked:${page}`;
 const LEGACY_KEY = "content_unlocked";
+/**
+ * The address given on step one, kept so that whoever leaves between the two
+ * steps comes back to the second and is not asked for it again. It is already
+ * a lead by then; asking twice would only lose it.
+ */
+const EMAIL_KEY = "content_gate_email";
 
 const roleOptions = ["CTO / Technical Lead", "Compliance Officer", "Product Manager", "Legal Team", "Other"];
 const industryOptions = ["Financial Services", "Healthcare", "Government", "Telecommunications", "E-Commerce", "Travel & Transport", "Other"];
@@ -33,7 +40,8 @@ export default function ContentGate({
 }: ContentGateProps) {
   const [unlocked, setUnlocked] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [form, setForm] = useState({ email: "", company: "", role: "", industry: "", country: "" });
+  const [step, setStep] = useState<1 | 2>(1);
+  const [form, setForm] = useState({ email: "", company: "", role: "", industry: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const gateRef = useRef<HTMLDivElement>(null);
@@ -43,10 +51,12 @@ export default function ContentGate({
     trackGuideView(page);
 
     let alreadyUnlocked = false;
+    let storedEmail = "";
     try {
       alreadyUnlocked =
         localStorage.getItem(storageKey(page)) === "true" ||
         localStorage.getItem(LEGACY_KEY) === "true";
+      storedEmail = localStorage.getItem(EMAIL_KEY) || "";
     } catch {
       // localStorage unavailable
     }
@@ -68,6 +78,10 @@ export default function ContentGate({
       setUnlocked(true);
       trackGateUnlock(page, "returning");
     } else {
+      if (storedEmail) {
+        setForm((f) => ({ ...f, email: storedEmail }));
+        setStep(2);
+      }
       trackGateView(page);
     }
     setChecking(false);
@@ -77,20 +91,57 @@ export default function ContentGate({
   const previewChildren = childArray.slice(0, previewSections);
   const gatedChildren = childArray.slice(previewSections);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  /**
+   * Step one: the email, and nothing else. It is submitted and stored here, on
+   * its own, because a lead only written once the second step is finished is a
+   * lead lost every time somebody stops at the first. The guide stays shut.
+   */
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const check = checkWorkEmail(form.email);
+    const check = checkWorkEmail(form.email, "content_gate");
     if (!check.ok) {
       setStatus("error");
       setErrorMessage(check.message);
       return;
     }
 
+    setStatus("loading");
+
+    try {
+      await submitNetlifyForm("content-gate", {
+        email: form.email,
+        source: "content_gate",
+        page: currentPagePath(),
+      });
+    } catch (err) {
+      console.error("Content gate submission failed:", err);
+      setStatus("error");
+      setErrorMessage("Something went wrong. Please try again.");
+      return;
+    }
+
+    try {
+      localStorage.setItem(EMAIL_KEY, form.email);
+    } catch {
+      // localStorage unavailable: leaving now means starting over
+    }
+
+    trackLeadSubmit("content_gate", currentPagePath());
+    setStatus("idle");
+    setStep(2);
+  };
+
+  /**
+   * Step two: a second submission, keyed by the same address. This is the one
+   * that opens the guide.
+   */
+  const handleProfileSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     const missing = (
       [
         ["company", "your company"],
-        ["country", "your country"],
         ["role", "your role"],
         ["industry", "your industry"],
       ] as const
@@ -109,17 +160,16 @@ export default function ContentGate({
     setStatus("loading");
 
     try {
-      await submitNetlifyForm("content-gate", {
+      await submitNetlifyForm("content-gate-profile", {
         email: form.email,
         company: form.company,
         role: form.role,
         industry: form.industry,
-        country: form.country,
-        source: "content_gate",
+        source: "content_gate_profile",
         page: currentPagePath(),
       });
     } catch (err) {
-      console.error("Content gate submission failed:", err);
+      console.error("Content gate profile submission failed:", err);
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
       return;
@@ -132,7 +182,7 @@ export default function ContentGate({
     }
     setUnlocked(true);
     setStatus("success");
-    trackLeadSubmit("content_gate", currentPagePath());
+    trackLeadEnriched("content_gate", currentPagePath());
     trackGateUnlock(currentPagePath(), "form");
   };
 
@@ -157,8 +207,8 @@ export default function ContentGate({
 
   return (
     <div>
-      {/* This form is registered in public/__forms.html, Netlify's build-time
-          parser cannot see client-rendered markup, so declaring it here would
+      {/* Both forms are registered in public/__forms.html, Netlify's build-time
+          parser cannot see client-rendered markup, so declaring them here would
           have no effect. */}
 
       {/* Preview content */}
@@ -205,83 +255,97 @@ export default function ContentGate({
               Unlock the full guide
             </h3>
             <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-              Tell us about yourself. You keep reading here, and a copy lands
-              in your inbox.
+              {step === 1
+                ? "Tell us about yourself. You keep reading here, and a copy lands in your inbox."
+                : "Last step. Then the guide opens here and a copy lands in your inbox."}
+            </p>
+            <p className="mt-2 text-sm" style={{ color: "#62718d" }}>
+              Step {step} of 2
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 text-left space-y-3">
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => {
-                  setForm({ ...form, email: e.target.value });
-                  if (status === "error") setStatus("idle");
-                }}
-                placeholder="Work email *"
-                className={inputClass}
-                style={inputStyle}
-                disabled={status === "loading"}
-                required
-              />
-              <div className="grid grid-cols-2 gap-3">
+            {step === 1 ? (
+              <form onSubmit={handleEmailSubmit} className="mt-6 text-left space-y-3">
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => {
+                    setForm({ ...form, email: e.target.value });
+                    if (status === "error") setStatus("idle");
+                  }}
+                  placeholder="Work email *"
+                  className={inputClass}
+                  style={inputStyle}
+                  disabled={status === "loading"}
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
+                  style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
+                >
+                  {status === "loading" ? "One moment..." : "Continue"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleProfileSubmit} className="mt-6 text-left space-y-3">
                 <input
                   type="text"
                   value={form.company}
-                  onChange={(e) => setForm({ ...form, company: e.target.value })}
+                  onChange={(e) => {
+                    setForm({ ...form, company: e.target.value });
+                    if (status === "error") setStatus("idle");
+                  }}
                   placeholder="Company *"
                   className={inputClass}
                   style={inputStyle}
                   disabled={status === "loading"}
                   required
                 />
-                <input
-                  type="text"
-                  value={form.country}
-                  onChange={(e) => setForm({ ...form, country: e.target.value })}
-                  placeholder="Country *"
-                  className={inputClass}
-                  style={inputStyle}
+                <div className="grid grid-cols-2 gap-3">
+                  <select
+                    value={form.role}
+                    onChange={(e) => {
+                      setForm({ ...form, role: e.target.value });
+                      if (status === "error") setStatus("idle");
+                    }}
+                    className={selectClass}
+                    style={{ ...inputStyle, color: form.role ? "#010f62" : "#94a3b8" }}
+                    disabled={status === "loading"}
+                    required
+                  >
+                    <option value="" disabled>Role *</option>
+                    {roleOptions.map((r) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={form.industry}
+                    onChange={(e) => {
+                      setForm({ ...form, industry: e.target.value });
+                      if (status === "error") setStatus("idle");
+                    }}
+                    className={selectClass}
+                    style={{ ...inputStyle, color: form.industry ? "#010f62" : "#94a3b8" }}
+                    disabled={status === "loading"}
+                    required
+                  >
+                    <option value="" disabled>Industry *</option>
+                    {industryOptions.map((ind) => (
+                      <option key={ind} value={ind}>{ind}</option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="submit"
                   disabled={status === "loading"}
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <select
-                  value={form.role}
-                  onChange={(e) => setForm({ ...form, role: e.target.value })}
-                  className={selectClass}
-                  style={{ ...inputStyle, color: form.role ? "#010f62" : "#94a3b8" }}
-                  disabled={status === "loading"}
-                  required
+                  className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
+                  style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
                 >
-                  <option value="" disabled>Role *</option>
-                  {roleOptions.map((r) => (
-                    <option key={r} value={r}>{r}</option>
-                  ))}
-                </select>
-                <select
-                  value={form.industry}
-                  onChange={(e) => setForm({ ...form, industry: e.target.value })}
-                  className={selectClass}
-                  style={{ ...inputStyle, color: form.industry ? "#010f62" : "#94a3b8" }}
-                  disabled={status === "loading"}
-                  required
-                >
-                  <option value="" disabled>Industry *</option>
-                  {industryOptions.map((ind) => (
-                    <option key={ind} value={ind}>{ind}</option>
-                  ))}
-                </select>
-              </div>
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
-                style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
-              >
-                {status === "loading" ? "Unlocking..." : "Get Full Access"}
-              </button>
-            </form>
+                  {status === "loading" ? "Unlocking..." : "Open the guide"}
+                </button>
+              </form>
+            )}
 
             {status === "error" && (
               <p className="mt-3 text-sm text-red-500">{errorMessage}</p>
