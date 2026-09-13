@@ -9,6 +9,7 @@
  * determined visitor can register a domain in a minute. It removes the casual
  * throwaway, which is most of what gets typed into a gate.
  */
+import { trackEmailRejected } from "@/lib/analytics";
 
 /** Consumer mailbox providers. Common enough to be worth naming individually. */
 const FREE_PROVIDERS = new Set([
@@ -133,7 +134,13 @@ export type EmailCheck = { ok: true } | { ok: false; message: string };
 
 const SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function checkWorkEmail(value: string): EmailCheck {
+/**
+ * `source` names the form for analytics. The reporting lives in here rather
+ * than in each caller because a rejection left no trace at all until now, and
+ * three forms call this: a fourth would be added without it and nobody would
+ * notice, which is the same silence this is meant to end.
+ */
+export function checkWorkEmail(value: string, source: string): EmailCheck {
   const email = value.trim().toLowerCase();
 
   if (!SHAPE.test(email)) {
@@ -142,20 +149,17 @@ export function checkWorkEmail(value: string): EmailCheck {
 
   const domain = email.slice(email.lastIndexOf("@") + 1);
 
-  if (FREE_PROVIDERS.has(domain)) {
-    return {
-      ok: false,
-      message: "Please use your work email address.",
-    };
-  }
+  const reject = (): EmailCheck => {
+    trackEmailRejected(source, domain);
+    // Same message for consumer and throwaway addresses: naming the reason
+    // only explains how to get around it.
+    return { ok: false, message: "Please use your work email address." };
+  };
 
-  // Same message for throwaway addresses: naming the reason only explains how
-  // to get around it.
+  if (FREE_PROVIDERS.has(domain)) return reject();
+
   if (DISPOSABLE.has(domain) || DISPOSABLE_PATTERNS.some((p) => p.test(domain))) {
-    return {
-      ok: false,
-      message: "Please use your work email address.",
-    };
+    return reject();
   }
 
   return { ok: true };
