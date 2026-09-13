@@ -48,7 +48,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const check = checkWorkEmail(form.email);
+    const check = checkWorkEmail(form.email, "contact_expert");
     if (!check.ok) {
       setStatus("error");
       setErrorMessage(check.message);
