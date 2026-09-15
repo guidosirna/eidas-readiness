@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { questions, MAX_SCORE } from "@/lib/questions";
-import { trackAssessmentStart, trackAssessmentComplete, trackLeadSubmit } from "@/lib/analytics";
+import { trackAssessmentStart, trackAssessmentStep, trackAssessmentComplete, trackLeadSubmit } from "@/lib/analytics";
 import type {
   AssessmentAnswers,
   AssessmentResult,
@@ -478,6 +478,9 @@ export default function AssessmentWizard() {
       if (currentQuestion === 0 && Object.keys(answers).length === 0) {
         trackAssessmentStart();
       }
+      // One step event per answered question (1-indexed) so GA4 Funnel
+      // Exploration can chart drop-off across the 12 questions.
+      trackAssessmentStep(currentQuestion + 1);
       const updated = { ...answers, [questionId]: points };
       setAnswers(updated);
 
