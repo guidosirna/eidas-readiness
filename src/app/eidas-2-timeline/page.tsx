@@ -165,9 +165,6 @@ export default function EidasTimelinePage() {
             from the original Commission proposal to the mandatory wallet
             rollout across all EU member states.
           </p>
-          <div className="mt-8 max-w-4xl">
-            <DeadlineCountdown />
-          </div>
         </div>
       </section>
 
@@ -180,6 +177,8 @@ export default function EidasTimelinePage() {
           { id: "related-resources", label: "Related Resources" },
         ]}>
           <div className="space-y-12">
+            <DeadlineCountdown />
+
             {/* Overview */}
             <div id="overview">
               <h2 className="text-2xl sm:text-3xl mb-4">Overview</h2>
