@@ -33,13 +33,21 @@ export function generateMetadata({ params }: PageProps): Metadata {
     return { title: "Term Not Found | eIDAS 2.0 Glossary" };
   }
 
+  // The glossary template is right for the long tail and wrong for the few
+  // terms that compete on real volume, so those carry their own.
+  const title = term.metaTitle ?? `${term.term} | eIDAS 2.0 Glossary`;
+  const description = term.metaDescription ?? term.shortDefinition;
+
   return {
-    title: `${term.term} | eIDAS 2.0 Glossary`,
-    description: term.shortDefinition,
+    // absolute: the root layout appends "| eIDAS 2.0 Readiness", which pushes
+    // an override past the ~60 characters Google shows. A term on the default
+    // template is short enough to keep the suffix.
+    title: term.metaTitle ? { absolute: term.metaTitle } : title,
+    description,
     alternates: { canonical: `/glossary/${term.slug}` },
     openGraph: {
-      title: `${term.term} | eIDAS 2.0 Glossary`,
-      description: term.shortDefinition,
+      title,
+      description,
       type: "website",
       url: `/glossary/${term.slug}`,
     },

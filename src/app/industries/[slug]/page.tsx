@@ -82,7 +82,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const industry = getIndustryBySlug(params.slug);
   if (!industry) return { title: "Industry Not Found" };
   return {
-    title: industry.metaTitle,
+    // absolute: the root layout appends "| eIDAS 2.0 Readiness", and these
+    // titles already carry the sector and the date, which is what earns the click.
+    title: { absolute: industry.metaTitle },
     description: industry.metaDescription,
     alternates: { canonical: `/industries/${industry.slug}` },
     openGraph: {
