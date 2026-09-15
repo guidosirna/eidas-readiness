@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import TimelineVisual from "@/components/TimelineVisual";
 import JsonLd from "@/components/JsonLd";
+import DeadlineCountdown from "@/components/DeadlineCountdown";
+import { industries } from "@/lib/industries-data";
+import { roles } from "@/lib/roles-data";
+import { getTermBySlug } from "@/lib/glossary-data";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedResources from "@/components/RelatedResources";
@@ -9,18 +13,47 @@ import SidebarLayout from "@/components/SidebarLayout";
 import { BookOpen, Smartphone, ClipboardCheck, ListChecks, BookA, CreditCard, Landmark, Wifi } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "eIDAS 2.0 Timeline & Key Deadlines",
+  // Evergreen on purpose: a title carrying "2026" or an exact date reads as
+  // stale the day after it passes, and nobody remembers to come back for it.
+  // The urgency belongs to DeadlineCountdown, which recomputes in the browser
+  // and is therefore never wrong.
+  title: { absolute: "eIDAS 2.0 Timeline: Key Dates and the Wallet Deadline" },
   description:
-    "eIDAS 2.0 timeline: key dates from adoption through 2026-2027 wallet rollout and mandatory acceptance by regulated sectors.",
+    "Every eIDAS 2.0 date, from the 2021 proposal to the deadline for member states to offer a wallet, and mandatory acceptance by regulated sectors after it. With a live countdown.",
   alternates: { canonical: "/eidas-2-timeline" },
   openGraph: {
-    title: "eIDAS 2.0 Timeline & Key Deadlines",
+    title: "eIDAS 2.0 Timeline: Key Dates and the Wallet Deadline",
     description:
-      "eIDAS 2.0 timeline: key dates from adoption through 2026-2027 wallet rollout and mandatory acceptance.",
+      "Every eIDAS 2.0 date, from the 2021 proposal to the wallet deadline and mandatory acceptance after it.",
     type: "article",
     url: "/eidas-2-timeline",
   },
 };
+
+
+// Google has 31 of this site's 59 URLs indexed and 47 "discovered, currently
+// not indexed", which is almost exactly the leaf pages. A leaf stays out of
+// the index when nothing links to it from a page the crawler visits often,
+// and this
+// page is the one it visits most: 48% of the site's search clicks. So the
+// block below is a route in, and it is contextual on purpose, since every
+// sector and role here carries an obligation the timeline dates.
+// "European Digital Identity Wallet (EUDIW)" is the right label on its own
+// page and far too long in a row of inline links, so take the abbreviation
+// where the term declares one.
+function shortLabel(term: string): string {
+  // Leading form first: "mdoc (ISO 18013-5)" is known as mdoc, and taking the
+  // parenthesis would label it with the standard number instead.
+  const lead = term.match(/^([A-Za-z0-9-]{2,12})\s*\(/);
+  if (lead) return lead[1];
+  const abbr = term.match(/\(([^)]{2,12})\)\s*$/);
+  return abbr ? abbr[1] : term;
+}
+
+const TIMELINE_TERMS = [
+  "eudiw", "arf", "pid", "qeaa", "eaa", "relying-party",
+  "trust-framework", "openid4vc", "sd-jwt", "mdoc", "lsp", "qtsp",
+];
 
 const timelineEvents = [
   {
@@ -66,10 +99,10 @@ const timelineEvents = [
     status: "past" as const,
   },
   {
-    date: "Q2 2025",
-    title: "Implementing Acts Publication",
+    date: "December 2024",
+    title: "First Implementing Acts Enter into Force",
     description:
-      "The European Commission published key implementing acts defining the technical standards, certification schemes, and operational requirements for wallets and trust services.",
+      "Implementing Regulations (EU) 2024/2977 to 2024/2982, adopted on 28 November 2024, were published on 4 December and entered into force on 24 December 2024. They define person identification data, attestation formats, wallet certification and relying party registration. They also start the 24-month clock in Article 5a(1) for member states to provide a wallet.",
     status: "past" as const,
   },
   {
@@ -80,10 +113,10 @@ const timelineEvents = [
     status: "past" as const,
   },
   {
-    date: "H1 2026",
+    date: "24 December 2026",
     title: "Member State Wallet Availability",
     description:
-      "EU member states must make digital identity wallets available to all citizens and residents, backed by national eID schemes and interoperable across borders.",
+      "The hard deadline. Every member state must offer at least one European Digital Identity Wallet to its citizens and residents, backed by a notified eID scheme and interoperable across borders. Twenty-four months from the entry into force of the first implementing acts, under Article 5a(1) of Regulation (EU) 2024/1183.",
     status: "current" as const,
   },
   {
@@ -132,6 +165,9 @@ export default function EidasTimelinePage() {
             from the original Commission proposal to the mandatory wallet
             rollout across all EU member states.
           </p>
+          <div className="mt-8 max-w-4xl">
+            <DeadlineCountdown />
+          </div>
         </div>
       </section>
 
@@ -242,6 +278,55 @@ export default function EidasTimelinePage() {
                   </Link>
                 ))}
               </div>
+            </div>
+
+
+            {/* Who this affects.
+                Three rows of inline links rather than a grid of stacked
+                columns: the job here is to give the crawler a route into the
+                leaf pages, and a reader a way across, not to open a new
+                chapter. No explanatory paragraph either, the labels carry it. */}
+            <div id="who-this-affects" className="pt-2">
+              <dl className="space-y-3 text-sm">
+                {[
+                  {
+                    label: "Sectors",
+                    links: industries.map((i) => ({ href: `/industries/${i.slug}`, text: i.title })),
+                  },
+                  {
+                    label: "Roles",
+                    links: roles.map((r) => ({ href: `/roles/${r.slug}`, text: r.title })),
+                  },
+                  {
+                    label: "Terms",
+                    links: [
+                      ...TIMELINE_TERMS.map((slug) => getTermBySlug(slug))
+                        .filter(Boolean)
+                        .map((t) => ({ href: `/glossary/${t!.slug}`, text: shortLabel(t!.term) })),
+                      { href: "/glossary", text: "all 36" },
+                    ],
+                  },
+                ].map((row) => (
+                  <div key={row.label} className="sm:flex sm:gap-4">
+                    <dt
+                      className="shrink-0 text-xs font-semibold uppercase tracking-wider sm:w-20 sm:pt-0.5"
+                      style={{ color: "#a0a8bd" }}
+                    >
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 leading-relaxed sm:mt-0">
+                      {row.links.map((l, i) => (
+                        <span key={l.href}>
+                          {i > 0 && <span style={{ color: "#d4d8e3" }}>{" · "}</span>}
+                          <Link href={l.href} className="hover:opacity-70" style={{ color: "#010f62" }}>
+                            {l.text}
+                          </Link>
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             {/* Related Resources — light blue style */}
