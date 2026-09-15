@@ -7,12 +7,12 @@ import CtaBlock from "@/components/CtaBlock";
 import { faqItems } from "@/lib/faq-data";
 
 export const metadata: Metadata = {
-  title: "eIDAS 2.0 Readiness Check | Is Your Organization Prepared?",
+  title: "Free eIDAS 2.0 Readiness Check for the EUDI Wallet",
   description:
-    "Free eIDAS 2.0 readiness assessment. Evaluate your compliance, identify gaps, and get a personalised action plan for the EU Digital Identity Wallet.",
+    "Score your organisation against eIDAS 2.0 in twelve questions. Free: your readiness across six compliance areas, the gaps that matter most, and what to fix before the wallet deadline.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "eIDAS 2.0 Readiness Check | Is Your Organization Prepared?",
+    title: "Free eIDAS 2.0 Readiness Check for the EUDI Wallet",
     description:
       "Free eIDAS 2.0 readiness assessment. Evaluate your compliance, identify gaps, and get a personalised action plan.",
     type: "website",

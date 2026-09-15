@@ -10,12 +10,15 @@ import RelatedResources from "@/components/RelatedResources";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "eIDAS 2.0 Compliance Guide: What You Need to Know",
+  // absolute: the root layout appends "| eIDAS 2.0 Readiness" to every title,
+  // which pushes this one past the ~60 characters Google shows. The suffix is
+  // the part worth losing.
+  title: { absolute: "eIDAS 2.0 Compliance: Requirements, Deadlines and Checklist" },
   description:
-    "Complete eIDAS 2.0 compliance guide: requirements, deadlines, EUDIW integration, and a step-by-step implementation roadmap for your organisation.",
+    "What eIDAS 2.0 requires of relying parties, the date each obligation lands on, and a step-by-step roadmap for integrating the EU Digital Identity Wallet.",
   alternates: { canonical: "/guide/eidas-2-compliance" },
   openGraph: {
-    title: "eIDAS 2.0 Compliance Guide: What You Need to Know",
+    title: "eIDAS 2.0 Compliance: Requirements, Deadlines and Checklist",
     description:
       "Complete eIDAS 2.0 compliance guide: requirements, deadlines, EUDIW integration, and implementation roadmap.",
     type: "article",

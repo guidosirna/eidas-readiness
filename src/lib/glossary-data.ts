@@ -2,6 +2,17 @@ export interface GlossaryTerm {
   slug: string;
   term: string;
   shortDefinition: string;
+  /**
+   * Search title and description, for the handful of terms that draw real
+   * search volume. Without them a term falls back to "<term> | eIDAS 2.0
+   * Glossary" and its short definition, which is right for the long tail and
+   * wrong for the few that compete: "Glossary" in a title tells the searcher
+   * this is a dictionary entry, and they pick a result that looks like an
+   * answer instead. /glossary/etimestamp drew 1,363 impressions and 5 clicks
+   * in ninety days on that template.
+   */
+  metaTitle?: string;
+  metaDescription?: string;
   fullDefinition: string;
   relatedTerms: string[];
   category: string;
@@ -161,6 +172,9 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     slug: "etimestamp",
     term: "Electronic Timestamp",
+    metaTitle: "What Is a Qualified Electronic Timestamp? (eIDAS Explained)",
+    metaDescription:
+      "How a qualified electronic timestamp proves a document existed at a point in time, the legal presumption it carries in every EU member state, and how to generate one free.",
     shortDefinition:
       "An electronic attestation that binds data to a particular point in time, providing evidence that the data existed in a certain form at that moment.",
     fullDefinition:
