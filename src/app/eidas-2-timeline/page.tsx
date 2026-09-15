@@ -3,6 +3,9 @@ import Link from "next/link";
 import TimelineVisual from "@/components/TimelineVisual";
 import JsonLd from "@/components/JsonLd";
 import DeadlineCountdown from "@/components/DeadlineCountdown";
+import { industries } from "@/lib/industries-data";
+import { roles } from "@/lib/roles-data";
+import { getTermBySlug } from "@/lib/glossary-data";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedResources from "@/components/RelatedResources";
@@ -26,6 +29,31 @@ export const metadata: Metadata = {
     url: "/eidas-2-timeline",
   },
 };
+
+
+// Google has 31 of this site's 59 URLs indexed and 47 "discovered, currently
+// not indexed", which is almost exactly the leaf pages. A leaf stays out of
+// the index when nothing links to it from a page the crawler visits often,
+// and this
+// page is the one it visits most: 48% of the site's search clicks. So the
+// block below is a route in, and it is contextual on purpose, since every
+// sector and role here carries an obligation the timeline dates.
+// "European Digital Identity Wallet (EUDIW)" is the right label on its own
+// page and far too long in a row of inline links, so take the abbreviation
+// where the term declares one.
+function shortLabel(term: string): string {
+  // Leading form first: "mdoc (ISO 18013-5)" is known as mdoc, and taking the
+  // parenthesis would label it with the standard number instead.
+  const lead = term.match(/^([A-Za-z0-9-]{2,12})\s*\(/);
+  if (lead) return lead[1];
+  const abbr = term.match(/\(([^)]{2,12})\)\s*$/);
+  return abbr ? abbr[1] : term;
+}
+
+const TIMELINE_TERMS = [
+  "eudiw", "arf", "pid", "qeaa", "eaa", "relying-party",
+  "trust-framework", "openid4vc", "sd-jwt", "mdoc", "lsp", "qtsp",
+];
 
 const timelineEvents = [
   {
@@ -250,6 +278,55 @@ export default function EidasTimelinePage() {
                   </Link>
                 ))}
               </div>
+            </div>
+
+
+            {/* Who this affects.
+                Three rows of inline links rather than a grid of stacked
+                columns: the job here is to give the crawler a route into the
+                leaf pages, and a reader a way across, not to open a new
+                chapter. No explanatory paragraph either, the labels carry it. */}
+            <div id="who-this-affects" className="pt-2">
+              <dl className="space-y-3 text-sm">
+                {[
+                  {
+                    label: "Sectors",
+                    links: industries.map((i) => ({ href: `/industries/${i.slug}`, text: i.title })),
+                  },
+                  {
+                    label: "Roles",
+                    links: roles.map((r) => ({ href: `/roles/${r.slug}`, text: r.title })),
+                  },
+                  {
+                    label: "Terms",
+                    links: [
+                      ...TIMELINE_TERMS.map((slug) => getTermBySlug(slug))
+                        .filter(Boolean)
+                        .map((t) => ({ href: `/glossary/${t!.slug}`, text: shortLabel(t!.term) })),
+                      { href: "/glossary", text: "all 36" },
+                    ],
+                  },
+                ].map((row) => (
+                  <div key={row.label} className="sm:flex sm:gap-4">
+                    <dt
+                      className="shrink-0 text-xs font-semibold uppercase tracking-wider sm:w-20 sm:pt-0.5"
+                      style={{ color: "#a0a8bd" }}
+                    >
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 leading-relaxed sm:mt-0">
+                      {row.links.map((l, i) => (
+                        <span key={l.href}>
+                          {i > 0 && <span style={{ color: "#d4d8e3" }}>{" · "}</span>}
+                          <Link href={l.href} className="hover:opacity-70" style={{ color: "#010f62" }}>
+                            {l.text}
+                          </Link>
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             {/* Related Resources — light blue style */}
