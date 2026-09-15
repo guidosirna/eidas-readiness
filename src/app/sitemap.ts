@@ -3,6 +3,7 @@ import { MetadataRoute } from 'next'
 import { glossaryTerms } from '@/lib/glossary-data'
 import { roles } from '@/lib/roles-data'
 import { industries } from '@/lib/industries-data'
+import { sortedPosts } from '@/lib/blog-data'
 
 const BASE_URL = SITE_URL
 
@@ -13,6 +14,12 @@ const LAST_UPDATED = '2026-02-23'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: sortedPosts[0]?.date ?? LAST_UPDATED,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     {
       url: BASE_URL,
       lastModified: LAST_UPDATED,
@@ -122,5 +129,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...glossaryPages, ...rolePages, ...industryPages]
+  // Each post carries its own date, so lastmod is real here rather than the
+  // site-wide constant.
+  const blogPages: MetadataRoute.Sitemap = sortedPosts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: post.date,
+    changeFrequency: 'yearly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...blogPages, ...glossaryPages, ...rolePages, ...industryPages]
 }

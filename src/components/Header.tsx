@@ -13,6 +13,7 @@ const learnSecondary = [
   { href: "/faq", label: "FAQ", description: "Answers to common eIDAS 2.0 questions" },
   { href: "/glossary", label: "Glossary", description: "Key terms and definitions explained" },
   { href: "/eidas-2-timeline", label: "Timeline", description: "Key dates and regulatory milestones" },
+  { href: "/blog", label: "Blog", description: "Regulatory briefs and analysis" },
   { href: "/eidas-2-compliance-checklist", label: "Compliance Checklist", description: "Step-by-step compliance tracker" },
   { href: "/eidas-timestamp", label: "Timestamp Tool", description: "Trusted timestamping for documents" },
 ];
