@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -77,11 +78,11 @@ export default function GlossaryTermPage({ params }: PageProps) {
     "@type": "DefinedTerm",
     name: term.term,
     description: term.shortDefinition,
-    url: `https://www.eidasreadiness.com/glossary/${term.slug}`,
+    url: `${SITE_URL}/glossary/${term.slug}`,
     inDefinedTermSet: {
       "@type": "DefinedTermSet",
       name: "eIDAS 2.0 & Digital Identity Glossary",
-      url: "https://www.eidasreadiness.com/glossary",
+      url: `${SITE_URL}/glossary`,
     },
   };
 

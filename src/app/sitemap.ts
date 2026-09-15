@@ -1,9 +1,10 @@
+import { SITE_URL } from "@/lib/site";
 import { MetadataRoute } from 'next'
 import { glossaryTerms } from '@/lib/glossary-data'
 import { roles } from '@/lib/roles-data'
 import { industries } from '@/lib/industries-data'
 
-const BASE_URL = 'https://www.eidasreadiness.com'
+const BASE_URL = SITE_URL
 
 // Use a fixed date that only changes when content actually changes.
 // Using new Date() makes every build emit new <lastmod>, triggering

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -103,7 +104,7 @@ export default function IndustryPage({ params }: PageProps) {
   const ucImages = useCaseImages[industry.slug] ?? [];
   const relatedIndustries = industry.relatedIndustries.map((slug) => getIndustryBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getIndustryBySlug>>[];
   const relatedRoles = industry.relatedRoles.map((slug) => getRoleBySlug(slug)).filter(Boolean) as NonNullable<ReturnType<typeof getRoleBySlug>>[];
-  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: industry.title, description: industry.metaDescription, url: `https://www.eidasreadiness.com/industries/${industry.slug}` };
+  const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: industry.title, description: industry.metaDescription, url: `${SITE_URL}/industries/${industry.slug}` };
 
   return (
     <>

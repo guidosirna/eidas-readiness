@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -27,12 +28,12 @@ export default function GlossaryPage() {
     name: "eIDAS 2.0 & Digital Identity Glossary",
     description:
       "Comprehensive glossary of terms related to eIDAS 2.0, the European Digital Identity Wallet, trust services, and digital identity standards.",
-    url: "https://www.eidasreadiness.com/glossary",
+    url: `${SITE_URL}/glossary`,
     hasDefinedTerm: glossaryTerms.map((t) => ({
       "@type": "DefinedTerm",
       name: t.term,
       description: t.shortDefinition,
-      url: `https://www.eidasreadiness.com/glossary/${t.slug}`,
+      url: `${SITE_URL}/glossary/${t.slug}`,
     })),
   };
 

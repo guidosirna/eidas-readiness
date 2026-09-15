@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
@@ -46,16 +47,16 @@ export default function EidasComplianceGuidePage() {
     author: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://www.eidasreadiness.com/guide/eidas-2-compliance",
+      "@id": `${SITE_URL}/guide/eidas-2-compliance`,
     },
     // Registration-wall markup: tells Google the section behind ContentGate is
     // intentionally gated, so serving it in the DOM is not treated as cloaking.
@@ -91,35 +92,35 @@ export default function EidasComplianceGuidePage() {
         position: 1,
         name: "Conduct a Gap Analysis",
         text: "Assess your current digital identity infrastructure against eIDAS 2.0 requirements to identify gaps.",
-        url: "https://www.eidasreadiness.com/guide/eidas-2-compliance#implementation-roadmap",
+        url: `${SITE_URL}/guide/eidas-2-compliance#implementation-roadmap`,
       },
       {
         "@type": "HowToStep",
         position: 2,
         name: "Define Your Compliance Strategy",
         text: "Develop a prioritized plan that addresses regulatory, technical, and organizational requirements.",
-        url: "https://www.eidasreadiness.com/guide/eidas-2-compliance#implementation-roadmap",
+        url: `${SITE_URL}/guide/eidas-2-compliance#implementation-roadmap`,
       },
       {
         "@type": "HowToStep",
         position: 3,
         name: "Technical Implementation",
         text: "Implement required protocols, integrate EUDIW support, and update trust service infrastructure.",
-        url: "https://www.eidasreadiness.com/guide/eidas-2-compliance#implementation-roadmap",
+        url: `${SITE_URL}/guide/eidas-2-compliance#implementation-roadmap`,
       },
       {
         "@type": "HowToStep",
         position: 4,
         name: "Testing and Validation",
         text: "Conduct interoperability testing, security audits, and user acceptance testing.",
-        url: "https://www.eidasreadiness.com/guide/eidas-2-compliance#implementation-roadmap",
+        url: `${SITE_URL}/guide/eidas-2-compliance#implementation-roadmap`,
       },
       {
         "@type": "HowToStep",
         position: 5,
         name: "Certification and Ongoing Compliance",
         text: "Obtain required certifications, register with supervisory bodies, and establish continuous monitoring.",
-        url: "https://www.eidasreadiness.com/guide/eidas-2-compliance#implementation-roadmap",
+        url: `${SITE_URL}/guide/eidas-2-compliance#implementation-roadmap`,
       },
     ],
   };

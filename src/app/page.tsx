@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Image from "next/image";
 import JsonLd from "@/components/JsonLd";
@@ -54,7 +55,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "eIDAS 2.0 Readiness",
-  url: "https://www.eidasreadiness.com",
+  url: SITE_URL,
   description: "Free eIDAS 2.0 readiness assessment helping organizations prepare for EU Digital Identity Wallet compliance.",
 };
 
@@ -62,7 +63,7 @@ const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "eIDAS 2.0 Readiness",
-  url: "https://www.eidasreadiness.com",
+  url: SITE_URL,
   description: "Assess your organization's readiness for eIDAS 2.0 and the European Digital Identity Wallet.",
   publisher: { "@type": "Organization", name: "eIDAS 2.0 Readiness" },
 };

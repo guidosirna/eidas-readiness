@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 
@@ -21,7 +22,7 @@ const webAppJsonLd = {
   name: "eIDAS Timestamp Tool",
   description:
     "Trusted timestamping tool for digital documents. RFC 3161 compliant, client-side hashing for privacy, no registration required.",
-  url: "https://www.eidasreadiness.com/eidas-timestamp",
+  url: `${SITE_URL}/eidas-timestamp`,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Any",
   offers: {
