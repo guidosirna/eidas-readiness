@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import TimelineVisual from "@/components/TimelineVisual";
 import JsonLd from "@/components/JsonLd";
+import DeadlineCountdown from "@/components/DeadlineCountdown";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedResources from "@/components/RelatedResources";
@@ -9,14 +10,18 @@ import SidebarLayout from "@/components/SidebarLayout";
 import { BookOpen, Smartphone, ClipboardCheck, ListChecks, BookA, CreditCard, Landmark, Wifi } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "eIDAS 2.0 Timeline & Key Deadlines",
+  // Evergreen on purpose: a title carrying "2026" or an exact date reads as
+  // stale the day after it passes, and nobody remembers to come back for it.
+  // The urgency belongs to DeadlineCountdown, which recomputes in the browser
+  // and is therefore never wrong.
+  title: { absolute: "eIDAS 2.0 Timeline: Key Dates and the Wallet Deadline" },
   description:
-    "eIDAS 2.0 timeline: key dates from adoption through 2026-2027 wallet rollout and mandatory acceptance by regulated sectors.",
+    "Every eIDAS 2.0 date, from the 2021 proposal to the deadline for member states to offer a wallet, and mandatory acceptance by regulated sectors after it. With a live countdown.",
   alternates: { canonical: "/eidas-2-timeline" },
   openGraph: {
-    title: "eIDAS 2.0 Timeline & Key Deadlines",
+    title: "eIDAS 2.0 Timeline: Key Dates and the Wallet Deadline",
     description:
-      "eIDAS 2.0 timeline: key dates from adoption through 2026-2027 wallet rollout and mandatory acceptance.",
+      "Every eIDAS 2.0 date, from the 2021 proposal to the wallet deadline and mandatory acceptance after it.",
     type: "article",
     url: "/eidas-2-timeline",
   },
@@ -66,10 +71,10 @@ const timelineEvents = [
     status: "past" as const,
   },
   {
-    date: "Q2 2025",
-    title: "Implementing Acts Publication",
+    date: "December 2024",
+    title: "First Implementing Acts Enter into Force",
     description:
-      "The European Commission published key implementing acts defining the technical standards, certification schemes, and operational requirements for wallets and trust services.",
+      "Implementing Regulations (EU) 2024/2977 to 2024/2982, adopted on 28 November 2024, were published on 4 December and entered into force on 24 December 2024. They define person identification data, attestation formats, wallet certification and relying party registration. They also start the 24-month clock in Article 5a(1) for member states to provide a wallet.",
     status: "past" as const,
   },
   {
@@ -80,10 +85,10 @@ const timelineEvents = [
     status: "past" as const,
   },
   {
-    date: "H1 2026",
+    date: "24 December 2026",
     title: "Member State Wallet Availability",
     description:
-      "EU member states must make digital identity wallets available to all citizens and residents, backed by national eID schemes and interoperable across borders.",
+      "The hard deadline. Every member state must offer at least one European Digital Identity Wallet to its citizens and residents, backed by a notified eID scheme and interoperable across borders. Twenty-four months from the entry into force of the first implementing acts, under Article 5a(1) of Regulation (EU) 2024/1183.",
     status: "current" as const,
   },
   {
@@ -132,6 +137,9 @@ export default function EidasTimelinePage() {
             from the original Commission proposal to the mandatory wallet
             rollout across all EU member states.
           </p>
+          <div className="mt-8 max-w-4xl">
+            <DeadlineCountdown />
+          </div>
         </div>
       </section>
 
