@@ -53,6 +53,42 @@ export interface UiStrings {
     /** The four category labels, keyed by the English value in the data. */
     categories: Record<string, string>;
   };
+  footer: {
+    tagline: string;
+    assessment: string;
+    learn: string;
+    resources: string;
+    byIndustry: string;
+    byRole: string;
+    privacy: string;
+    terms: string;
+    newsletterHeadline: string;
+    newsletterDescription: string;
+    /** {year} is substituted at render. */
+    copyright: string;
+  };
+  header: {
+    tagline: string;
+    /** Nav grouping, not page names, so these are translated. */
+    learn: string;
+    prepare: string;
+    guides: string;
+    resources: string;
+    byRole: string;
+    byIndustry: string;
+    /** Page names whose target has a translation. */
+    faq: string;
+    faqDesc: string;
+    timeline: string;
+    timelineDesc: string;
+    guide: string;
+    guideDesc: string;
+    timestamp: string;
+    timestampDesc: string;
+    ctaQuestion: string;
+    ctaBlurb: string;
+    ctaButton: string;
+  };
   language: string;
 }
 
@@ -109,6 +145,40 @@ const en: UiStrings = {
       "Business Compliance": "Business Compliance",
       Technical: "Technical",
     },
+  },
+  footer: {
+    tagline:
+      "A free resource helping European organizations understand and prepare for eIDAS 2.0 and the EU Digital Identity Wallet.",
+    assessment: "Assessment & Tools",
+    learn: "Learn",
+    resources: "EU Resources",
+    byIndustry: "eIDAS 2.0 by Industry",
+    byRole: "eIDAS 2.0 by Role",
+    privacy: "Privacy Policy",
+    terms: "Terms of Use",
+    newsletterHeadline: "Stay updated on eIDAS 2.0 developments",
+    newsletterDescription: "Get regulatory updates and compliance insights delivered to your inbox.",
+    copyright: "© {year} eIDAS 2.0 Readiness Check. An open resource for European organizations.",
+  },
+  header: {
+    tagline: "A free resource for EU digital identity compliance",
+    learn: "Learn",
+    prepare: "Prepare",
+    guides: "Guides",
+    resources: "Resources",
+    byRole: "By Role",
+    byIndustry: "By Industry",
+    faq: "FAQ",
+    faqDesc: "Answers to common eIDAS 2.0 questions",
+    timeline: "Timeline",
+    timelineDesc: "Key dates and regulatory milestones",
+    guide: "eIDAS 2.0 Compliance Guide",
+    guideDesc: "Everything you need to know about the regulation, requirements, and implementation steps",
+    timestamp: "Electronic Timestamps",
+    timestampDesc: "What a qualified timestamp proves, and when you need one",
+    ctaQuestion: "Ready to check your compliance?",
+    ctaBlurb: "Answer 12 questions and get a personalised readiness score.",
+    ctaButton: "eIDAS Quick Check",
   },
   language: "Language",
 };
@@ -167,6 +237,40 @@ const de: UiStrings = {
       Technical: "Technik",
     },
   },
+  footer: {
+    tagline:
+      "Ein kostenloses Angebot, das europäischen Organisationen hilft, eIDAS 2.0 und die EU-Wallet für die digitale Identität zu verstehen und sich darauf vorzubereiten.",
+    assessment: "Analyse und Werkzeuge",
+    learn: "Wissen",
+    resources: "EU-Quellen",
+    byIndustry: "eIDAS 2.0 nach Branche",
+    byRole: "eIDAS 2.0 nach Rolle",
+    privacy: "Datenschutzerklärung",
+    terms: "Nutzungsbedingungen",
+    newsletterHeadline: "Bleiben Sie zu eIDAS 2.0 auf dem Laufenden",
+    newsletterDescription: "Regulatorische Neuigkeiten und Einschätzungen zur Compliance, direkt in Ihr Postfach.",
+    copyright: "© {year} eIDAS 2.0 Readiness Check. Ein offenes Angebot für europäische Organisationen.",
+  },
+  header: {
+    tagline: "Ein kostenloses Angebot zur eIDAS-Compliance",
+    learn: "Wissen",
+    prepare: "Vorbereiten",
+    guides: "Leitfäden",
+    resources: "Inhalte",
+    byRole: "Nach Rolle",
+    byIndustry: "Nach Branche",
+    faq: "Häufige Fragen",
+    faqDesc: "Antworten auf gängige Fragen zu eIDAS 2.0",
+    timeline: "Zeitplan",
+    timelineDesc: "Zentrale Termine und regulatorische Etappen",
+    guide: "Leitfaden zur eIDAS-2.0-Compliance",
+    guideDesc: "Alles, was Sie zur Verordnung, zu den Anforderungen und zur Umsetzung wissen müssen",
+    timestamp: "Elektronische Zeitstempel",
+    timestampDesc: "Was ein qualifizierter Zeitstempel belegt und wann Sie ihn brauchen",
+    ctaQuestion: "Bereit für den Bereitschaftscheck?",
+    ctaBlurb: "12 Fragen beantworten und den persönlichen Bereitschaftswert erhalten.",
+    ctaButton: "eIDAS Quick Check",
+  },
   language: "Sprache",
 };
 
@@ -224,6 +328,40 @@ const it: UiStrings = {
       Technical: "Aspetti tecnici",
     },
   },
+  footer: {
+    tagline:
+      "Una risorsa gratuita che aiuta le organizzazioni europee a capire eIDAS 2.0 e il portafoglio europeo di identità digitale e a prepararsi.",
+    assessment: "Analisi e strumenti",
+    learn: "Approfondimenti",
+    resources: "Fonti dell'UE",
+    byIndustry: "eIDAS 2.0 per settore",
+    byRole: "eIDAS 2.0 per ruolo",
+    privacy: "Informativa sulla privacy",
+    terms: "Condizioni d'uso",
+    newsletterHeadline: "Resta aggiornato sugli sviluppi di eIDAS 2.0",
+    newsletterDescription: "Novità normative e analisi sulla conformità, direttamente nella tua casella.",
+    copyright: "© {year} eIDAS 2.0 Readiness Check. Una risorsa aperta per le organizzazioni europee.",
+  },
+  header: {
+    tagline: "Una risorsa gratuita sulla conformità a eIDAS",
+    learn: "Approfondimenti",
+    prepare: "Prepararsi",
+    guides: "Guide",
+    resources: "Contenuti",
+    byRole: "Per ruolo",
+    byIndustry: "Per settore",
+    faq: "Domande frequenti",
+    faqDesc: "Risposte alle domande più comuni su eIDAS 2.0",
+    timeline: "Calendario",
+    timelineDesc: "Date chiave e tappe normative",
+    guide: "Guida alla conformità eIDAS 2.0",
+    guideDesc: "Tutto quello che serve sapere su regolamento, requisiti e attuazione",
+    timestamp: "Validazione temporale elettronica",
+    timestampDesc: "Cosa dimostra una validazione temporale qualificata e quando serve",
+    ctaQuestion: "Pronto a verificare la tua conformità?",
+    ctaBlurb: "Rispondi a 12 domande e ottieni un punteggio di preparazione personalizzato.",
+    ctaButton: "eIDAS Quick Check",
+  },
   language: "Lingua",
 };
 
@@ -280,6 +418,40 @@ const es: UiStrings = {
       "Business Compliance": "Cumplimiento en la empresa",
       Technical: "Aspectos técnicos",
     },
+  },
+  footer: {
+    tagline:
+      "Un recurso gratuito que ayuda a las organizaciones europeas a entender eIDAS 2.0 y la cartera europea de identidad digital, y a prepararse.",
+    assessment: "Evaluación y herramientas",
+    learn: "Aprender",
+    resources: "Fuentes de la UE",
+    byIndustry: "eIDAS 2.0 por sector",
+    byRole: "eIDAS 2.0 por perfil",
+    privacy: "Política de privacidad",
+    terms: "Condiciones de uso",
+    newsletterHeadline: "Mantente al día de eIDAS 2.0",
+    newsletterDescription: "Novedades normativas y análisis de cumplimiento, directos a tu bandeja.",
+    copyright: "© {year} eIDAS 2.0 Readiness Check. Un recurso abierto para las organizaciones europeas.",
+  },
+  header: {
+    tagline: "Un recurso gratuito sobre el cumplimiento de eIDAS",
+    learn: "Aprender",
+    prepare: "Prepararse",
+    guides: "Guías",
+    resources: "Contenidos",
+    byRole: "Por perfil",
+    byIndustry: "Por sector",
+    faq: "Preguntas frecuentes",
+    faqDesc: "Respuestas a las dudas más comunes sobre eIDAS 2.0",
+    timeline: "Calendario",
+    timelineDesc: "Fechas clave e hitos normativos",
+    guide: "Guía de cumplimiento de eIDAS 2.0",
+    guideDesc: "Todo lo que hay que saber del reglamento, los requisitos y la implantación",
+    timestamp: "Sellos de tiempo electrónicos",
+    timestampDesc: "Qué acredita un sello de tiempo cualificado y cuándo hace falta",
+    ctaQuestion: "¿Listo para evaluar tu cumplimiento?",
+    ctaBlurb: "Responde 12 preguntas y obtén una puntuación de preparación personalizada.",
+    ctaButton: "eIDAS Quick Check",
   },
   language: "Idioma",
 };

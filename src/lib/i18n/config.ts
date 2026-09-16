@@ -114,11 +114,6 @@ const FULLY_TRANSLATED_PATHS: readonly string[] = [
   "/faq",
 ];
 
-/** The href for a link from a page in `locale`, English when untranslated. */
-export function linkPath(locale: Locale, path: string): string {
-  return FULLY_TRANSLATED_PATHS.includes(path) ? localePath(locale, path) : path;
-}
-
 /**
  * Every path that exists in a translated language.
  *
@@ -142,6 +137,18 @@ export const TRANSLATED_ROUTES: readonly string[] = [
   ...FULLY_TRANSLATED_PATHS,
   ...PER_SLUG_TRANSLATED,
 ];
+
+/**
+ * The href for a link from a page in `locale`, English when untranslated.
+ *
+ * Reads TRANSLATED_ROUTES rather than FULLY_TRANSLATED_PATHS, which it used to:
+ * the shorter list left the header's link to the electronic timestamp term
+ * pointing at the English page from a German one, even though that term is
+ * translated. One list, checked against the translations at build time.
+ */
+export function linkPath(locale: Locale, path: string): string {
+  return TRANSLATED_ROUTES.includes(path) ? localePath(locale, path) : path;
+}
 
 /** The English path of a URL, whatever language it is currently in. */
 export function stripLocale(pathname: string): string {

@@ -1,5 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import NewsletterForm from "./NewsletterForm";
+import { linkPath, localeFromPathname } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
 
 const assessmentLinks = [
   { href: "/assessment", label: "eIDAS 2.0 Readiness Assessment" },
@@ -37,12 +42,24 @@ const resourceLinks = [
   { href: "https://github.com/eu-digital-identity-wallet", label: "EUDIW GitHub" },
 ];
 
-const legalLinks = [
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms of Use" },
-];
 
+/**
+ * A client component only so it can read the pathname.
+ *
+ * The chrome here was English on every page, including the German ones: the
+ * tagline, the column headings and the newsletter block. The link labels stay
+ * English on purpose, because they are the titles of English pages, the same
+ * rule the rest of the site follows.
+ */
 export default function Footer() {
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
+  const t = UI[locale].footer;
+  const legalLinks = [
+    { href: "/privacy", label: t.privacy },
+    { href: "/terms", label: t.terms },
+  ];
+
   return (
     <footer style={{ backgroundColor: "#010f62" }}>
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -50,7 +67,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
-            <a href="/" className="inline-flex items-center gap-2.5">
+            <a href={linkPath(locale, "/")} className="inline-flex items-center gap-2.5">
               <Image src="/logos/eu-flag.svg" alt="EU" width={28} height={20} className="h-5 w-auto" />
               <span className="flex items-baseline gap-1">
                 <span className="font-display text-base font-bold tracking-tight text-white">eIDAS</span>
@@ -58,18 +75,17 @@ export default function Footer() {
               </span>
             </a>
             <p className="mt-4 text-sm leading-relaxed text-white/60 max-w-xs">
-              A free resource helping European organizations understand and
-              prepare for eIDAS 2.0 and the EU Digital Identity Wallet.
+              {t.tagline}
             </p>
           </div>
 
           {/* Assessment & Tools */}
           <div>
-            <h3 className="text-sm font-semibold text-white">Assessment &amp; Tools</h3>
+            <h3 className="text-sm font-semibold text-white">{t.assessment}</h3>
             <ul className="mt-4 space-y-2.5">
               {assessmentLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
+                  <a href={linkPath(locale, link.href)} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -77,11 +93,11 @@ export default function Footer() {
 
           {/* Learn */}
           <div>
-            <h3 className="text-sm font-semibold text-white">Learn</h3>
+            <h3 className="text-sm font-semibold text-white">{t.learn}</h3>
             <ul className="mt-4 space-y-2.5">
               {learnLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
+                  <a href={linkPath(locale, link.href)} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -89,7 +105,7 @@ export default function Footer() {
 
           {/* EU Resources + Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-white">EU Resources</h3>
+            <h3 className="text-sm font-semibold text-white">{t.resources}</h3>
             <ul className="mt-4 space-y-2.5">
               {resourceLinks.map((link) => (
                 <li key={link.href}>
@@ -100,7 +116,7 @@ export default function Footer() {
             <ul className="mt-6 space-y-2.5">
               {legalLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
+                  <a href={linkPath(locale, link.href)} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -110,21 +126,21 @@ export default function Footer() {
         {/* SEO link rows: By Industry + By Role */}
         <div className="mt-10 pt-8 grid grid-cols-2 gap-8 lg:grid-cols-2" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
           <div>
-            <h3 className="text-sm font-semibold text-white">eIDAS 2.0 by Industry</h3>
+            <h3 className="text-sm font-semibold text-white">{t.byIndustry}</h3>
             <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5">
               {industryLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
+                  <a href={linkPath(locale, link.href)} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">eIDAS 2.0 by Role</h3>
+            <h3 className="text-sm font-semibold text-white">{t.byRole}</h3>
             <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5">
               {roleLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
+                  <a href={linkPath(locale, link.href)} className="text-sm text-white/60 hover:text-white transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -135,15 +151,15 @@ export default function Footer() {
         <div className="mt-12 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
           <NewsletterForm
             variant="inline"
-            headline="Stay updated on eIDAS 2.0 developments"
-            description="Get regulatory updates and compliance insights delivered to your inbox."
+            headline={t.newsletterHeadline}
+            description={t.newsletterDescription}
           />
         </div>
 
         {/* Copyright */}
         <div className="mt-8 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
           <p className="text-sm text-white/40">
-            &copy; {new Date().getFullYear()} eIDAS 2.0 Readiness Check. An open resource for European organizations.
+            {t.copyright.replace("{year}", String(new Date().getFullYear()))}
           </p>
         </div>
       </div>
