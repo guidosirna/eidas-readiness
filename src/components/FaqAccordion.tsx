@@ -16,7 +16,13 @@ export default function FaqAccordion({ items }: { items: FaqAccordionItem[] }) {
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         return (
-          <div key={index} style={{ borderBottom: "1px solid #e8e8e8" }}>
+          // The rule separates one question from the next, so the last one
+          // does not get it: a trailing line inside the card reads as a row
+          // that failed to load.
+          <div
+            key={index}
+            style={index < items.length - 1 ? { borderBottom: "1px solid #e8e8e8" } : undefined}
+          >
             <button
               onClick={() => setOpenIndex(isOpen ? null : index)}
               className="flex w-full items-center justify-between py-5 text-left group"

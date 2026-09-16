@@ -228,7 +228,10 @@ export default function FaqPageClient({
               <h2 className="font-display mb-4 text-xl font-semibold tracking-tight sm:text-2xl" style={{ color: "#010f62" }}>
                 {labels.categories[group.category] ?? group.category}
               </h2>
-              <div style={{ border: "1px solid #e8e8e8", borderRadius: "2px", backgroundColor: "#fff" }} className="p-5 sm:p-6">
+              {/* Horizontal padding only: each question already carries py-5,
+                  and the card's own vertical padding was stacking on top of
+                  it, leaving 45px of air above the first question. */}
+              <div style={{ border: "1px solid #e8e8e8", borderRadius: "2px", backgroundColor: "#fff" }} className="px-5 sm:px-6">
                 <FaqAccordion
                   items={group.items.map((i) => ({
                     question: i.question,

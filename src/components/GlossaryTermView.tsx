@@ -5,7 +5,6 @@ import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ShareButton from "@/components/ShareButton";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { UI } from "@/lib/i18n/ui";
 import { termLocales, type GlossaryTranslation } from "@/lib/i18n/glossary";
@@ -109,14 +108,6 @@ export default function GlossaryTermView({
             >
               {categoryLabel}
             </Link>
-          </div>
-          <div className="mt-5">
-            <LocaleSwitcher
-              current={locale}
-              path={termPath(slug)}
-              available={termLocales(slug)}
-              label={t.language}
-            />
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { linkPath, localeFromPathname } from "@/lib/i18n/config";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 import { Menu, X, ArrowUpRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock, Mail } from "lucide-react";
 import Image from "next/image";
 
@@ -233,9 +234,7 @@ export default function Header() {
             <a href={linkPath(locale, "/faq")} className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>FAQ</a>
             <a href={linkPath(locale, "/glossary")} className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Glossary</a>
             <span className="w-px h-3.5" style={{ backgroundColor: "rgba(255,255,255,0.2)" }} />
-            <span className="inline-flex items-center gap-1.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-              <Globe className="h-3.5 w-3.5" /> English
-            </span>
+            <LocaleSwitcher />
           </div>
         </div>
       </div>

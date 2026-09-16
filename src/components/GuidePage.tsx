@@ -6,7 +6,6 @@ import ContentGate from "@/components/ContentGate";
 import SidebarLayout from "@/components/SidebarLayout";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedResources from "@/components/RelatedResources";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { UI } from "@/lib/i18n/ui";
 import { prose } from "@/lib/i18n/prose";
@@ -232,9 +231,6 @@ export default function GuidePage({ locale }: { locale: Locale }) {
           <p className="mt-6 text-lg leading-relaxed" style={{ color: "#62718d" }}>
             {prose(t.hero.standfirst, "plain", locale)}
           </p>
-          <div className="mt-6">
-            <LocaleSwitcher current={locale} path={GUIDE_PATH} label={ui.language} />
-          </div>
           <div className="mt-10 rounded-2xl overflow-hidden shadow-lg">
             <Image
               src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"

@@ -3,7 +3,6 @@ import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import FaqPageClient from "@/components/FaqPageClient";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { UI } from "@/lib/i18n/ui";
 import { prose } from "@/lib/i18n/prose";
@@ -58,14 +57,6 @@ export default function FaqPageView({ locale }: { locale: Locale }) {
           <p className="mt-4 max-w-2xl text-lg leading-relaxed" style={{ color: "#62718d" }}>
             {prose(t.faq.standfirst, "underline", locale)}
           </p>
-          <div className="mt-6">
-            <LocaleSwitcher
-              current={locale}
-              path={FAQ_PATH}
-              available={faqLocales(FAQ_IDS)}
-              label={t.language}
-            />
-          </div>
         </div>
       </section>
 

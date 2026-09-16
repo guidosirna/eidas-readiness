@@ -2,7 +2,6 @@ import Link from "next/link";
 import TimelineVisual from "@/components/TimelineVisual";
 import JsonLd from "@/components/JsonLd";
 import DeadlineCountdown from "@/components/DeadlineCountdown";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -86,9 +85,6 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
           <p className="mt-4 max-w-2xl text-lg leading-relaxed" style={{ color: "#62718d" }}>
             {t.hero.standfirst}
           </p>
-          <div className="mt-6">
-            <LocaleSwitcher current={locale} path={TIMELINE_PATH} label={UI[locale].language} />
-          </div>
         </div>
       </section>
 
@@ -147,7 +143,14 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
                 columns: the job here is to give the crawler a route into the
                 leaf pages, and a reader a way across, not to open a new
                 chapter. No explanatory paragraph either, the labels carry it. */}
-            <div id="who-this-affects" className="pt-2">
+            {/* A top rule so the block reads as a foot to the content rather
+                than something left floating between the cards above and the
+                resources box below. No heading: the row labels carry it. */}
+            <div
+              id="who-this-affects"
+              className="pt-8"
+              style={{ borderTop: "1px solid #e8e8e8" }}
+            >
               <dl className="space-y-3 text-sm">
                 {[
                   {

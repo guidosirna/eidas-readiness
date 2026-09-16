@@ -4,7 +4,7 @@ import { glossaryTerms } from '@/lib/glossary-data'
 import { roles } from '@/lib/roles-data'
 import { industries } from '@/lib/industries-data'
 import { sortedPosts } from '@/lib/blog-data'
-import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, localePath, type Locale } from '@/lib/i18n/config'
+import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, TRANSLATED_ROUTES, localePath, type Locale } from '@/lib/i18n/config'
 import { industryLocales, translatedIndustrySlugs } from '@/lib/i18n/industries'
 import { termLocales, translatedTermSlugs } from '@/lib/i18n/glossary'
 
@@ -28,7 +28,40 @@ function alternateLanguages(path: string, available: readonly Locale[] = LOCALES
   return { languages }
 }
 
+/**
+ * Keeps config's TRANSLATED_ROUTES honest.
+ *
+ * That list is what the language switcher in the header reads, and it has to
+ * be plain strings because the header is a client component. So it is
+ * hand-written, and this is the thing that stops it drifting: a translated
+ * page added to industries.ts or glossary.ts and forgotten in config fails the
+ * build here, rather than shipping a switcher link to a 404.
+ *
+ * This file already imports every translation module to build the sitemap, so
+ * the check is free and it runs on every build.
+ */
+function assertRoutesMatchTranslations() {
+  const actual: string[] = ['/', '/eidas-2-timeline', '/guide/eidas-2-compliance', '/faq']
+  for (const locale of TRANSLATED_LOCALES) {
+    for (const slug of translatedIndustrySlugs(locale)) actual.push(`/industries/${slug}`)
+    for (const slug of translatedTermSlugs(locale)) actual.push(`/glossary/${slug}`)
+  }
+
+  const missing = actual.filter((p) => !TRANSLATED_ROUTES.includes(p))
+  const stale = TRANSLATED_ROUTES.filter((p) => actual.indexOf(p) === -1)
+
+  if (missing.length || stale.length) {
+    throw new Error(
+      'TRANSLATED_ROUTES in src/lib/i18n/config.ts is out of date. ' +
+        (missing.length ? `Add: ${missing.filter((p, i) => missing.indexOf(p) === i).join(', ')}. ` : '') +
+        (stale.length ? `Remove: ${stale.join(', ')}.` : '')
+    )
+  }
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  assertRoutesMatchTranslations()
+
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/blog`,

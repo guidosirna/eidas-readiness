@@ -120,6 +120,57 @@ export function linkPath(locale: Locale, path: string): string {
 }
 
 /**
+ * Every path that exists in a translated language.
+ *
+ * Written out rather than derived, because the header is a client component
+ * and importing the translation modules to read their keys would ship every
+ * German, Italian and Spanish sentence on the site into the browser bundle of
+ * every page. Strings only here.
+ *
+ * The obvious risk is drift. sitemap.ts asserts this list against the actual
+ * translation modules at build time, so a page added there and forgotten here
+ * fails the build instead of quietly producing a switcher link to a 404.
+ */
+const PER_SLUG_TRANSLATED = [
+  "/industries/financial-services",
+  "/industries/healthcare",
+  "/glossary/pid",
+  "/glossary/etimestamp",
+] as const;
+
+export const TRANSLATED_ROUTES: readonly string[] = [
+  ...FULLY_TRANSLATED_PATHS,
+  ...PER_SLUG_TRANSLATED,
+];
+
+/** The English path of a URL, whatever language it is currently in. */
+export function stripLocale(pathname: string): string {
+  const [, first, ...rest] = pathname.split("/");
+  if (!isTranslatedLocale(first)) return pathname === "" ? "/" : pathname;
+  const bare = "/" + rest.join("/");
+  return bare === "/" ? "/" : bare.replace(/\/$/, "");
+}
+
+/**
+ * Where the language switcher should send someone.
+ *
+ * On a page that has the target language, the same page. On one that does not,
+ * that language's homepage: a switcher that silently does nothing, or worse
+ * points at a 404, is more annoying than one that admits this page has no
+ * German version and offers the German site instead.
+ */
+export function switchLocale(target: Locale, pathname: string): string {
+  const bare = stripLocale(pathname);
+  if (target === DEFAULT_LOCALE) return bare;
+  return TRANSLATED_ROUTES.includes(bare) ? localePath(target, bare) : localePath(target, "/");
+}
+
+/** True when `pathname` exists in the target language, for the switcher. */
+export function hasTranslation(pathname: string): boolean {
+  return TRANSLATED_ROUTES.includes(stripLocale(pathname));
+}
+
+/**
  * The language a URL is in, read from its first path segment.
  *
  * For the header, which is a client component in the root layout and so has

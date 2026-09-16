@@ -3,7 +3,6 @@ import Image from "next/image";
 import JsonLd from "@/components/JsonLd";
 import FaqAccordion from "@/components/FaqAccordion";
 import CtaBlock from "@/components/CtaBlock";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { faqItems } from "@/lib/faq-data";
 import { translateFaq } from "@/lib/i18n/faq";
@@ -103,9 +102,6 @@ export default function HomePage({ locale }: { locale: Locale }) {
             <a href={linkPath(locale, "/assessment")} className="btn-primary inline-flex">
               {t.hero.cta} <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </a>
-          </div>
-          <div className="mt-8 flex justify-center">
-            <LocaleSwitcher current={locale} path={HOME_PATH} label={ui.language} tone="dark" />
           </div>
         </div>
       </section>

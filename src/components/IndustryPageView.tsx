@@ -7,7 +7,6 @@ import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import SidebarLayout from "@/components/SidebarLayout";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { UI } from "@/lib/i18n/ui";
 import { industryLocales, type IndustryTranslation } from "@/lib/i18n/industries";
@@ -78,6 +77,39 @@ const useCaseImages: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Where each use case goes.
+ *
+ * The cards carried an image and card styling and linked nowhere, which reads
+ * as a link that failed. Each one now goes to the glossary term that actually
+ * carries the sentence rather than the most obvious one: age verification goes
+ * to selective disclosure, because proving you are over 18 without giving your
+ * date of birth is what that term is for; telemedicine goes to level of
+ * assurance, because that is what decides whether you may authenticate a
+ * patient remotely at all.
+ *
+ * Index-aligned with the useCases array in industries-data.ts. A missing entry
+ * renders the card unlinked rather than pointing somewhere wrong.
+ */
+const useCaseLinks: Record<string, string[]> = {
+  "financial-services": [
+    "/glossary/pid",
+    "/glossary/psd2",
+    "/glossary/selective-disclosure",
+    "/glossary/notified-eid-scheme",
+    "/glossary/qes",
+    "/glossary/qeaa",
+  ],
+  healthcare: [
+    "/glossary/pid",
+    "/glossary/eaa",
+    "/glossary/eudiw",
+    "/glossary/selective-disclosure",
+    "/glossary/loa",
+    "/glossary/qeaa",
+  ],
+};
+
 export function industryPath(slug: string) {
   return `/industries/${slug}`;
 }
@@ -106,6 +138,7 @@ export default function IndustryPageView({
   const Icon = industryIcons[slug] ?? Landmark;
   const heroImage = industryImages[slug] ?? "/images/office-meeting.jpg";
   const ucImages = useCaseImages[slug] ?? [];
+  const ucLinks = useCaseLinks[slug] ?? [];
   const relatedIndustries = english.relatedIndustries
     .map((s) => getIndustryBySlug(s))
     .filter(Boolean) as NonNullable<ReturnType<typeof getIndustryBySlug>>[];
@@ -141,15 +174,6 @@ export default function IndustryPageView({
             <h1 className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: "#fff" }}>{content.title}</h1>
           </div>
           <p className="text-lg max-w-2xl" style={{ color: "rgba(255,255,255,0.7)" }}>{content.heroTagline}</p>
-          <div className="mt-6">
-            <LocaleSwitcher
-              current={locale}
-              path={industryPath(slug)}
-              available={industryLocales(slug)}
-              label={t.language}
-              tone="dark"
-            />
-          </div>
         </div>
       </section>
 
@@ -203,18 +227,28 @@ export default function IndustryPageView({
               <div id="use-cases">
                 <h2 className="text-2xl sm:text-3xl mb-6">{t.industry.useCases}</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {content.useCases.map((useCase, i) => (
-                    <div key={i} className="card-static overflow-hidden">
-                      {ucImages[i] && (
-                        <div className="relative h-36">
-                          <Image src={ucImages[i]} alt={useCase} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" {...(i === 0 ? { priority: true } : {})} />
+                  {content.useCases.map((useCase, i) => {
+                    const href = ucLinks[i];
+                    const inner = (
+                      <>
+                        {ucImages[i] && (
+                          <div className="relative h-36">
+                            <Image src={ucImages[i]} alt={useCase} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" {...(i === 0 ? { priority: true } : {})} />
+                          </div>
+                        )}
+                        <div className="p-4">
+                          <p className="text-sm font-medium leading-snug" style={{ color: "#010f62" }}>{useCase}</p>
                         </div>
-                      )}
-                      <div className="p-4">
-                        <p className="text-sm font-medium leading-snug" style={{ color: "#010f62" }}>{useCase}</p>
-                      </div>
-                    </div>
-                  ))}
+                      </>
+                    );
+                    return href ? (
+                      <a key={i} href={href} className="card-photo-link overflow-hidden">
+                        {inner}
+                      </a>
+                    ) : (
+                      <div key={i} className="card-static overflow-hidden">{inner}</div>
+                    );
+                  })}
                 </div>
               </div>
             )}
