@@ -6,6 +6,7 @@ import { industries } from '@/lib/industries-data'
 import { sortedPosts } from '@/lib/blog-data'
 import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, localePath, type Locale } from '@/lib/i18n/config'
 import { industryLocales, translatedIndustrySlugs } from '@/lib/i18n/industries'
+import { termLocales, translatedTermSlugs } from '@/lib/i18n/glossary'
 
 const BASE_URL = SITE_URL
 
@@ -124,12 +125,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Exclude /terms and /privacy — thin legal pages that waste crawl budget
 
-  const glossaryPages: MetadataRoute.Sitemap = glossaryTerms.map((term) => ({
-    url: `${BASE_URL}/glossary/${term.slug}`,
-    lastModified: LAST_UPDATED,
-    changeFrequency: 'monthly' as const,
-    priority: 0.5,
-  }))
+  const glossaryPages: MetadataRoute.Sitemap = glossaryTerms.map((term) => {
+    const path = `/glossary/${term.slug}`
+    const locales = termLocales(term.slug)
+    return {
+      url: `${BASE_URL}${path}`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+      ...(locales.length > 1 ? { alternates: alternateLanguages(path, locales) } : {}),
+    }
+  })
+
+  const translatedTermPages: MetadataRoute.Sitemap = TRANSLATED_LOCALES.flatMap((locale) =>
+    translatedTermSlugs(locale).map((slug) => ({
+      url: `${BASE_URL}${localePath(locale, `/glossary/${slug}`)}`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly' as const,
+      priority: 0.4,
+      alternates: alternateLanguages(`/glossary/${slug}`, termLocales(slug)),
+    }))
+  )
 
   const rolePages: MetadataRoute.Sitemap = roles.map((role) => ({
     url: `${BASE_URL}/roles/${role.slug}`,
@@ -191,6 +207,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...translatedPages,
     ...blogPages,
     ...glossaryPages,
+    ...translatedTermPages,
     ...rolePages,
     ...industryPages,
     ...translatedIndustryPages,

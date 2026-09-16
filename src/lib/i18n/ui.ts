@@ -25,6 +25,19 @@ export interface UiStrings {
     ctaDescription: string;
     ctaButton: string;
   };
+  glossary: {
+    relatedTerms: string;
+    back: string;
+    ctaHeadline: string;
+    ctaDescription: string;
+    ctaButton: string;
+    /**
+     * The five category labels, keyed by the English value in the data.
+     * Shown translated; the link still carries the English key, because
+     * /glossary filters on the English value.
+     */
+    categories: Record<string, string>;
+  };
   language: string;
 }
 
@@ -45,6 +58,21 @@ const en: UiStrings = {
     ctaDescription:
       "Take our free eIDAS 2.0 readiness assessment to understand how the regulation impacts your sector.",
     ctaButton: "Get your readiness score",
+  },
+  glossary: {
+    relatedTerms: "Related Terms",
+    back: "Back to glossary",
+    ctaHeadline: "See How eIDAS 2.0 Affects Your Organisation",
+    ctaDescription:
+      "Take our free readiness assessment to understand your compliance gaps and get actionable recommendations.",
+    ctaButton: "Get your readiness score",
+    categories: {
+      "Core Regulation": "Core Regulation",
+      "Digital Identity": "Digital Identity",
+      "Trust Services": "Trust Services",
+      "Technical Standards": "Technical Standards",
+      Governance: "Governance",
+    },
   },
   language: "Language",
 };
@@ -67,6 +95,21 @@ const de: UiStrings = {
       "Mit der kostenlosen eIDAS-2.0-Bereitschaftsanalyse sehen Sie, wie die Verordnung Ihren Sektor betrifft.",
     ctaButton: "Bereitschaftswert abrufen",
   },
+  glossary: {
+    relatedTerms: "Verwandte Begriffe",
+    back: "Zurück zum Glossar",
+    ctaHeadline: "Sehen Sie, wie eIDAS 2.0 Ihre Organisation betrifft",
+    ctaDescription:
+      "Mit der kostenlosen Bereitschaftsanalyse erkennen Sie Ihre Compliance-Lücken und erhalten konkrete Empfehlungen.",
+    ctaButton: "Bereitschaftswert abrufen",
+    categories: {
+      "Core Regulation": "Kernverordnung",
+      "Digital Identity": "Digitale Identität",
+      "Trust Services": "Vertrauensdienste",
+      "Technical Standards": "Technische Standards",
+      Governance: "Governance",
+    },
+  },
   language: "Sprache",
 };
 
@@ -88,6 +131,21 @@ const it: UiStrings = {
       "Con l'analisi gratuita di preparazione a eIDAS 2.0 scopri come il regolamento incide sul tuo settore.",
     ctaButton: "Ottieni il tuo punteggio",
   },
+  glossary: {
+    relatedTerms: "Termini correlati",
+    back: "Torna al glossario",
+    ctaHeadline: "Scopri come eIDAS 2.0 incide sulla tua organizzazione",
+    ctaDescription:
+      "Con l'analisi gratuita di preparazione individui le tue lacune di conformità e ricevi raccomandazioni concrete.",
+    ctaButton: "Ottieni il tuo punteggio",
+    categories: {
+      "Core Regulation": "Regolamento",
+      "Digital Identity": "Identità digitale",
+      "Trust Services": "Servizi fiduciari",
+      "Technical Standards": "Standard tecnici",
+      Governance: "Governance",
+    },
+  },
   language: "Lingua",
 };
 
@@ -108,6 +166,21 @@ const es: UiStrings = {
     ctaDescription:
       "Con la evaluación gratuita de preparación para eIDAS 2.0 verás cómo afecta el reglamento a tu sector.",
     ctaButton: "Obtén tu puntuación",
+  },
+  glossary: {
+    relatedTerms: "Términos relacionados",
+    back: "Volver al glosario",
+    ctaHeadline: "Descubre cómo afecta eIDAS 2.0 a tu organización",
+    ctaDescription:
+      "Con la evaluación gratuita de preparación identificas tus brechas de cumplimiento y recibes recomendaciones concretas.",
+    ctaButton: "Obtén tu puntuación",
+    categories: {
+      "Core Regulation": "Reglamento",
+      "Digital Identity": "Identidad digital",
+      "Trust Services": "Servicios de confianza",
+      "Technical Standards": "Estándares técnicos",
+      Governance: "Gobernanza",
+    },
   },
   language: "Idioma",
 };
