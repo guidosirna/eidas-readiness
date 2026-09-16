@@ -59,6 +59,26 @@ export function trackLeadSubmit(source: string, detail?: string) {
   trackEvent("lead_submit", "conversion", detail ? `${source}: ${detail}` : source);
 }
 
+/**
+ * The profile fields that arrive AFTER the email, on the gate's second step.
+ * A separate event on purpose: folded into `lead_submit` it would make the
+ * historical series count two different things under one name, and nothing
+ * about the chart would say so.
+ */
+export function trackLeadEnriched(source: string, detail?: string) {
+  trackEvent("lead_enriched", "conversion", detail ? `${source}: ${detail}` : source);
+}
+
+/**
+ * A work-email check turned an address away. Only the domain travels, never the
+ * address: the domain is the whole question, and it is what tells a filter that
+ * costs real leads from one that only stops throwaways. Until this existed a
+ * rejection left no trace at all, so the filter could not be judged either way.
+ */
+export function trackEmailRejected(source: string, domain: string) {
+  trackEvent("lead_email_rejected", "conversion", `${source}: ${domain}`);
+}
+
 /** Gate rendered: the denominator for the readwall conversion rate. */
 export function trackGateView(page: string) {
   trackEvent("content_gate_view", "engagement", page);

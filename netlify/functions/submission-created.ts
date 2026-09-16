@@ -120,6 +120,7 @@ const SHOWN_ABOVE = [
 
 const LABELS: Record<string, string> = {
   "content-gate": "Content gate",
+  "content-gate-profile": "Content gate, step two",
   assessment: "Readiness assessment",
   "contact-expert": "Talk to an expert",
   chatbot: "Help chatbot",
@@ -138,6 +139,10 @@ function subjectFor(form: string, data: Record<string, string>, identity: string
         : `Assessment completed by ${identity}`;
     case "content-gate":
       return `Guide unlocked by ${identity}`;
+    // Step two arrives as its own submission, minutes after the first. Its own
+    // subject line, so the inbox does not read it as a second lead.
+    case "content-gate-profile":
+      return `Lead filled in: ${identity}`;
     case "chatbot":
       return `Chatbot lead: ${identity}`;
     case "newsletter":

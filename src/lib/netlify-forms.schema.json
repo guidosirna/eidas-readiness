@@ -45,10 +45,14 @@
   ],
   "content-gate": [
     "email",
+    "source",
+    "page"
+  ],
+  "content-gate-profile": [
+    "email",
     "company",
     "role",
     "industry",
-    "country",
     "source",
     "page"
   ],
