@@ -4,6 +4,7 @@ import { glossaryTerms } from '@/lib/glossary-data'
 import { roles } from '@/lib/roles-data'
 import { industries } from '@/lib/industries-data'
 import { sortedPosts } from '@/lib/blog-data'
+import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, localePath } from '@/lib/i18n/config'
 
 const BASE_URL = SITE_URL
 
@@ -11,6 +12,19 @@ const BASE_URL = SITE_URL
 // Using new Date() makes every build emit new <lastmod>, triggering
 // unnecessary re-crawling and "Discovered - currently not indexed" issues.
 const LAST_UPDATED = '2026-02-23'
+
+// Pages that exist in German, Italian and Spanish as well as English. Each
+// entry, in every language, must list all of them: a one-way hreflang is not
+// believed. Adding a page to this array is all it takes, which is the point.
+const TRANSLATED_PATHS = ['/eidas-2-timeline']
+
+function alternateLanguages(path: string) {
+  const languages: Record<string, string> = {}
+  for (const locale of LOCALES) {
+    languages[LOCALE_TAGS[locale]] = `${BASE_URL}${localePath(locale, path)}`
+  }
+  return { languages }
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -73,6 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
+      alternates: alternateLanguages('/eidas-2-timeline'),
     },
     {
       url: `${BASE_URL}/eidas-2-compliance-checklist`,
@@ -138,5 +153,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...blogPages, ...glossaryPages, ...rolePages, ...industryPages]
+  // The translations are listed too, each with the same reciprocal set. A
+  // translated URL that only appears as an alternate of the English one tends
+  // to be treated as a duplicate rather than as a page of its own.
+  const translatedPages: MetadataRoute.Sitemap = TRANSLATED_PATHS.flatMap((path) =>
+    TRANSLATED_LOCALES.map((locale) => ({
+      url: `${BASE_URL}${localePath(locale, path)}`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+      alternates: alternateLanguages(path),
+    }))
+  )
+
+  return [...staticPages, ...translatedPages, ...blogPages, ...glossaryPages, ...rolePages, ...industryPages]
 }
