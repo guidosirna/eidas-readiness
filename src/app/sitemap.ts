@@ -18,7 +18,7 @@ const LAST_UPDATED = '2026-02-23'
 // Pages that exist in German, Italian and Spanish as well as English. Each
 // entry, in every language, must list all of them: a one-way hreflang is not
 // believed. Adding a page to this array is all it takes, which is the point.
-const TRANSLATED_PATHS = ['/eidas-2-timeline']
+const TRANSLATED_PATHS = ['/eidas-2-timeline', '/guide/eidas-2-compliance']
 
 function alternateLanguages(path: string, available: readonly Locale[] = LOCALES) {
   const languages: Record<string, string> = {}
@@ -65,6 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: alternateLanguages('/guide/eidas-2-compliance'),
     },
     {
       url: `${BASE_URL}/guide/eudiw-preparation`,
