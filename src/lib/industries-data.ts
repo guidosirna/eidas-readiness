@@ -22,9 +22,9 @@ export const industries: IndustryPage[] = [
     title: "Financial Services",
     shortDescription:
       "How eIDAS 2.0 and the European Digital Identity Wallet transform customer onboarding, authentication, and regulatory compliance for banks, payment providers, and fintechs.",
-    metaTitle: "eIDAS 2.0 for Financial Services | Banking Compliance Guide",
+    metaTitle: "eIDAS 2.0 for Banks: EUDI Wallet Acceptance and KYC Rules",
     metaDescription:
-      "How eIDAS 2.0 and EUDIW impact banks, payment providers, and fintechs. Customer onboarding, strong authentication, and KYC requirements explained.",
+      "Banks, payment providers and fintechs become mandatory relying parties. What wallet-based onboarding, strong authentication and KYC demand, and when each obligation lands.",
     heroTagline:
       "Transform customer onboarding and authentication in the digital identity era",
     sections: [
@@ -103,9 +103,9 @@ export const industries: IndustryPage[] = [
     title: "Healthcare",
     shortDescription:
       "How eIDAS 2.0 and the European Digital Identity Wallet impact patient identification, health attestations, cross-border healthcare access, and electronic health record management.",
-    metaTitle: "eIDAS 2.0 for Healthcare | Patient Identity Guide",
+    metaTitle: "eIDAS 2.0 in Healthcare: Patient Identity and Wallet Acceptance",
     metaDescription:
-      "How eIDAS 2.0 impacts healthcare providers and insurers. Patient identity verification, health attestations, and cross-border care access.",
+      "How the EU Digital Identity Wallet changes patient identification, health attestations and cross-border care, and what providers must deploy from 2026.",
     heroTagline:
       "Secure patient identity and enable cross-border healthcare in the digital identity era",
     sections: [

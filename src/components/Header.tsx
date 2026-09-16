@@ -1,20 +1,32 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { linkPath, localeFromPathname } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
+import type { Locale } from "@/lib/i18n/config";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 import { Menu, X, ArrowUpRight, ChevronDown, Shield, CreditCard, BookOpen, Building, Scale, Landmark, Heart, Wifi, ShoppingCart, Plane, Code2, Globe, ClipboardCheck, Clock, Mail } from "lucide-react";
 import Image from "next/image";
 
+/**
+ * `key` marks an entry whose target page has a translation, so its label and
+ * description are resolved from UI at render. Without it the same page was
+ * named twice on one header: "Häufige Fragen" in the utility bar and "FAQ" in
+ * this dropdown, "Zeitplan" in the main bar and "Timeline" here.
+ */
 const learnFeatured = [
-  { href: "/guide/eidas-2-compliance", label: "eIDAS 2.0 Compliance Guide", description: "Everything you need to know about the regulation, requirements, and implementation steps", icon: BookOpen },
+  { href: "/guide/eidas-2-compliance", key: "guide" as const, label: "eIDAS 2.0 Compliance Guide", description: "Everything you need to know about the regulation, requirements, and implementation steps", icon: BookOpen },
   { href: "/guide/eudiw-preparation", label: "EU Digital Identity Wallet Guide", description: "Technical preparation guide for the EUDIW: architecture, protocols, and integration", icon: Shield },
 ];
 
 const learnSecondary = [
-  { href: "/faq", label: "FAQ", description: "Answers to common eIDAS 2.0 questions" },
+  { href: "/faq", key: "faq" as const, label: "FAQ", description: "Answers to common eIDAS 2.0 questions" },
   { href: "/glossary", label: "Glossary", description: "Key terms and definitions explained" },
-  { href: "/eidas-2-timeline", label: "Timeline", description: "Key dates and regulatory milestones" },
+  { href: "/eidas-2-timeline", key: "timeline" as const, label: "Timeline", description: "Key dates and regulatory milestones" },
+  { href: "/blog", label: "Blog", description: "Regulatory briefs and analysis" },
   { href: "/eidas-2-compliance-checklist", label: "Compliance Checklist", description: "Step-by-step compliance tracker" },
-  { href: "/eidas-timestamp", label: "Timestamp Tool", description: "Trusted timestamping for documents" },
+  { href: "/glossary/etimestamp", key: "timestamp" as const, label: "Electronic Timestamps", description: "What a qualified timestamp proves, and when you need one" },
 ];
 
 const prepareByRole = [
@@ -35,19 +47,34 @@ const prepareByIndustry = [
 
 type ActiveMenu = "learn" | "prepare" | null;
 
+type NavLink = { href: string; label: string; description?: string; key?: "guide" | "faq" | "timeline" | "timestamp" };
+
+/** The label and description for a nav entry, in the reader's language. */
+function navText(link: NavLink, t: (typeof UI)[Locale]["header"]) {
+  if (link.key === "guide") return { label: t.guide, description: t.guideDesc };
+  if (link.key === "faq") return { label: t.faq, description: t.faqDesc };
+  if (link.key === "timeline") return { label: t.timeline, description: t.timelineDesc };
+  if (link.key === "timestamp") return { label: t.timestamp, description: t.timestampDesc };
+  return { label: link.label, description: link.description };
+}
+
 function LearnMenu({ onClose }: { onClose: () => void }) {
+  // The nav must keep a reader in their language on the pages that have
+  // one. linkPath leaves the rest pointing at the English page.
+  const locale = localeFromPathname(usePathname());
+  const t = UI[locale].header;
   return (
     <div className="grid grid-cols-5 gap-0">
       {/* Featured guides — 3 cols */}
       <div className="col-span-3 p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
-        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Guides</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>{t.guides}</p>
         <div className="space-y-1">
           {learnFeatured.map((link) => {
             const Icon = link.icon;
             return (
               <a
                 key={link.href}
-                href={link.href}
+                href={linkPath(locale, link.href)}
                 onClick={onClose}
                 className="flex items-start gap-4 p-3 transition-colors hover:bg-gray-50 group"
                 style={{ borderRadius: "2px" }}
@@ -56,8 +83,8 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
                   <Icon className="h-5 w-5" style={{ color: "#0033ff" }} />
                 </div>
                 <div>
-                  <span className="block text-[15px] font-semibold group-hover:opacity-80" style={{ color: "#010f62" }}>{link.label}</span>
-                  <span className="block text-sm mt-1 leading-relaxed" style={{ color: "#62718d" }}>{link.description}</span>
+                  <span className="block text-[15px] font-semibold group-hover:opacity-80" style={{ color: "#010f62" }}>{navText(link, t).label}</span>
+                  <span className="block text-sm mt-1 leading-relaxed" style={{ color: "#62718d" }}>{navText(link, t).description}</span>
                 </div>
               </a>
             );
@@ -67,18 +94,18 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
 
       {/* Secondary links — 2 cols */}
       <div className="col-span-2 p-6">
-        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>Resources</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>{t.resources}</p>
         <div className="space-y-1">
           {learnSecondary.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={linkPath(locale, link.href)}
               onClick={onClose}
               className="block p-2.5 transition-colors hover:bg-gray-50 group"
               style={{ borderRadius: "2px" }}
             >
-              <span className="block text-sm font-semibold group-hover:opacity-80" style={{ color: "#010f62" }}>{link.label}</span>
-              <span className="block text-sm mt-0.5" style={{ color: "#62718d" }}>{link.description}</span>
+              <span className="block text-sm font-semibold group-hover:opacity-80" style={{ color: "#010f62" }}>{navText(link, t).label}</span>
+              <span className="block text-sm mt-0.5" style={{ color: "#62718d" }}>{navText(link, t).description}</span>
             </a>
           ))}
         </div>
@@ -88,18 +115,22 @@ function LearnMenu({ onClose }: { onClose: () => void }) {
 }
 
 function PrepareMenu({ onClose }: { onClose: () => void }) {
+  // The nav must keep a reader in their language on the pages that have
+  // one. linkPath leaves the rest pointing at the English page.
+  const locale = localeFromPathname(usePathname());
+  const t = UI[locale].header;
   return (
     <div className="grid grid-cols-2 gap-0">
       {/* By Role */}
       <div className="p-6" style={{ borderRight: "1px solid #e8e8e8" }}>
-        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Role</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>{t.byRole}</p>
         <div className="grid grid-cols-2 gap-x-2 gap-y-1">
           {prepareByRole.map((link) => {
             const Icon = link.icon;
             return (
               <a
                 key={link.href}
-                href={link.href}
+                href={linkPath(locale, link.href)}
                 onClick={onClose}
                 className="flex items-center gap-2 px-2 py-2.5 transition-colors hover:bg-gray-50 group"
                 style={{ borderRadius: "2px" }}
@@ -111,20 +142,20 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
           })}
         </div>
         <div className="mt-4 pt-3" style={{ borderTop: "1px solid #e8e8e8" }}>
-          <a href="/roles" onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all roles &rarr;</a>
+          <a href={linkPath(locale, "/roles")} onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all roles &rarr;</a>
         </div>
       </div>
 
       {/* By Industry */}
       <div className="p-6">
-        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>By Industry</p>
+        <p className="text-sm font-semibold uppercase tracking-widest mb-5" style={{ color: "#62718d" }}>{t.byIndustry}</p>
         <div className="grid grid-cols-2 gap-1">
           {prepareByIndustry.map((link) => {
             const Icon = link.icon;
             return (
               <a
                 key={link.href}
-                href={link.href}
+                href={linkPath(locale, link.href)}
                 onClick={onClose}
                 className="flex items-center gap-2.5 p-2.5 transition-colors hover:bg-gray-50 group"
                 style={{ borderRadius: "2px" }}
@@ -136,7 +167,7 @@ function PrepareMenu({ onClose }: { onClose: () => void }) {
           })}
         </div>
         <div className="mt-4 pt-3" style={{ borderTop: "1px solid #e8e8e8" }}>
-          <a href="/industries" onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all industries &rarr;</a>
+          <a href={linkPath(locale, "/industries")} onClick={onClose} className="text-sm font-semibold" style={{ color: "#0033ff" }}>View all industries &rarr;</a>
         </div>
       </div>
     </div>
@@ -150,6 +181,9 @@ function MegaMenu({
   active: ActiveMenu;
   onClose: () => void;
 }) {
+  const locale = localeFromPathname(usePathname());
+  const t = UI[locale].header;
+
   if (!active) return null;
 
   return (
@@ -169,15 +203,15 @@ function MegaMenu({
 
           {/* CTA sidebar */}
           <div className="w-64 shrink-0 p-6 flex flex-col justify-center" style={{ backgroundColor: "#f9f9fa", borderLeft: "1px solid #e8e8e8" }}>
-            <p className="text-sm font-semibold mb-2" style={{ color: "#010f62" }}>Ready to check your compliance?</p>
-            <p className="text-sm mb-4 leading-relaxed" style={{ color: "#62718d" }}>Answer 12 questions and get a personalised readiness score.</p>
+            <p className="text-sm font-semibold mb-2" style={{ color: "#010f62" }}>{t.ctaQuestion}</p>
+            <p className="text-sm mb-4 leading-relaxed" style={{ color: "#62718d" }}>{t.ctaBlurb}</p>
             <a
-              href="/assessment"
+              href={linkPath(locale, "/assessment")}
               onClick={onClose}
               className="btn-primary justify-center text-sm"
               style={{ padding: "10px 16px" }}
             >
-              eIDAS Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
+              {t.ctaButton} <ArrowUpRight className="h-4 w-4 arrow-animate" />
             </a>
           </div>
         </div>
@@ -187,6 +221,10 @@ function MegaMenu({
 }
 
 export default function Header() {
+  // The nav must keep a reader in their language on the pages that have
+  // one. linkPath leaves the rest pointing at the English page.
+  const locale = localeFromPathname(usePathname());
+  const t = UI[locale].header;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<ActiveMenu>(null);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
@@ -213,15 +251,13 @@ export default function Header() {
       <div className="hidden md:block" style={{ backgroundColor: "#010f62" }}>
         <div className="mx-auto max-w-7xl px-6 flex items-center justify-between h-9">
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-            A free resource for EU digital identity compliance
+            {t.tagline}
           </p>
           <div className="flex items-center gap-5">
-            <a href="/faq" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>FAQ</a>
-            <a href="/glossary" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Glossary</a>
+            <a href={linkPath(locale, "/faq")} className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>{t.faq}</a>
+            <a href={linkPath(locale, "/glossary")} className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Glossary</a>
             <span className="w-px h-3.5" style={{ backgroundColor: "rgba(255,255,255,0.2)" }} />
-            <span className="inline-flex items-center gap-1.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-              <Globe className="h-3.5 w-3.5" /> English
-            </span>
+            <LocaleSwitcher />
           </div>
         </div>
       </div>
@@ -230,7 +266,7 @@ export default function Header() {
       <div className="bg-white" style={{ borderBottom: "1px solid #e8e8e8" }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-2.5">
+          <a href={linkPath(locale, "/")} className="flex items-center gap-2.5">
             <Image src="/logos/eu-flag.svg" alt="EU" width={28} height={20} className="h-5 w-auto" />
             <span className="flex items-baseline gap-1">
               <span className="font-display text-lg font-bold tracking-tight" style={{ color: "#010f62" }}>eIDAS</span>
@@ -249,7 +285,7 @@ export default function Header() {
                 onMouseLeave={scheduleClose}
                 onClick={() => setActiveMenu(activeMenu === "learn" ? null : "learn")}
               >
-                Learn
+                {t.learn}
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "learn" ? "rotate-180" : ""}`} />
               </button>
 
@@ -262,26 +298,26 @@ export default function Header() {
                 onMouseLeave={scheduleClose}
                 onClick={() => setActiveMenu(activeMenu === "prepare" ? null : "prepare")}
               >
-                Prepare
+                {t.prepare}
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform ${activeMenu === "prepare" ? "rotate-180" : ""}`} />
               </button>
 
               {/* Direct links */}
               <span className="w-px h-5 mx-1" style={{ backgroundColor: "#e8e8e8" }} />
-              <a href="/eidas-2-timeline" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
-                Timeline
+              <a href={linkPath(locale, "/eidas-2-timeline")} className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+                {t.timeline}
               </a>
-              <a href="/eidas-2-compliance-checklist" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+              <a href={linkPath(locale, "/eidas-2-compliance-checklist")} className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
                 Checklist
               </a>
-              <a href="/services" className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
+              <a href={linkPath(locale, "/services")} className="inline-flex items-center gap-1.5 px-3 h-full text-[15px] font-medium hover:opacity-70 transition-opacity" style={{ color: "#010f62" }}>
                 Services
               </a>
             </div>
 
             {/* Assessment CTA */}
             <a
-              href="/assessment"
+              href={linkPath(locale, "/assessment")}
               className="ml-4 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white transition-colors"
               style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
             >
@@ -322,14 +358,14 @@ export default function Header() {
                 className="flex w-full items-center justify-between py-3 text-sm font-semibold"
                 style={{ color: "#010f62" }}
               >
-                Learn
+                {t.learn}
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileAccordion === "learn" ? "rotate-180" : ""}`} style={{ color: "#62718d" }} />
               </button>
               {mobileAccordion === "learn" && (
                 <div className="pb-2 pl-2 space-y-1">
                   {[...learnFeatured, ...learnSecondary].map((link) => (
-                    <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
-                      {link.label}
+                    <a key={link.href} href={linkPath(locale, link.href)} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
+                      {navText(link, t).label}
                     </a>
                   ))}
                 </div>
@@ -344,21 +380,21 @@ export default function Header() {
                 className="flex w-full items-center justify-between py-3 text-sm font-semibold"
                 style={{ color: "#010f62" }}
               >
-                Prepare
+                {t.prepare}
                 <ChevronDown className={`h-4 w-4 transition-transform ${mobileAccordion === "prepare" ? "rotate-180" : ""}`} style={{ color: "#62718d" }} />
               </button>
               {mobileAccordion === "prepare" && (
                 <div className="pb-2 pl-2 space-y-1">
-                  <p className="text-sm font-semibold uppercase tracking-widest mt-1 mb-2" style={{ color: "#62718d" }}>By Role</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mt-1 mb-2" style={{ color: "#62718d" }}>{t.byRole}</p>
                   {prepareByRole.map((link) => (
-                    <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
-                      {link.label}
+                    <a key={link.href} href={linkPath(locale, link.href)} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
+                      {navText(link, t).label}
                     </a>
                   ))}
-                  <p className="text-sm font-semibold uppercase tracking-widest mt-3 mb-2" style={{ color: "#62718d" }}>By Industry</p>
+                  <p className="text-sm font-semibold uppercase tracking-widest mt-3 mb-2" style={{ color: "#62718d" }}>{t.byIndustry}</p>
                   {prepareByIndustry.map((link) => (
-                    <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
-                      {link.label}
+                    <a key={link.href} href={linkPath(locale, link.href)} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm" style={{ color: "#62718d" }}>
+                      {navText(link, t).label}
                     </a>
                   ))}
                 </div>
@@ -367,21 +403,27 @@ export default function Header() {
 
             {/* Direct links */}
             <div className="pt-4 space-y-1" style={{ borderTop: "1px solid #e8e8e8" }}>
-              <a href="/eidas-2-timeline" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
-                Timeline
+              <a href={linkPath(locale, "/eidas-2-timeline")} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+                {t.timeline}
               </a>
-              <a href="/eidas-2-compliance-checklist" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+              <a href={linkPath(locale, "/eidas-2-compliance-checklist")} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
                 Checklist
               </a>
-              <a href="/services" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
+              <a href={linkPath(locale, "/services")} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium" style={{ color: "#010f62" }}>
                 Services
               </a>
             </div>
 
             <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>
-              <a href="/assessment" onClick={() => setMobileMenuOpen(false)} className="block py-3 text-sm font-semibold" style={{ color: "#0033ff" }}>
-                eIDAS Quick Check &rarr;
+              <a href={linkPath(locale, "/assessment")} onClick={() => setMobileMenuOpen(false)} className="block py-3 text-sm font-semibold" style={{ color: "#0033ff" }}>
+                {t.ctaButton} &rarr;
               </a>
+            </div>
+
+            {/* The switcher lives in the utility bar, which is hidden below
+                md, so on a phone there was no way to change language at all. */}
+            <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>
+              <LocaleSwitcher variant="inline" />
             </div>
           </div>
         </div>

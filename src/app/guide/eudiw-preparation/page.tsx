@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
@@ -47,16 +48,16 @@ export default function EudiwPreparationGuidePage() {
     author: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "eIDAS 2.0 Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://www.eidasreadiness.com/guide/eudiw-preparation",
+      "@id": `${SITE_URL}/guide/eudiw-preparation`,
     },
     // Registration-wall markup: tells Google the section behind ContentGate is
     // intentionally gated, so serving it in the DOM is not treated as cloaking.

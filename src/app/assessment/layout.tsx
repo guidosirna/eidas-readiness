@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 
@@ -21,7 +22,7 @@ const webAppJsonLd = {
   name: "eIDAS 2.0 Readiness Assessment",
   description:
     "Evaluate your organization's preparedness for eIDAS 2.0 and the EU Digital Identity Wallet. Free assessment with actionable recommendations.",
-  url: "https://www.eidasreadiness.com/assessment",
+  url: `${SITE_URL}/assessment`,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Any",
   offers: {

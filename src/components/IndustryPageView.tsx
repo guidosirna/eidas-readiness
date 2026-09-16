@@ -1,0 +1,331 @@
+import { SITE_URL } from "@/lib/site";
+import Image from "next/image";
+import { CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, Check, ArrowUpRight, ChevronRight, Clock } from "lucide-react";
+import { getIndustryBySlug } from "@/lib/industries-data";
+import { getRoleBySlug } from "@/lib/roles-data";
+import JsonLd from "@/components/JsonLd";
+import CtaBlock from "@/components/CtaBlock";
+import SidebarLayout from "@/components/SidebarLayout";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import HtmlLang from "@/components/HtmlLang";
+import { UI } from "@/lib/i18n/ui";
+import { industryLocales, type IndustryTranslation } from "@/lib/i18n/industries";
+import { DEFAULT_LOCALE, LOCALE_TAGS, linkPath, localePath, type Locale } from "@/lib/i18n/config";
+
+const industryIcons: Record<string, React.ElementType> = {
+  "financial-services": CreditCard, healthcare: Heart, "government-public-sector": Landmark,
+  telecommunications: Wifi, "ecommerce-platforms": ShoppingCart, "travel-transport": Plane,
+};
+
+const industryImages: Record<string, string> = {
+  "financial-services": "/images/financial-services.jpg",
+  healthcare: "/images/healthcare.jpg",
+  "government-public-sector": "/images/government.jpg",
+  telecommunications: "/images/telecommunications.jpg",
+  "ecommerce-platforms": "/images/ecommerce.jpg",
+  "travel-transport": "/images/travel.jpg",
+};
+
+const useCaseImages: Record<string, string[]> = {
+  "financial-services": [
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80",
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
+    "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=600&q=80",
+  ],
+  healthcare: [
+    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80",
+    "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&q=80",
+    "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600&q=80",
+    "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80",
+    "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&q=80",
+    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80",
+  ],
+  "government-public-sector": [
+    "https://images.unsplash.com/photo-1577415124269-fc1140a69e91?w=600&q=80",
+    "https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=600&q=80",
+    "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=600&q=80",
+    "https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?w=600&q=80",
+    "https://images.unsplash.com/photo-1494172961521-33799ddd43a5?w=600&q=80",
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80",
+  ],
+  telecommunications: [
+    "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=600&q=80",
+    "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80",
+    "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80",
+    "https://images.unsplash.com/photo-1562408590-e32931084e23?w=600&q=80",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
+    "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=80",
+  ],
+  "ecommerce-platforms": [
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80",
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
+    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&q=80",
+    "https://images.unsplash.com/photo-1556740758-90de374c12ad?w=600&q=80",
+    "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80",
+  ],
+  "travel-transport": [
+    "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80",
+    "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80",
+    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80",
+    "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=600&q=80",
+    "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=600&q=80",
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80",
+  ],
+};
+
+/**
+ * Where each use case goes.
+ *
+ * The cards carried an image and card styling and linked nowhere, which reads
+ * as a link that failed. Each one now goes to the glossary term that actually
+ * carries the sentence rather than the most obvious one: age verification goes
+ * to selective disclosure, because proving you are over 18 without giving your
+ * date of birth is what that term is for; telemedicine goes to level of
+ * assurance, because that is what decides whether you may authenticate a
+ * patient remotely at all.
+ *
+ * Index-aligned with the useCases array in industries-data.ts. A missing entry
+ * renders the card unlinked rather than pointing somewhere wrong.
+ */
+const useCaseLinks: Record<string, string[]> = {
+  "financial-services": [
+    "/glossary/pid",
+    "/glossary/psd2",
+    "/glossary/selective-disclosure",
+    "/glossary/notified-eid-scheme",
+    "/glossary/qes",
+    "/glossary/qeaa",
+  ],
+  healthcare: [
+    "/glossary/pid",
+    "/glossary/eaa",
+    "/glossary/eudiw",
+    "/glossary/selective-disclosure",
+    "/glossary/loa",
+    "/glossary/qeaa",
+  ],
+};
+
+export function industryPath(slug: string) {
+  return `/industries/${slug}`;
+}
+
+/**
+ * One sector page, in one language.
+ *
+ * `content` is the text to render: the English record straight out of
+ * industries-data, or a translation. Everything else about the page, the
+ * images, the icon, the related links, comes from the English data regardless
+ * of language, because those pages are only in English. Linking a German
+ * reader to an English sector page is honest; giving that link a German label
+ * would not be.
+ */
+export default function IndustryPageView({
+  locale,
+  slug,
+  content,
+}: {
+  locale: Locale;
+  slug: string;
+  content: IndustryTranslation;
+}) {
+  const t = UI[locale];
+  const english = getIndustryBySlug(slug)!;
+  const Icon = industryIcons[slug] ?? Landmark;
+  const heroImage = industryImages[slug] ?? "/images/office-meeting.jpg";
+  const ucImages = useCaseImages[slug] ?? [];
+  const ucLinks = useCaseLinks[slug] ?? [];
+  const relatedIndustries = english.relatedIndustries
+    .map((s) => getIndustryBySlug(s))
+    .filter(Boolean) as NonNullable<ReturnType<typeof getIndustryBySlug>>[];
+  const relatedRoles = english.relatedRoles
+    .map((s) => getRoleBySlug(s))
+    .filter(Boolean) as NonNullable<ReturnType<typeof getRoleBySlug>>[];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: content.title,
+    description: content.metaDescription,
+    inLanguage: LOCALE_TAGS[locale],
+    url: `${SITE_URL}${localePath(locale, industryPath(slug))}`,
+  };
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      {locale !== DEFAULT_LOCALE && <HtmlLang lang={LOCALE_TAGS[locale]} />}
+
+      <Breadcrumbs items={[{ label: t.breadcrumb.industries, href: "/industries" }, { label: content.title }]} />
+
+      {/* Hero with background photo */}
+      <section className="relative" style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${heroImage}')` }} />
+        <div className="absolute inset-0" style={{ backgroundColor: "rgba(1,15,98,0.88)" }} />
+        <div className="relative mx-auto max-w-7xl px-6 py-14 sm:py-20">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 flex items-center justify-center text-white" style={{ backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "2px" }}>
+              <Icon className="h-6 w-6" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl" style={{ color: "#fff" }}>{content.title}</h1>
+          </div>
+          <p className="text-lg max-w-2xl" style={{ color: "rgba(255,255,255,0.7)" }}>{content.heroTagline}</p>
+        </div>
+      </section>
+
+      {/* Article content with sidebar — everything in one flow */}
+      <section style={{ borderBottom: "1px solid #e8e8e8" }}>
+        <SidebarLayout shareTitle={content.title} sections={[
+          ...content.sections.map((s, i) => ({ id: `section-${i}`, label: s.heading })),
+          ...(content.keyRequirements.length > 0 ? [{ id: "key-requirements", label: t.industry.keyRequirements }] : []),
+          ...(content.useCases.length > 0 ? [{ id: "use-cases", label: t.industry.useCases }] : []),
+        ]}>
+          <div className="space-y-12">
+            {/* Article sections */}
+            {content.sections.map((section, i) => {
+              const paragraphs = section.content.split(/\n\n+/).filter((p) => p.trim().length > 0);
+              return (
+                <div key={i} id={`section-${i}`}>
+                  <h2 className="text-2xl sm:text-3xl mb-4">{section.heading}</h2>
+                  <div className="space-y-4">
+                    {paragraphs.map((paragraph, j) => (
+                      <p key={j} className="text-base leading-relaxed" style={{ color: "#62718d" }}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Key Requirements — inline */}
+            {content.keyRequirements.length > 0 && (
+              <div id="key-requirements">
+                <h2 className="text-2xl sm:text-3xl mb-6">{t.industry.keyRequirements}</h2>
+                <div className="space-y-3">
+                  {content.keyRequirements.map((item, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#0033ff" }} />
+                      <span className="text-base leading-relaxed" style={{ color: "#62718d" }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 flex items-center gap-2">
+                  <Clock className="h-4 w-4" style={{ color: "#0033ff" }} />
+                  <a href={linkPath(locale, "/eidas-2-timeline")} className="text-sm font-semibold hover:underline" style={{ color: "#0033ff" }}>
+                    {t.industry.timelineLink}
+                  </a>
+                  <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" style={{ color: "#0033ff" }} />
+                </div>
+              </div>
+            )}
+
+            {/* Use Cases — inline */}
+            {content.useCases.length > 0 && (
+              <div id="use-cases">
+                <h2 className="text-2xl sm:text-3xl mb-6">{t.industry.useCases}</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {content.useCases.map((useCase, i) => {
+                    const href = ucLinks[i];
+                    const inner = (
+                      <>
+                        {ucImages[i] && (
+                          <div className="relative h-36">
+                            <Image src={ucImages[i]} alt={useCase} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" {...(i === 0 ? { priority: true } : {})} />
+                          </div>
+                        )}
+                        <div className="p-4">
+                          <p className="text-sm font-medium leading-snug" style={{ color: "#010f62" }}>{useCase}</p>
+                        </div>
+                      </>
+                    );
+                    return href ? (
+                      <a key={i} href={href} className="card-photo-link overflow-hidden">
+                        {inner}
+                      </a>
+                    ) : (
+                      <div key={i} className="card-static overflow-hidden">{inner}</div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </SidebarLayout>
+      </section>
+
+      {/* Related Industries & Roles — compact. English targets, English labels. */}
+      {(relatedIndustries.length > 0 || relatedRoles.length > 0) && (
+        <section style={{ backgroundColor: "#f0f4ff", borderBottom: "1px solid #e8e8e8" }}>
+          <div className="mx-auto max-w-7xl px-6 py-14">
+            <div className="grid lg:grid-cols-2 gap-10">
+              {relatedIndustries.length > 0 && (
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>{t.industry.relatedIndustries}</p>
+                  <div className="space-y-1.5">
+                    {relatedIndustries.map((ind) => (
+                      <a key={ind.slug} href={`/industries/${ind.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>
+                        <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-semibold" style={{ color: "#010f62" }}>{ind.title}</h3>
+                          <p className="text-sm line-clamp-1 mt-0.5" style={{ color: "#62718d" }}>{ind.shortDescription}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {relatedRoles.length > 0 && (
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-widest mb-4" style={{ color: "#62718d" }}>{t.industry.relatedRoles}</p>
+                  <div className="space-y-1.5">
+                    {relatedRoles.map((r) => (
+                      <a key={r.slug} href={`/roles/${r.slug}`} className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60" style={{ borderRadius: "2px" }}>
+                        <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "#0033ff" }} />
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-semibold" style={{ color: "#010f62" }}>{r.title}</h3>
+                          <p className="text-sm line-clamp-1 mt-0.5" style={{ color: "#62718d" }}>{r.shortDescription}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section style={{ backgroundColor: "#f9f9fa" }}>
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <CtaBlock
+            headline={t.industry.ctaHeadline}
+            description={t.industry.ctaDescription}
+            buttonText={t.industry.ctaButton}
+          />
+        </div>
+      </section>
+    </>
+  );
+}
+
+/** Metadata for one sector page in one language. */
+export function industryMetadata(locale: Locale, slug: string, content: IndustryTranslation) {
+  const image = industryImages[slug];
+  return {
+    // absolute: the root layout appends "| eIDAS 2.0 Readiness", and these
+    // titles already carry the sector, which is what earns the click.
+    title: { absolute: content.metaTitle },
+    description: content.metaDescription,
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+      type: "article" as const,
+      url: localePath(locale, industryPath(slug)),
+      locale: LOCALE_TAGS[locale],
+      images: image ? [{ url: image, width: 1200, height: 630, alt: content.title }] : undefined,
+    },
+  };
+}

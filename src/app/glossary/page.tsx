@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import CtaBlock from "@/components/CtaBlock";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import GlossaryPageClient from "@/components/GlossaryPageClient";
+import GlossaryTermList from "@/components/GlossaryTermList";
 
 export const metadata: Metadata = {
   title: "eIDAS 2.0 Glossary | Digital Identity Terms Explained",
@@ -27,12 +29,12 @@ export default function GlossaryPage() {
     name: "eIDAS 2.0 & Digital Identity Glossary",
     description:
       "Comprehensive glossary of terms related to eIDAS 2.0, the European Digital Identity Wallet, trust services, and digital identity standards.",
-    url: "https://www.eidasreadiness.com/glossary",
+    url: `${SITE_URL}/glossary`,
     hasDefinedTerm: glossaryTerms.map((t) => ({
       "@type": "DefinedTerm",
       name: t.term,
       description: t.shortDefinition,
-      url: `https://www.eidasreadiness.com/glossary/${t.slug}`,
+      url: `${SITE_URL}/glossary/${t.slug}`,
     })),
   };
 
@@ -61,8 +63,14 @@ export default function GlossaryPage() {
         </div>
       </section>
 
-      {/* Interactive glossary content with search + filters */}
-      <Suspense>
+      {/* Interactive glossary content with search + filters.
+          The fallback is the whole list as plain links, and it is load-bearing
+          rather than cosmetic: GlossaryPageClient reads useSearchParams, so
+          Next bails out of prerendering it and whatever sits in the fallback is
+          what ends up in the static HTML. With no fallback, /glossary served a
+          page with zero links to its 36 terms, which is why 35 of them sat in
+          Search Console as discovered and never crawled. */}
+      <Suspense fallback={<GlossaryTermList />}>
         <GlossaryPageClient />
       </Suspense>
 

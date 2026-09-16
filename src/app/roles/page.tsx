@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { Shield, Code2, Scale, LayoutGrid, ArrowUpRight } from "lucide-react";
 import { roles } from "@/lib/roles-data";
@@ -25,7 +26,7 @@ const roleMeta: Record<string, { icon: React.ElementType }> = {
 };
 
 export default function RolesIndexPage() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 Readiness by Role", description: "Role-specific eIDAS 2.0 compliance guidance.", url: "https://www.eidasreadiness.com/roles" };
+  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 Readiness by Role", description: "Role-specific eIDAS 2.0 compliance guidance.", url: `${SITE_URL}/roles` };
 
   return (
     <>

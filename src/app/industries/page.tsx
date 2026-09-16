@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import {
   CreditCard, Heart, Landmark, Wifi, ShoppingCart, Plane, ArrowUpRight,
@@ -29,7 +30,7 @@ const industryMeta: Record<string, { icon: React.ElementType }> = {
 };
 
 export default function IndustriesIndexPage() {
-  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 by Industry", description: "Sector-specific eIDAS 2.0 compliance guidance.", url: "https://www.eidasreadiness.com/industries" };
+  const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: "eIDAS 2.0 by Industry", description: "Sector-specific eIDAS 2.0 compliance guidance.", url: `${SITE_URL}/industries` };
 
   return (
     <>

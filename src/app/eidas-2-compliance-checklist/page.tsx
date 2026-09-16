@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -29,16 +30,16 @@ export default function ComplianceChecklistPage() {
     author: {
       "@type": "Organization",
       name: "eIDAS Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "eIDAS Readiness",
-      url: "https://www.eidasreadiness.com",
+      url: SITE_URL,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://www.eidasreadiness.com/eidas-2-compliance-checklist",
+      "@id": `${SITE_URL}/eidas-2-compliance-checklist`,
     },
   };
 

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const BASE_URL = "https://www.eidasreadiness.com";
+const BASE_URL = SITE_URL;
 
 export default function ServicesRoute() {
   const jsonLd = {

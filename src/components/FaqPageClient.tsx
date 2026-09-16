@@ -1,23 +1,59 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
-import { faqItems, faqCategories, getFaqsByCategory } from "@/lib/faq-data";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import FaqAccordion from "@/components/FaqAccordion";
 import FilterPills from "@/components/FilterPills";
 
-const categorySlug = (cat: string) =>
-  cat.toLowerCase().replace(/\s+/g, "-");
+/**
+ * The anchor for a category section.
+ *
+ * Built from the English category value, never the translated label, so
+ * /de/faq#business-compliance and /faq#business-compliance are the same
+ * section and a link into one keeps working in every language.
+ */
+const categorySlug = (cat: string) => cat.toLowerCase().replace(/\s+/g, "-");
 
-export default function FaqPageClient() {
+export interface FaqViewItem {
+  id: string;
+  /** The English category value. Filtering and anchors key off this. */
+  category: string;
+  question: string;
+  answer: string;
+}
+
+export interface FaqViewLabels {
+  categories: Record<string, string>;
+  searchPlaceholder: string;
+  noResults: string;
+  all: string;
+}
+
+export default function FaqPageClient({
+  faqItems,
+  faqCategories,
+  labels,
+}: {
+  faqItems: FaqViewItem[];
+  faqCategories: string[];
+  labels: FaqViewLabels;
+}) {
+  // Memoised so the useMemo blocks below can depend on it without
+  // recomputing on every render. Before the items became props this read a
+  // module-level array, which is why the dependency arrays were incomplete.
+  const getFaqsByCategory = useCallback(
+    (cat: string) => faqItems.filter((i) => i.category === cat),
+    [faqItems]
+  );
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSidebarCat, setActiveSidebarCat] = useState(faqCategories[0]);
+
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const filteredByCategory = useMemo(() => {
     if (!activeCategory) return faqItems;
     return getFaqsByCategory(activeCategory);
-  }, [activeCategory]);
+  }, [activeCategory, faqItems, getFaqsByCategory]);
 
   const filteredItems = useMemo(() => {
     if (!search.trim()) return filteredByCategory;
@@ -39,7 +75,7 @@ export default function FaqPageClient() {
         items: filteredItems.filter((item) => item.category === cat),
       }))
       .filter((group) => group.items.length > 0);
-  }, [filteredItems, activeCategory]);
+  }, [filteredItems, activeCategory, faqCategories]);
 
   const countPerCategory = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -56,7 +92,7 @@ export default function FaqPageClient() {
       }
     }
     return counts;
-  }, [search]);
+  }, [search, faqCategories, getFaqsByCategory]);
 
   const totalFiltered = useMemo(
     () => Object.values(countPerCategory).reduce((a, b) => a + b, 0),
@@ -88,7 +124,7 @@ export default function FaqPageClient() {
     elements.forEach((el) => observerRef.current?.observe(el));
 
     return () => observerRef.current?.disconnect();
-  }, [groupedByCategory]);
+  }, [groupedByCategory, faqCategories]);
 
   const handleSidebarClick = (cat: string) => {
     const el = document.getElementById(categorySlug(cat));
@@ -120,7 +156,7 @@ export default function FaqPageClient() {
           </svg>
           <input
             type="text"
-            placeholder="Search FAQs..."
+            placeholder={labels.searchPlaceholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full py-3 pl-12 pr-4 text-base placeholder:text-slate-400 transition-colors focus:outline-none"
@@ -137,6 +173,8 @@ export default function FaqPageClient() {
           onCategoryChange={setActiveCategory}
           counts={countPerCategory}
           totalCount={totalFiltered}
+          allLabel={labels.all}
+          labels={labels.categories}
         />
       </div>
 
@@ -164,7 +202,7 @@ export default function FaqPageClient() {
                         fontWeight: isActive ? 600 : 400,
                       }}
                     >
-                      <span>{cat}</span>
+                      <span>{labels.categories[cat] ?? cat}</span>
                       <span className="text-sm" style={{ color: isActive ? "#0033ff" : "#a0aec0" }}>{count}</span>
                     </button>
                   </li>
@@ -178,7 +216,7 @@ export default function FaqPageClient() {
         <div className="min-w-0">
           {groupedByCategory.length === 0 && (
             <p className="text-center text-lg" style={{ color: "#62718d" }}>
-              No FAQs match your search. Try a different keyword.
+              {labels.noResults}
             </p>
           )}
           {groupedByCategory.map((group) => (
@@ -188,9 +226,12 @@ export default function FaqPageClient() {
               className="mb-12 scroll-mt-32 last:mb-0"
             >
               <h2 className="font-display mb-4 text-xl font-semibold tracking-tight sm:text-2xl" style={{ color: "#010f62" }}>
-                {group.category}
+                {labels.categories[group.category] ?? group.category}
               </h2>
-              <div style={{ border: "1px solid #e8e8e8", borderRadius: "2px", backgroundColor: "#fff" }} className="p-5 sm:p-6">
+              {/* Horizontal padding only: each question already carries py-5,
+                  and the card's own vertical padding was stacking on top of
+                  it, leaving 45px of air above the first question. */}
+              <div style={{ border: "1px solid #e8e8e8", borderRadius: "2px", backgroundColor: "#fff" }} className="px-5 sm:px-6">
                 <FaqAccordion
                   items={group.items.map((i) => ({
                     question: i.question,

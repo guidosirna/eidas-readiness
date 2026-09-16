@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check, ChevronRight } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
-import { trackChecklistToggle } from "@/lib/analytics";
+import { trackChecklistProgress, trackChecklistToggle } from "@/lib/analytics";
 
 /* ────────────────────────────────────────────────────────────────────── */
 /*  Checklist data                                                       */
@@ -130,6 +130,11 @@ export default function ChecklistInteractive() {
         next.add(id);
         trackChecklistToggle(id, true);
       }
+      // trackChecklistProgress was written and then never called, so how far
+      // people get through the checklist has never been measurable: the
+      // check and uncheck events say which items, not how much. This is the
+      // one call it was waiting for.
+      trackChecklistProgress(next.size, TOTAL_ITEMS);
       return next;
     });
   }, []);

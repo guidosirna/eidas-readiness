@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     "EU regulation",
     "identity wallet",
   ],
-  metadataBase: new URL("https://www.eidasreadiness.com"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "en_US",

@@ -7,6 +7,11 @@ interface FilterPillsProps {
   counts?: Record<string, number>;
   totalCount?: number;
   allLabel?: string;
+  /**
+   * Display labels keyed by the category value. The value itself stays the
+   * English one so filtering, anchors and counts do not change per language.
+   */
+  labels?: Record<string, string>;
 }
 
 export default function FilterPills({
@@ -16,6 +21,7 @@ export default function FilterPills({
   counts,
   totalCount,
   allLabel = "All",
+  labels,
 }: FilterPillsProps) {
   return (
     <div className="flex flex-wrap gap-2">
@@ -43,7 +49,7 @@ export default function FilterPills({
             border: activeCategory === cat ? "1px solid #0033ff" : "1px solid #e8e8e8",
           }}
         >
-          {cat}{counts?.[cat] !== undefined ? ` (${counts[cat]})` : ""}
+          {labels?.[cat] ?? cat}{counts?.[cat] !== undefined ? ` (${counts[cat]})` : ""}
         </button>
       ))}
     </div>

@@ -120,6 +120,24 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.05);
   }
 
+  /* A photo card that is a link.
+     card-blue-hover floods the whole card with #0033ff on hover, which works
+     on the icon cards it was built for and buries a photograph. This keeps the
+     photo and moves the blue to the border and the title. */
+  .card-photo-link {
+    @apply bg-white block transition-all;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px rgba(0,0,0,0.05);
+  }
+  .card-photo-link:hover {
+    border-color: #0033ff;
+    box-shadow: 0 0 30px rgba(0,51,255,0.18);
+  }
+  .card-photo-link:hover p {
+    color: #0033ff !important;
+  }
+
   .card-link {
     @apply bg-white p-6 transition-all;
     border-radius: 2px;
