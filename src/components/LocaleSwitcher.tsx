@@ -16,18 +16,33 @@ import { LOCALES, LOCALE_NAMES, LOCALE_TAGS, localePath, type Locale } from "@/l
 export default function LocaleSwitcher({
   current,
   path,
+  available = LOCALES,
+  label = "Language",
+  tone = "light",
 }: {
   current: Locale;
   path: string;
+  /** The languages this particular page exists in. Defaults to all of them. */
+  available?: readonly Locale[];
+  label?: string;
+  /** "dark" for the sector heroes, which sit on a deep blue photo overlay. */
+  tone?: "light" | "dark";
 }) {
+  // A switcher with nothing to switch to is noise, not navigation.
+  if (available.length < 2) return null;
+
+  const colors = tone === "dark"
+    ? { current: "#ffffff", link: "rgba(255,255,255,0.65)", sep: "rgba(255,255,255,0.35)" }
+    : { current: "#010f62", link: "#62718d", sep: "#d4d8e3" };
+
   return (
-    <nav aria-label="Language" className="text-sm">
+    <nav aria-label={label} className="text-sm">
       <ul className="flex flex-wrap items-center gap-x-1 gap-y-1">
-        {LOCALES.map((locale, i) => (
+        {available.map((locale, i) => (
           <li key={locale} className="flex items-center gap-x-1">
-            {i > 0 && <span aria-hidden="true" style={{ color: "#d4d8e3" }}>·</span>}
+            {i > 0 && <span aria-hidden="true" style={{ color: colors.sep }}>·</span>}
             {locale === current ? (
-              <span className="font-semibold" style={{ color: "#010f62" }} aria-current="true">
+              <span className="font-semibold" style={{ color: colors.current }} aria-current="true">
                 {LOCALE_NAMES[locale]}
               </span>
             ) : (
@@ -36,7 +51,7 @@ export default function LocaleSwitcher({
                 hrefLang={LOCALE_TAGS[locale]}
                 rel="alternate"
                 className="hover:opacity-70"
-                style={{ color: "#62718d" }}
+                style={{ color: colors.link }}
               >
                 {LOCALE_NAMES[locale]}
               </Link>

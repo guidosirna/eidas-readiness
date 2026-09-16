@@ -13,6 +13,7 @@ import { roles } from "@/lib/roles-data";
 import { getTermBySlug } from "@/lib/glossary-data";
 import { TIMELINE_CONTENT } from "@/lib/i18n/timeline";
 import { prose } from "@/lib/i18n/prose";
+import { UI } from "@/lib/i18n/ui";
 import { DEFAULT_LOCALE, LOCALE_TAGS, localePath, type Locale } from "@/lib/i18n/config";
 import { CreditCard, Landmark, Wifi } from "lucide-react";
 
@@ -86,7 +87,7 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
             {t.hero.standfirst}
           </p>
           <div className="mt-6">
-            <LocaleSwitcher current={locale} path={TIMELINE_PATH} />
+            <LocaleSwitcher current={locale} path={TIMELINE_PATH} label={UI[locale].language} />
           </div>
         </div>
       </section>

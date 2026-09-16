@@ -47,18 +47,39 @@ export function localePath(locale: Locale, path: string): string {
 }
 
 /**
- * The `alternates` block for a page that exists in every language.
+ * The `alternates` block for one language version of a page.
  *
  * hreflang has to be reciprocal to be believed: each version points at all of
  * them including itself, and x-default names the one to serve when no language
  * matches. Emitting it from one helper is the only way it stays that way.
+ *
+ * `available` is for the pages that are not translated everywhere. Only eight
+ * pages carry 86% of this site's impressions and only those are being
+ * translated, so a glossary term that exists in German and not in Italian must
+ * not claim an Italian version: a hreflang pointing at a 404 is worse than no
+ * hreflang, because it invites the crawler to fetch a page that is not there.
+ * Defaults to every language.
  */
-export function alternatesFor(locale: Locale, path: string) {
+export function alternatesFor(
+  locale: Locale,
+  path: string,
+  available: readonly Locale[] = LOCALES
+) {
+  // A page in one language has nothing to declare. A self-referencing
+  // hreflang with a single entry is not wrong, it is just noise in the head.
+  if (available.length < 2) {
+    return { canonical: localePath(locale, path) };
+  }
+
   const languages: Record<string, string> = {};
-  for (const l of LOCALES) {
+  for (const l of available) {
     languages[LOCALE_TAGS[l]] = localePath(l, path);
   }
-  languages["x-default"] = localePath(DEFAULT_LOCALE, path);
+  // English is the x-default whenever it exists, which on this site is always:
+  // there is no page that has a translation and no English original.
+  if (available.includes(DEFAULT_LOCALE)) {
+    languages["x-default"] = localePath(DEFAULT_LOCALE, path);
+  }
 
   return {
     canonical: localePath(locale, path),

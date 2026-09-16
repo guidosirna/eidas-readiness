@@ -25,7 +25,7 @@ export const faqItems: FaqItem[] = [
     id: "general-2",
     question: "When does eIDAS 2.0 come into effect and what are the key implementation deadlines?",
     answer:
-      "eIDAS 2.0 was published in the Official Journal of the EU on 30 April 2024 and entered into force on 20 May 2024. Member States must offer at least one European Digital Identity Wallet by 2026-2027, following the adoption of implementing acts that define the detailed technical specifications. The implementing acts, Architecture Reference Framework updates, and certification requirements are being finalised in parallel with the Large-Scale Pilots that run through 2025.",
+      "eIDAS 2.0 was published in the Official Journal of the EU on 30 April 2024 and entered into force on 20 May 2024. Member States must offer at least one European Digital Identity Wallet by 24 December 2026. That date is not a range: Article 5a(1) gives them 24 months from the entry into force of the first implementing acts, and Implementing Regulations (EU) 2024/2977 to 2024/2982 entered into force on 24 December 2024. Mandatory acceptance by relying parties in regulated sectors follows between 2026 and 2027.",
     category: "General",
   },
   {

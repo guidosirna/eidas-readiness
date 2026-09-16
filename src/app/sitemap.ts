@@ -4,7 +4,8 @@ import { glossaryTerms } from '@/lib/glossary-data'
 import { roles } from '@/lib/roles-data'
 import { industries } from '@/lib/industries-data'
 import { sortedPosts } from '@/lib/blog-data'
-import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, localePath } from '@/lib/i18n/config'
+import { LOCALES, LOCALE_TAGS, TRANSLATED_LOCALES, localePath, type Locale } from '@/lib/i18n/config'
+import { industryLocales, translatedIndustrySlugs } from '@/lib/i18n/industries'
 
 const BASE_URL = SITE_URL
 
@@ -18,9 +19,9 @@ const LAST_UPDATED = '2026-02-23'
 // believed. Adding a page to this array is all it takes, which is the point.
 const TRANSLATED_PATHS = ['/eidas-2-timeline']
 
-function alternateLanguages(path: string) {
+function alternateLanguages(path: string, available: readonly Locale[] = LOCALES) {
   const languages: Record<string, string> = {}
-  for (const locale of LOCALES) {
+  for (const locale of available) {
     languages[LOCALE_TAGS[locale]] = `${BASE_URL}${localePath(locale, path)}`
   }
   return { languages }
@@ -137,12 +138,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  const industryPages: MetadataRoute.Sitemap = industries.map((industry) => ({
-    url: `${BASE_URL}/industries/${industry.slug}`,
-    lastModified: LAST_UPDATED,
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
+  // Two of the six sectors are translated, so hreflang is emitted per slug
+  // rather than for the set: claiming a German version of a sector that has
+  // none would point the crawler at a 404.
+  const industryPages: MetadataRoute.Sitemap = industries.flatMap((industry) => {
+    const path = `/industries/${industry.slug}`
+    const locales = industryLocales(industry.slug)
+    const alternates = locales.length > 1 ? { alternates: alternateLanguages(path, locales) } : {}
+    return [{
+      url: `${BASE_URL}${path}`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+      ...alternates,
+    }]
+  })
+
+  const translatedIndustryPages: MetadataRoute.Sitemap = TRANSLATED_LOCALES.flatMap((locale) =>
+    translatedIndustrySlugs(locale).map((slug) => ({
+      url: `${BASE_URL}${localePath(locale, `/industries/${slug}`)}`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+      alternates: alternateLanguages(`/industries/${slug}`, industryLocales(slug)),
+    }))
+  )
 
   // Each post carries its own date, so lastmod is real here rather than the
   // site-wide constant.
@@ -166,5 +186,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   )
 
-  return [...staticPages, ...translatedPages, ...blogPages, ...glossaryPages, ...rolePages, ...industryPages]
+  return [
+    ...staticPages,
+    ...translatedPages,
+    ...blogPages,
+    ...glossaryPages,
+    ...rolePages,
+    ...industryPages,
+    ...translatedIndustryPages,
+  ]
 }
