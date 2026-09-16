@@ -86,3 +86,28 @@ export function alternatesFor(
     languages,
   };
 }
+
+/**
+ * The paths that exist in every translated language.
+ *
+ * This is the guard against the mistake that is very easy to make once pages
+ * start carrying a locale prefix: writing localePath(locale, "/assessment")
+ * inside a German page and linking every reader to a URL that 404s, because
+ * the assessment was never translated. Use `linkPath` for any link whose
+ * target might not be translated; it prefixes only when the page is here.
+ *
+ * Sector pages and glossary terms are deliberately absent: they are
+ * translated per slug, so their own modules decide, and a link to one of them
+ * should go through the bare path.
+ */
+const FULLY_TRANSLATED_PATHS: readonly string[] = [
+  "/",
+  "/eidas-2-timeline",
+  "/guide/eidas-2-compliance",
+  "/faq",
+];
+
+/** The href for a link from a page in `locale`, English when untranslated. */
+export function linkPath(locale: Locale, path: string): string {
+  return FULLY_TRANSLATED_PATHS.includes(path) ? localePath(locale, path) : path;
+}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DEFAULT_LOCALE, linkPath, type Locale } from "./config";
 
 /**
  * Renders a translated paragraph that contains inline markup.
@@ -32,9 +33,18 @@ const LINK_STYLE = {
   },
 } as const;
 
+/**
+ * `locale` decides where an internal link goes. Content is written with bare
+ * English paths in every language, and linkPath sends the reader to the
+ * translated version when one exists and to the English page when it does
+ * not. Writing the prefixes into the translations by hand was the
+ * alternative, and it only takes one missed one to hand a German reader a
+ * 404.
+ */
 export function prose(
   text: string,
-  variant: keyof typeof LINK_STYLE = "plain"
+  variant: keyof typeof LINK_STYLE = "plain",
+  locale: Locale = DEFAULT_LOCALE
 ): React.ReactNode[] {
   const link = LINK_STYLE[variant];
   const out: React.ReactNode[] = [];
@@ -52,8 +62,9 @@ export function prose(
         </strong>
       );
     } else {
-      const [, label, href] = m;
-      const external = /^https?:\/\//.test(href);
+      const [, label, rawHref] = m;
+      const external = /^https?:\/\//.test(rawHref);
+      const href = external ? rawHref : linkPath(locale, rawHref);
       out.push(
         external ? (
           <a

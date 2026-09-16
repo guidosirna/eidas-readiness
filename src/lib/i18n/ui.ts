@@ -38,6 +38,21 @@ export interface UiStrings {
      */
     categories: Record<string, string>;
   };
+  faq: {
+    metaTitle: string;
+    metaDescription: string;
+    h1: string;
+    /** Inline link to the guide is written as [text](/path). */
+    standfirst: string;
+    searchPlaceholder: string;
+    noResults: string;
+    all: string;
+    ctaHeadline: string;
+    ctaDescription: string;
+    ctaButton: string;
+    /** The four category labels, keyed by the English value in the data. */
+    categories: Record<string, string>;
+  };
   language: string;
 }
 
@@ -72,6 +87,27 @@ const en: UiStrings = {
       "Trust Services": "Trust Services",
       "Technical Standards": "Technical Standards",
       Governance: "Governance",
+    },
+  },
+  faq: {
+    metaTitle: "eIDAS 2.0 FAQ | Frequently Asked Questions",
+    metaDescription:
+      "Answers to common eIDAS 2.0 questions about the EU Digital Identity Wallet, compliance deadlines, trust services, and technical integration.",
+    h1: "Frequently Asked Questions",
+    standfirst:
+      "Find quick answers to common questions about [eIDAS 2.0 compliance](/guide/eidas-2-compliance), the European Digital Identity Wallet, and business readiness.",
+    searchPlaceholder: "Search FAQs...",
+    noResults: "No FAQs match your search. Try a different keyword.",
+    all: "All",
+    ctaHeadline: "Still Have Questions? Check Your Readiness",
+    ctaDescription:
+      "Take our free eIDAS 2.0 readiness assessment to find out where your organisation stands and get a personalised action plan.",
+    ctaButton: "eIDAS Quick Check",
+    categories: {
+      General: "General",
+      EUDIW: "EUDIW",
+      "Business Compliance": "Business Compliance",
+      Technical: "Technical",
     },
   },
   language: "Language",
@@ -110,6 +146,27 @@ const de: UiStrings = {
       Governance: "Governance",
     },
   },
+  faq: {
+    metaTitle: "eIDAS 2.0 FAQ | Häufige Fragen",
+    metaDescription:
+      "Antworten auf gängige Fragen zu eIDAS 2.0: die EU-Wallet für die digitale Identität, Compliance-Fristen, Vertrauensdienste und die technische Anbindung.",
+    h1: "Häufige Fragen",
+    standfirst:
+      "Kurze Antworten auf gängige Fragen zur [eIDAS-2.0-Compliance](/guide/eidas-2-compliance), zur europäischen Wallet für die digitale Identität und zur Vorbereitung im Unternehmen.",
+    searchPlaceholder: "Fragen durchsuchen ...",
+    noResults: "Keine Frage passt zu Ihrer Suche. Versuchen Sie ein anderes Stichwort.",
+    all: "Alle",
+    ctaHeadline: "Noch Fragen offen? Prüfen Sie Ihre Bereitschaft",
+    ctaDescription:
+      "Mit der kostenlosen eIDAS-2.0-Bereitschaftsanalyse sehen Sie, wo Ihre Organisation steht, und erhalten einen individuellen Aktionsplan.",
+    ctaButton: "eIDAS Quick Check",
+    categories: {
+      General: "Allgemein",
+      EUDIW: "EUDIW",
+      "Business Compliance": "Compliance im Unternehmen",
+      Technical: "Technik",
+    },
+  },
   language: "Sprache",
 };
 
@@ -146,6 +203,27 @@ const it: UiStrings = {
       Governance: "Governance",
     },
   },
+  faq: {
+    metaTitle: "FAQ eIDAS 2.0 | Domande frequenti",
+    metaDescription:
+      "Risposte alle domande più comuni su eIDAS 2.0: il portafoglio europeo di identità digitale, le scadenze di conformità, i servizi fiduciari e l'integrazione tecnica.",
+    h1: "Domande frequenti",
+    standfirst:
+      "Risposte rapide alle domande più comuni sulla [conformità a eIDAS 2.0](/guide/eidas-2-compliance), sul portafoglio europeo di identità digitale e sulla preparazione delle imprese.",
+    searchPlaceholder: "Cerca tra le domande...",
+    noResults: "Nessuna domanda corrisponde alla ricerca. Prova con un'altra parola chiave.",
+    all: "Tutte",
+    ctaHeadline: "Hai ancora domande? Verifica la tua preparazione",
+    ctaDescription:
+      "Con l'analisi gratuita di preparazione a eIDAS 2.0 scopri dove si trova la tua organizzazione e ottieni un piano d'azione su misura.",
+    ctaButton: "eIDAS Quick Check",
+    categories: {
+      General: "Generale",
+      EUDIW: "EUDIW",
+      "Business Compliance": "Conformità per le imprese",
+      Technical: "Aspetti tecnici",
+    },
+  },
   language: "Lingua",
 };
 
@@ -180,6 +258,27 @@ const es: UiStrings = {
       "Trust Services": "Servicios de confianza",
       "Technical Standards": "Estándares técnicos",
       Governance: "Gobernanza",
+    },
+  },
+  faq: {
+    metaTitle: "FAQ eIDAS 2.0 | Preguntas frecuentes",
+    metaDescription:
+      "Respuestas a las dudas más comunes sobre eIDAS 2.0: la cartera europea de identidad digital, los plazos de cumplimiento, los servicios de confianza y la integración técnica.",
+    h1: "Preguntas frecuentes",
+    standfirst:
+      "Respuestas rápidas a las dudas más habituales sobre el [cumplimiento de eIDAS 2.0](/guide/eidas-2-compliance), la cartera europea de identidad digital y la preparación de las empresas.",
+    searchPlaceholder: "Buscar en las preguntas...",
+    noResults: "Ninguna pregunta coincide con tu búsqueda. Prueba con otra palabra.",
+    all: "Todas",
+    ctaHeadline: "¿Te quedan dudas? Evalúa tu preparación",
+    ctaDescription:
+      "Con la evaluación gratuita de preparación para eIDAS 2.0 descubres dónde está tu organización y obtienes un plan de acción a medida.",
+    ctaButton: "eIDAS Quick Check",
+    categories: {
+      General: "General",
+      EUDIW: "EUDIW",
+      "Business Compliance": "Cumplimiento en la empresa",
+      Technical: "Aspectos técnicos",
     },
   },
   language: "Idioma",

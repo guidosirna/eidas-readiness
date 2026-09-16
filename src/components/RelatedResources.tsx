@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { trackResourceClick } from "@/lib/analytics";
+import { DEFAULT_LOCALE, linkPath, type Locale } from "@/lib/i18n/config";
 
 export interface RelatedResource {
   href: string;
@@ -18,9 +19,12 @@ export interface RelatedResource {
 export default function RelatedResources({
   resources,
   title = "Related resources",
+  locale = DEFAULT_LOCALE,
 }: {
   resources: RelatedResource[];
   title?: string;
+  /** Sends each link to the translated page when one exists. */
+  locale?: Locale;
 }) {
   return (
     <>
@@ -34,7 +38,7 @@ export default function RelatedResources({
         {resources.map((link) => (
           <Link
             key={link.href}
-            href={link.href}
+            href={linkPath(locale, link.href)}
             onClick={() => trackResourceClick(link.href)}
             className="flex items-center gap-3 px-4 py-3 group transition-colors hover:bg-white/60"
             style={{ borderRadius: "2px" }}

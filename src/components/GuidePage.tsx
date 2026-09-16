@@ -23,12 +23,20 @@ export const GUIDE_PATH = "/guide/eidas-2-compliance";
  * redesign it, so anything that changed look would be a change nobody asked
  * for on a page that already works.
  */
-function Block({ block, index }: { block: GuideBlock; index: number }) {
+function Block({
+  block,
+  index,
+  locale,
+}: {
+  block: GuideBlock;
+  index: number;
+  locale: Locale;
+}) {
   switch (block.t) {
     case "p":
       return (
         <p className="mb-4 text-lg leading-relaxed text-slate-500">
-          {prose(block.text, "underline")}
+          {prose(block.text, "underline", locale)}
         </p>
       );
 
@@ -41,7 +49,7 @@ function Block({ block, index }: { block: GuideBlock; index: number }) {
       return (
         <div className="mt-8 bg-blue-50/50 border-l-4 border-blue-500 rounded-r-xl p-5">
           <p className="font-semibold text-slate-900">{block.title}</p>
-          <p className="mt-2 text-slate-500">{prose(block.text, "underline")}</p>
+          <p className="mt-2 text-slate-500">{prose(block.text, "underline", locale)}</p>
         </div>
       );
 
@@ -84,7 +92,7 @@ function Block({ block, index }: { block: GuideBlock; index: number }) {
           {block.items.map((item, i) => (
             <li key={i} className="flex items-start gap-3">
               <span className="mt-2 block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-600" />
-              <span>{prose(item, "underline")}</span>
+              <span>{prose(item, "underline", locale)}</span>
             </li>
           ))}
         </ul>
@@ -98,7 +106,7 @@ function Block({ block, index }: { block: GuideBlock; index: number }) {
               <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
                 {i + 1}
               </span>
-              <span>{prose(item, "underline")}</span>
+              <span>{prose(item, "underline", locale)}</span>
             </li>
           ))}
         </ol>
@@ -222,7 +230,7 @@ export default function GuidePage({ locale }: { locale: Locale }) {
             <span>{t.hero.readTime}</span>
           </div>
           <p className="mt-6 text-lg leading-relaxed" style={{ color: "#62718d" }}>
-            {prose(t.hero.standfirst)}
+            {prose(t.hero.standfirst, "plain", locale)}
           </p>
           <div className="mt-6">
             <LocaleSwitcher current={locale} path={GUIDE_PATH} label={ui.language} />
@@ -252,7 +260,7 @@ export default function GuidePage({ locale }: { locale: Locale }) {
                   {section.heading}
                 </h2>
                 {section.blocks.map((block, i) => (
-                  <Block key={i} block={block} index={i} />
+                  <Block key={i} block={block} index={i} locale={locale} />
                 ))}
               </section>
             ))}
@@ -260,7 +268,7 @@ export default function GuidePage({ locale }: { locale: Locale }) {
 
           {/* Related Resources */}
           <div className="mt-16 -mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-            <RelatedResources title={t.related.heading} resources={t.related.items} />
+            <RelatedResources title={t.related.heading} resources={t.related.items} locale={locale} />
           </div>
 
           {/* CTA */}

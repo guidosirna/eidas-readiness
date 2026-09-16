@@ -11,7 +11,7 @@ import LocaleSwitcher from "@/components/LocaleSwitcher";
 import HtmlLang from "@/components/HtmlLang";
 import { UI } from "@/lib/i18n/ui";
 import { industryLocales, type IndustryTranslation } from "@/lib/i18n/industries";
-import { DEFAULT_LOCALE, LOCALE_TAGS, localePath, type Locale } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, LOCALE_TAGS, linkPath, localePath, type Locale } from "@/lib/i18n/config";
 
 const industryIcons: Record<string, React.ElementType> = {
   "financial-services": CreditCard, healthcare: Heart, "government-public-sector": Landmark,
@@ -190,7 +190,7 @@ export default function IndustryPageView({
                 </div>
                 <div className="mt-6 flex items-center gap-2">
                   <Clock className="h-4 w-4" style={{ color: "#0033ff" }} />
-                  <a href={localePath(locale, "/eidas-2-timeline")} className="text-sm font-semibold hover:underline" style={{ color: "#0033ff" }}>
+                  <a href={linkPath(locale, "/eidas-2-timeline")} className="text-sm font-semibold hover:underline" style={{ color: "#0033ff" }}>
                     {t.industry.timelineLink}
                   </a>
                   <ArrowUpRight className="h-3.5 w-3.5 arrow-animate" style={{ color: "#0033ff" }} />

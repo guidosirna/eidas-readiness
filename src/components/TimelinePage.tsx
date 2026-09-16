@@ -108,7 +108,7 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
               <h2 className="text-2xl sm:text-3xl mb-4">{t.overview.heading}</h2>
               <div className="space-y-4 text-base leading-relaxed" style={{ color: "#62718d" }}>
                 {t.overview.paragraphs.map((p, i) => (
-                  <p key={i}>{prose(p)}</p>
+                  <p key={i}>{prose(p, "plain", locale)}</p>
                 ))}
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
 
             {/* Related Resources */}
             <div id="related-resources" className="-mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
-              <RelatedResources title={t.related.heading} resources={t.related.items} />
+              <RelatedResources title={t.related.heading} resources={t.related.items} locale={locale} />
             </div>
           </div>
         </SidebarLayout>
