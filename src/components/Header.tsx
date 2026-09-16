@@ -423,7 +423,7 @@ export default function Header() {
             {/* The switcher lives in the utility bar, which is hidden below
                 md, so on a phone there was no way to change language at all. */}
             <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>
-              <LocaleSwitcher tone="light" />
+              <LocaleSwitcher variant="inline" />
             </div>
           </div>
         </div>
