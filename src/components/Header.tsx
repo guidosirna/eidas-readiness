@@ -416,8 +416,14 @@ export default function Header() {
 
             <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>
               <a href={linkPath(locale, "/assessment")} onClick={() => setMobileMenuOpen(false)} className="block py-3 text-sm font-semibold" style={{ color: "#0033ff" }}>
-                eIDAS Quick Check &rarr;
+                {t.ctaButton} &rarr;
               </a>
+            </div>
+
+            {/* The switcher lives in the utility bar, which is hidden below
+                md, so on a phone there was no way to change language at all. */}
+            <div className="pt-4" style={{ borderTop: "1px solid #e8e8e8" }}>
+              <LocaleSwitcher tone="light" />
             </div>
           </div>
         </div>

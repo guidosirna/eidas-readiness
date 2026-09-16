@@ -89,6 +89,12 @@ export interface UiStrings {
     ctaBlurb: string;
     ctaButton: string;
   };
+  banner: {
+    headline: string;
+    trust: string;
+    cta: string;
+    dismiss: string;
+  };
   language: string;
 }
 
@@ -179,6 +185,12 @@ const en: UiStrings = {
     ctaQuestion: "Ready to check your compliance?",
     ctaBlurb: "Answer 12 questions and get a personalised readiness score.",
     ctaButton: "eIDAS Quick Check",
+  },
+  banner: {
+    headline: "Free eIDAS 2.0 Readiness Assessment",
+    trust: "Trusted by top European organisations",
+    cta: "Take the Quick Check",
+    dismiss: "Dismiss banner",
   },
   language: "Language",
 };
@@ -271,6 +283,12 @@ const de: UiStrings = {
     ctaBlurb: "12 Fragen beantworten und den persönlichen Bereitschaftswert erhalten.",
     ctaButton: "eIDAS Quick Check",
   },
+  banner: {
+    headline: "Kostenlose eIDAS-2.0-Bereitschaftsanalyse",
+    trust: "Genutzt von führenden europäischen Organisationen",
+    cta: "Quick Check starten",
+    dismiss: "Hinweis schließen",
+  },
   language: "Sprache",
 };
 
@@ -362,6 +380,12 @@ const it: UiStrings = {
     ctaBlurb: "Rispondi a 12 domande e ottieni un punteggio di preparazione personalizzato.",
     ctaButton: "eIDAS Quick Check",
   },
+  banner: {
+    headline: "Analisi gratuita di preparazione a eIDAS 2.0",
+    trust: "Usata da organizzazioni europee di primo piano",
+    cta: "Fai il quick check",
+    dismiss: "Chiudi avviso",
+  },
   language: "Lingua",
 };
 
@@ -452,6 +476,12 @@ const es: UiStrings = {
     ctaQuestion: "¿Listo para evaluar tu cumplimiento?",
     ctaBlurb: "Responde 12 preguntas y obtén una puntuación de preparación personalizada.",
     ctaButton: "eIDAS Quick Check",
+  },
+  banner: {
+    headline: "Evaluación gratuita de preparación para eIDAS 2.0",
+    trust: "La usan organizaciones europeas de referencia",
+    cta: "Hacer el chequeo rápido",
+    dismiss: "Cerrar aviso",
   },
   language: "Idioma",
 };

@@ -4,16 +4,24 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, X, Star } from "lucide-react";
 import { trackBannerClick, trackBannerDismiss } from "@/lib/analytics";
+import { linkPath, localeFromPathname, stripLocale } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
 import Image from "next/image";
 
 export default function StickyBanner() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const locale = localeFromPathname(pathname ?? "/");
+  const t = UI[locale].banner;
 
+  // stripLocale so the suppression still holds if either of these pages is
+  // ever translated: /de/assessment would otherwise show the banner that
+  // /assessment hides.
+  const bare = stripLocale(pathname ?? "/");
   const hidden =
-    pathname?.startsWith("/assessment") ||
-    pathname?.startsWith("/eidas-2-compliance-checklist") ||
+    bare.startsWith("/assessment") ||
+    bare.startsWith("/eidas-2-compliance-checklist") ||
     dismissed;
 
   useEffect(() => {
@@ -42,7 +50,7 @@ export default function StickyBanner() {
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-6">
+      <div className="relative mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
         {/* Close */}
         <button
           type="button"
@@ -51,9 +59,9 @@ export default function StickyBanner() {
             trackBannerDismiss();
             window.dispatchEvent(new CustomEvent("banner-dismissed"));
           }}
-          className="shrink-0 p-2 transition-colors hover:bg-gray-100"
+          className="absolute right-2 top-2 p-2 transition-colors hover:bg-gray-100 sm:static sm:shrink-0"
           style={{ borderRadius: "2px" }}
-          aria-label="Dismiss banner"
+          aria-label={t.dismiss}
         >
           <X className="h-5 w-5" style={{ color: "#62718d" }} />
         </button>
@@ -68,39 +76,42 @@ export default function StickyBanner() {
         />
 
         {/* Title + stars */}
-        <div className="min-w-0">
-          <p className="text-base font-semibold sm:text-lg" style={{ color: "#010f62" }}>
-            Free eIDAS 2.0 Readiness Assessment
+        <div className="min-w-0 pr-10 sm:pr-0">
+          <p className="text-sm font-semibold sm:text-lg" style={{ color: "#010f62" }}>
+            {t.headline}
           </p>
-          <div className="flex items-center gap-2 mt-0.5">
+          {/* The stars and the trust line are the first thing to go on a
+              phone: they are reassurance, the headline and the button are the
+              message. */}
+          <div className="hidden items-center gap-2 mt-0.5 sm:flex">
             <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
               ))}
             </div>
             <span className="text-sm" style={{ color: "#62718d" }}>
-              Trusted by top European organisations
+              {t.trust}
             </span>
           </div>
         </div>
 
         {/* Spacer */}
-        <div className="flex-1" />
+        <div className="hidden flex-1 sm:block" />
 
         {/* CTA */}
         <a
-          href="/assessment"
-          className="shrink-0 inline-flex items-center gap-2 text-base font-semibold text-white transition-colors"
+          href={linkPath(locale, "/assessment")}
+          className="inline-flex shrink-0 items-center justify-center gap-2 text-sm font-semibold text-white transition-colors sm:text-base"
           style={{
             backgroundColor: "#010f62",
-            padding: "12px 28px",
+            padding: "11px 20px",
             borderRadius: "2px",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#021089")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#010f62")}
           onClick={() => trackBannerClick()}
         >
-          Take the Quick Check <ArrowUpRight className="h-4 w-4 arrow-animate" />
+          {t.cta} <ArrowUpRight className="h-4 w-4 arrow-animate" />
         </a>
       </div>
     </div>
