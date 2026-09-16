@@ -41,9 +41,16 @@ export function isTranslatedLocale(value: string): value is TranslatedLocale {
   return (TRANSLATED_LOCALES as readonly string[]).includes(value);
 }
 
-/** The path a page lives at in a given language. English keeps the bare path. */
+/**
+ * The path a page lives at in a given language. English keeps the bare path.
+ *
+ * The root needs its own case: naive concatenation gives "/de/", which is a
+ * second URL for the same page and exactly the kind of duplicate that ends up
+ * in Search Console next to the canonical one.
+ */
 export function localePath(locale: Locale, path: string): string {
-  return locale === DEFAULT_LOCALE ? path : `/${locale}${path}`;
+  if (locale === DEFAULT_LOCALE) return path;
+  return path === "/" ? `/${locale}` : `/${locale}${path}`;
 }
 
 /**
@@ -110,4 +117,17 @@ const FULLY_TRANSLATED_PATHS: readonly string[] = [
 /** The href for a link from a page in `locale`, English when untranslated. */
 export function linkPath(locale: Locale, path: string): string {
   return FULLY_TRANSLATED_PATHS.includes(path) ? localePath(locale, path) : path;
+}
+
+/**
+ * The language a URL is in, read from its first path segment.
+ *
+ * For the header, which is a client component in the root layout and so has
+ * no route params to read. Without this, a German reader who uses the nav
+ * instead of a link in the page body is dropped back into English on pages
+ * that do have a German version.
+ */
+export function localeFromPathname(pathname: string): Locale {
+  const first = pathname.split("/")[1] ?? "";
+  return isTranslatedLocale(first) ? first : DEFAULT_LOCALE;
 }
