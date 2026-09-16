@@ -25,6 +25,17 @@ export interface GlossaryTranslation {
 }
 
 const de: Record<string, GlossaryTranslation> = {
+  etimestamp: {
+    term: "Elektronischer Zeitstempel",
+    category: "Trust Services",
+    metaTitle: "Was ist ein qualifizierter elektronischer Zeitstempel?",
+    metaDescription:
+      "Wie ein qualifizierter elektronischer Zeitstempel belegt, dass ein Dokument zu einem bestimmten Zeitpunkt vorlag, welche Rechtsvermutung er in jedem Mitgliedstaat trägt und wo er in einen Signaturprozess gehört.",
+    shortDefinition:
+      "Eine elektronische Bescheinigung, die Daten an einen bestimmten Zeitpunkt bindet und damit belegt, dass die Daten zu diesem Moment in einer bestimmten Form vorlagen.",
+    fullDefinition:
+      "Ein elektronischer Zeitstempel ist ein Vertrauensdienst, der einen Datensatz an einen bestimmten Zeitpunkt bindet und damit kryptografisch belegt, dass die Daten zu diesem Moment vorlagen und eine bestimmte Form hatten. Unter eIDAS dienen Zeitstempel dazu, Existenz und Unverändertheit von Dokumenten, Transaktionen und anderen digitalen Daten zu einem gegebenen Zeitpunkt nachzuweisen. Im rechtlichen, finanziellen und regulatorischen Umfeld ist das unverzichtbar.\n\nQualifizierte elektronische Zeitstempel, ausgestellt von qualifizierten Vertrauensdiensteanbietern, genießen die Rechtsvermutung, dass Datum und Uhrzeit richtig sind und dass die Daten, an die sie gebunden sind, unverändert vorliegen. Diese Vermutung gilt in allen Mitgliedstaaten der EU. eIDAS 2.0 behält den qualifizierten Zeitstempel als zentralen Vertrauensdienst bei.\n\nZeitstempel werden meist mit elektronischen Signaturen und Siegeln zusammen verwendet: Ein signiertes Dokument wird zusätzlich mit einem Zeitstempel versehen, damit nicht nur belegt ist, wer unterzeichnet hat, sondern auch wann. Entscheidend ist das für die Langzeitvalidierung, bei der eine Signatur überprüfbar bleiben muss, auch nachdem das Signaturzertifikat abgelaufen ist. Der Zeitstempel belegt, dass die Signatur zum Zeitpunkt ihrer Anbringung gültig war.\n\nIm Zusammenhang mit der EUDIW können Zeitstempel in Transaktionsprotokollen der Wallet, in Aufzeichnungen über die Ausstellung von Nachweisen und in Prüfpfaden vorkommen. Eine Rolle spielen sie außerdem in regulatorischen Anwendungen wie der Aufzeichnung von Finanzgeschäften, bei Anmeldungen von Schutzrechten und in Vertragsabläufen. Für Unternehmen ist die Einbindung qualifizierter Zeitstempel in Dokumentenprozesse ein einfacher Weg zu mehr Rechtssicherheit, besonders bei grenzüberschreitenden Geschäften oder in Streitfällen, in denen es auf den Zeitpunkt ankommt.",
+  },
   pid: {
     term: "Personenidentifizierungsdaten (PID)",
     category: "Digital Identity",
@@ -39,6 +50,17 @@ const de: Record<string, GlossaryTranslation> = {
 };
 
 const it: Record<string, GlossaryTranslation> = {
+  etimestamp: {
+    term: "Validazione temporale elettronica",
+    category: "Trust Services",
+    metaTitle: "Che cos'è una validazione temporale elettronica qualificata?",
+    metaDescription:
+      "Come una validazione temporale elettronica qualificata dimostra che un documento esisteva in un dato momento, quale presunzione legale porta con sé in ogni Stato membro e dove si colloca in un processo di firma.",
+    shortDefinition:
+      "Un'attestazione elettronica che lega dei dati a un momento preciso nel tempo, dimostrando che quei dati esistevano in quella forma in quell'istante.",
+    fullDefinition:
+      "La validazione temporale elettronica è un servizio fiduciario che lega un insieme di dati a un momento preciso nel tempo, fornendo la prova crittografica che quei dati esistevano e avevano una forma determinata in quell'istante. Ai sensi di eIDAS serve a dimostrare l'esistenza e l'integrità di documenti, operazioni e altri dati digitali a una data data, una capacità essenziale in ambito giuridico, finanziario e regolamentare.\n\nLe validazioni temporali qualificate, rilasciate da prestatori di servizi fiduciari qualificati, godono della presunzione legale di esattezza della data e dell'ora che indicano e di integrità dei dati a cui data e ora sono legate. Questa presunzione vale in tutti gli Stati membri dell'UE. eIDAS 2.0 mantiene la validazione temporale qualificata tra i servizi fiduciari fondamentali.\n\nLe validazioni temporali si usano di norma insieme a firme e sigilli elettronici: un documento firmato viene anche validato temporalmente, così da provare non solo chi ha firmato ma anche quando. È decisivo per la validazione a lungo termine, quando una firma deve restare verificabile anche dopo la scadenza del certificato di firma: la validazione temporale dimostra che la firma era valida nel momento in cui è stata apposta.\n\nNel contesto dell'EUDIW le validazioni temporali possono comparire nei registri delle operazioni del wallet, nelle registrazioni di rilascio degli attestati e nelle tracce di audit. Hanno un ruolo anche in scenari regolamentari come la registrazione delle operazioni finanziarie, il deposito di titoli di proprietà intellettuale e le tempistiche di esecuzione dei contratti. Per le imprese, integrare validazioni temporali qualificate nei flussi documentali è un modo semplice di aumentare la certezza giuridica, soprattutto nelle operazioni transfrontaliere o nelle controversie in cui il momento dei fatti è rilevante.",
+  },
   pid: {
     term: "Dati di identificazione personale (PID)",
     category: "Digital Identity",
@@ -53,6 +75,17 @@ const it: Record<string, GlossaryTranslation> = {
 };
 
 const es: Record<string, GlossaryTranslation> = {
+  etimestamp: {
+    term: "Sello de tiempo electrónico",
+    category: "Trust Services",
+    metaTitle: "¿Qué es un sello de tiempo electrónico cualificado?",
+    metaDescription:
+      "Cómo un sello de tiempo electrónico cualificado acredita que un documento existía en un momento dado, qué presunción legal lleva consigo en cada Estado miembro y dónde encaja en un proceso de firma.",
+    shortDefinition:
+      "Una declaración electrónica que vincula unos datos a un momento concreto en el tiempo y acredita que esos datos existían con esa forma en ese instante.",
+    fullDefinition:
+      "Un sello de tiempo electrónico es un servicio de confianza que vincula un conjunto de datos a un momento concreto en el tiempo y aporta la prueba criptográfica de que esos datos existían y tenían una forma determinada en ese instante. Conforme a eIDAS sirve para acreditar la existencia y la integridad de documentos, operaciones y otros datos digitales en una fecha dada, algo imprescindible en contextos jurídicos, financieros y regulatorios.\n\nLos sellos de tiempo electrónicos cualificados, expedidos por prestadores cualificados de servicios de confianza, disfrutan de la presunción legal de exactitud de la fecha y la hora que indican y de integridad de los datos a los que esa fecha y hora están vinculadas. Esa presunción es válida en todos los Estados miembros de la UE. eIDAS 2.0 mantiene el sello de tiempo cualificado como servicio de confianza central.\n\nLos sellos de tiempo se usan habitualmente junto con firmas y sellos electrónicos: un documento firmado se sella además con la hora, para acreditar no solo quién firmó sino cuándo. Es decisivo para la validación a largo plazo, cuando una firma debe seguir siendo verificable incluso después de que haya caducado el certificado de firma: el sello de tiempo demuestra que la firma era válida en el momento en que se aplicó.\n\nEn el contexto de la EUDIW, los sellos de tiempo pueden aparecer en los registros de operaciones de la cartera, en los registros de expedición de credenciales y en las pistas de auditoría. También tienen un papel en escenarios regulatorios como el registro de operaciones financieras, las solicitudes de propiedad industrial y los plazos de ejecución de contratos. Para una empresa, integrar sellos de tiempo cualificados en sus flujos documentales es una forma sencilla de ganar seguridad jurídica, sobre todo en operaciones transfronterizas o en disputas donde el momento de los hechos es relevante.",
+  },
   pid: {
     term: "Datos de identificación de la persona (PID)",
     category: "Digital Identity",

@@ -174,7 +174,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Electronic Timestamp",
     metaTitle: "What Is a Qualified Electronic Timestamp? (eIDAS Explained)",
     metaDescription:
-      "How a qualified electronic timestamp proves a document existed at a point in time, the legal presumption it carries in every EU member state, and how to generate one free.",
+      "How a qualified electronic timestamp proves a document existed at a point in time, the legal presumption it carries in every EU member state, and where it fits in a signing workflow.",
     shortDefinition:
       "An electronic attestation that binds data to a particular point in time, providing evidence that the data existed in a certain form at that moment.",
     fullDefinition:

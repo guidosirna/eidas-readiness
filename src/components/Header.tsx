@@ -17,7 +17,7 @@ const learnSecondary = [
   { href: "/eidas-2-timeline", label: "Timeline", description: "Key dates and regulatory milestones" },
   { href: "/blog", label: "Blog", description: "Regulatory briefs and analysis" },
   { href: "/eidas-2-compliance-checklist", label: "Compliance Checklist", description: "Step-by-step compliance tracker" },
-  { href: "/eidas-timestamp", label: "Timestamp Tool", description: "Trusted timestamping for documents" },
+  { href: "/glossary/etimestamp", label: "Electronic Timestamps", description: "What a qualified timestamp proves, and when you need one" },
 ];
 
 const prepareByRole = [
