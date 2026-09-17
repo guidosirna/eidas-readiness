@@ -90,6 +90,16 @@ export interface UiStrings {
     ctaButton: string;
   };
   /** The two rejections checkWorkEmail can return. All three forms use them. */
+  /** The one-field email capture: the footer on every page, and the timeline. */
+  newsletter: {
+    placeholder: string;
+    subscribe: string;
+    subscribing: string;
+    success: string;
+    privacy: string;
+    invalid: string;
+    error: string;
+  };
   emailCheck: {
     emailInvalid: string;
     emailWork: string;
@@ -248,6 +258,15 @@ const en: UiStrings = {
     ctaQuestion: "Ready to check your compliance?",
     ctaBlurb: "Answer 12 questions and get a personalised readiness score.",
     ctaButton: "eIDAS Quick Check",
+  },
+  newsletter: {
+    placeholder: "Enter your email",
+    subscribe: "Subscribe",
+    subscribing: "Subscribing...",
+    success: "You're subscribed!",
+    privacy: "We respect your privacy. Unsubscribe at any time.",
+    invalid: "Please enter a valid email address.",
+    error: "Something went wrong. Please try again.",
   },
   emailCheck: {
     emailInvalid: "Please enter a valid email address.",
@@ -420,6 +439,15 @@ const de: UiStrings = {
     ctaBlurb: "12 Fragen beantworten und den persönlichen Bereitschaftswert erhalten.",
     ctaButton: "eIDAS Quick Check",
   },
+  newsletter: {
+    placeholder: "E-Mail-Adresse eingeben",
+    subscribe: "Abonnieren",
+    subscribing: "Wird abonniert…",
+    success: "Sie sind angemeldet.",
+    privacy: "Wir behandeln Ihre Daten vertraulich. Abmeldung jederzeit möglich.",
+    invalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+  },
   emailCheck: {
     emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     emailWork: "Bitte verwenden Sie Ihre geschäftliche E-Mail-Adresse.",
@@ -591,6 +619,15 @@ const it: UiStrings = {
     ctaBlurb: "Rispondi a 12 domande e ottieni un punteggio di preparazione personalizzato.",
     ctaButton: "eIDAS Quick Check",
   },
+  newsletter: {
+    placeholder: "Inserisci la tua email",
+    subscribe: "Iscriviti",
+    subscribing: "Iscrizione in corso…",
+    success: "Iscrizione completata.",
+    privacy: "Rispettiamo la tua privacy. Puoi disiscriverti quando vuoi.",
+    invalid: "Inserisci un indirizzo email valido.",
+    error: "Qualcosa è andato storto. Riprova.",
+  },
   emailCheck: {
     emailInvalid: "Inserisci un indirizzo email valido.",
     emailWork: "Usa il tuo indirizzo email aziendale.",
@@ -761,6 +798,15 @@ const es: UiStrings = {
     ctaQuestion: "¿Listo para evaluar tu cumplimiento?",
     ctaBlurb: "Responde 12 preguntas y obtén una puntuación de preparación personalizada.",
     ctaButton: "eIDAS Quick Check",
+  },
+  newsletter: {
+    placeholder: "Escribe tu correo",
+    subscribe: "Suscribirme",
+    subscribing: "Enviando…",
+    success: "Listo, estás suscrito.",
+    privacy: "Respetamos tu privacidad. Puedes darte de baja cuando quieras.",
+    invalid: "Introduce una dirección de correo válida.",
+    error: "Algo ha fallado. Vuelve a intentarlo.",
   },
   emailCheck: {
     emailInvalid: "Introduce una dirección de correo válida.",

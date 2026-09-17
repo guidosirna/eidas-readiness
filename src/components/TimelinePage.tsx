@@ -4,6 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import DeadlineCountdown from "@/components/DeadlineCountdown";
 import HtmlLang from "@/components/HtmlLang";
 import CtaBlock from "@/components/CtaBlock";
+import NewsletterForm from "@/components/NewsletterForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedResources from "@/components/RelatedResources";
 import SidebarLayout from "@/components/SidebarLayout";
@@ -115,6 +116,20 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
               <TimelineVisual events={t.milestones.items} />
             </div>
 
+            {/* The ask, here rather than only at the foot of the page: the
+                milestones are what people came for and where they stop reading.
+                Same Netlify form as the footer — one list, one unsubscribe — and
+                source="deadline_alerts" is what tells them apart. */}
+            <div className="-mx-6 px-6 sm:-mx-0 sm:px-8" style={{ backgroundColor: "#f9f9fa", borderRadius: "2px" }}>
+              <NewsletterForm
+                variant="banner"
+                source="deadline_alerts"
+                headline={t.alerts.headline}
+                description={t.alerts.description}
+                submitLabel={t.alerts.button}
+              />
+            </div>
+
             {/* What This Means For Your Organisation */}
             <div id="what-this-means">
               <h2 className="text-2xl sm:text-3xl mb-6">{t.whatThisMeans.heading}</h2>
@@ -192,6 +207,7 @@ export default function TimelinePage({ locale }: { locale: Locale }) {
                 ))}
               </dl>
             </div>
+
 
             {/* Related Resources */}
             <div id="related-resources" className="-mx-6 px-6 py-10 sm:-mx-0 sm:px-8 sm:py-12" style={{ backgroundColor: "#f0f4ff", borderRadius: "2px" }}>
