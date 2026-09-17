@@ -89,9 +89,47 @@ export interface UiStrings {
     ctaBlurb: string;
     ctaButton: string;
   };
-  chat: {
+  /** The two rejections checkWorkEmail can return. All three forms use them. */
+  emailCheck: {
     emailInvalid: string;
     emailWork: string;
+  };
+  gate: {
+    heading: string;
+    step1: string;
+    step2: string;
+    stepOf: (n: number) => string;
+    email: string;
+    company: string;
+    role: string;
+    industry: string;
+    continueLabel: string;
+    continueLoading: string;
+    open: string;
+    openLoading: string;
+    error: string;
+    reassurance: string;
+    /** Labels only. The submitted value stays English so the lead data does not
+     *  arrive in four languages. */
+    roles: Record<string, string>;
+    industries: Record<string, string>;
+  };
+  contact: {
+    heading: string;
+    blurbService: string;
+    blurbGeneral: string;
+    name: string;
+    company: string;
+    email: string;
+    message: string;
+    send: string;
+    sending: string;
+    error: string;
+    sentHeading: string;
+    sentBody: string;
+    close: string;
+  };
+  chat: {
     bubble: string;
     bubbleCta: string;
     dismiss: string;
@@ -211,9 +249,58 @@ const en: UiStrings = {
     ctaBlurb: "Answer 12 questions and get a personalised readiness score.",
     ctaButton: "eIDAS Quick Check",
   },
-  chat: {
+  emailCheck: {
     emailInvalid: "Please enter a valid email address.",
     emailWork: "Please use your work email address.",
+  },
+  gate: {
+    heading: "Unlock the full guide",
+    step1: "Tell us about yourself. You keep reading here, and a copy lands in your inbox.",
+    step2: "Last step. Then the guide opens here and a copy lands in your inbox.",
+    stepOf: (n) => `Step ${n} of 2`,
+    email: "Work email *",
+    company: "Company *",
+    role: "Role *",
+    industry: "Industry *",
+    continueLabel: "Continue",
+    continueLoading: "One moment...",
+    open: "Open the guide",
+    openLoading: "Unlocking...",
+    error: "Something went wrong. Please try again.",
+    reassurance: "Free, no spam.",
+    roles: {
+      "CTO / Technical Lead": "CTO / Technical Lead",
+      "Compliance Officer": "Compliance Officer",
+      "Product Manager": "Product Manager",
+      "Legal Team": "Legal Team",
+      "Other": "Other",
+    },
+    industries: {
+      "Financial Services": "Financial Services",
+      "Healthcare": "Healthcare",
+      "Government": "Government",
+      "Telecommunications": "Telecommunications",
+      "E-Commerce": "E-Commerce",
+      "Travel & Transport": "Travel & Transport",
+      "Other": "Other",
+    },
+  },
+  contact: {
+    heading: "Talk to an expert",
+    blurbService: "Leave your details and we will come back with scope, timing, and a quote.",
+    blurbGeneral: "Leave your details and our eIDAS 2.0 specialists will reach out.",
+    name: "Name",
+    company: "Company",
+    email: "Work email *",
+    message: "How can we help? (optional)",
+    send: "Send message",
+    sending: "Sending...",
+    error: "Something went wrong. Please try again.",
+    sentHeading: "Message sent",
+    sentBody: "Our team will get back to you shortly.",
+    close: "Close",
+  },
+  chat: {
     bubble: "Need help preparing for eIDAS 2.0?",
     bubbleCta: "Chat with us",
     dismiss: "Dismiss",
@@ -333,9 +420,58 @@ const de: UiStrings = {
     ctaBlurb: "12 Fragen beantworten und den persönlichen Bereitschaftswert erhalten.",
     ctaButton: "eIDAS Quick Check",
   },
-  chat: {
+  emailCheck: {
     emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     emailWork: "Bitte verwenden Sie Ihre geschäftliche E-Mail-Adresse.",
+  },
+  gate: {
+    heading: "Vollständigen Leitfaden freischalten",
+    step1: "Erzählen Sie uns kurz von sich. Sie lesen hier weiter, und eine Kopie landet in Ihrem Postfach.",
+    step2: "Letzter Schritt. Dann öffnet sich der Leitfaden hier und eine Kopie landet in Ihrem Postfach.",
+    stepOf: (n) => `Schritt ${n} von 2`,
+    email: "Geschäftliche E-Mail *",
+    company: "Unternehmen *",
+    role: "Funktion *",
+    industry: "Branche *",
+    continueLabel: "Weiter",
+    continueLoading: "Einen Moment…",
+    open: "Leitfaden öffnen",
+    openLoading: "Wird freigeschaltet…",
+    error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    reassurance: "Kostenlos, kein Spam.",
+    roles: {
+      "CTO / Technical Lead": "CTO / Technische Leitung",
+      "Compliance Officer": "Compliance-Beauftragte:r",
+      "Product Manager": "Produktmanagement",
+      "Legal Team": "Rechtsabteilung",
+      "Other": "Sonstiges",
+    },
+    industries: {
+      "Financial Services": "Finanzdienstleistungen",
+      "Healthcare": "Gesundheitswesen",
+      "Government": "Öffentliche Verwaltung",
+      "Telecommunications": "Telekommunikation",
+      "E-Commerce": "E-Commerce",
+      "Travel & Transport": "Reise und Verkehr",
+      "Other": "Sonstiges",
+    },
+  },
+  contact: {
+    heading: "Mit einem Experten sprechen",
+    blurbService: "Hinterlassen Sie Ihre Kontaktdaten, und wir melden uns mit Umfang, Zeitplan und Angebot.",
+    blurbGeneral: "Hinterlassen Sie Ihre Kontaktdaten, und unsere eIDAS-2.0-Spezialisten melden sich bei Ihnen.",
+    name: "Name",
+    company: "Unternehmen",
+    email: "Geschäftliche E-Mail *",
+    message: "Wie können wir helfen? (optional)",
+    send: "Nachricht senden",
+    sending: "Wird gesendet…",
+    error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    sentHeading: "Nachricht gesendet",
+    sentBody: "Unser Team meldet sich in Kürze bei Ihnen.",
+    close: "Schließen",
+  },
+  chat: {
     bubble: "Brauchen Sie Hilfe bei der Vorbereitung auf eIDAS 2.0?",
     bubbleCta: "Schreiben Sie uns",
     dismiss: "Schließen",
@@ -455,9 +591,58 @@ const it: UiStrings = {
     ctaBlurb: "Rispondi a 12 domande e ottieni un punteggio di preparazione personalizzato.",
     ctaButton: "eIDAS Quick Check",
   },
-  chat: {
+  emailCheck: {
     emailInvalid: "Inserisci un indirizzo email valido.",
     emailWork: "Usa il tuo indirizzo email aziendale.",
+  },
+  gate: {
+    heading: "Sblocca la guida completa",
+    step1: "Parlaci di te. Continui a leggere qui e una copia arriva nella tua casella.",
+    step2: "Ultimo passaggio. Poi la guida si apre qui e una copia arriva nella tua casella.",
+    stepOf: (n) => `Passaggio ${n} di 2`,
+    email: "Email aziendale *",
+    company: "Azienda *",
+    role: "Ruolo *",
+    industry: "Settore *",
+    continueLabel: "Continua",
+    continueLoading: "Un momento…",
+    open: "Apri la guida",
+    openLoading: "Sblocco in corso…",
+    error: "Qualcosa è andato storto. Riprova.",
+    reassurance: "Gratis, senza spam.",
+    roles: {
+      "CTO / Technical Lead": "CTO / Responsabile tecnico",
+      "Compliance Officer": "Responsabile compliance",
+      "Product Manager": "Product manager",
+      "Legal Team": "Ufficio legale",
+      "Other": "Altro",
+    },
+    industries: {
+      "Financial Services": "Servizi finanziari",
+      "Healthcare": "Sanità",
+      "Government": "Pubblica amministrazione",
+      "Telecommunications": "Telecomunicazioni",
+      "E-Commerce": "E-commerce",
+      "Travel & Transport": "Viaggi e trasporti",
+      "Other": "Altro",
+    },
+  },
+  contact: {
+    heading: "Parla con un esperto",
+    blurbService: "Lasciaci i tuoi dati e ti risponderemo con perimetro, tempi e preventivo.",
+    blurbGeneral: "Lasciaci i tuoi dati e i nostri specialisti eIDAS 2.0 ti contatteranno.",
+    name: "Nome",
+    company: "Azienda",
+    email: "Email aziendale *",
+    message: "Come possiamo aiutarti? (facoltativo)",
+    send: "Invia il messaggio",
+    sending: "Invio in corso…",
+    error: "Qualcosa è andato storto. Riprova.",
+    sentHeading: "Messaggio inviato",
+    sentBody: "Il nostro team ti risponderà a breve.",
+    close: "Chiudi",
+  },
+  chat: {
     bubble: "Serve aiuto per prepararsi a eIDAS 2.0?",
     bubbleCta: "Scrivici",
     dismiss: "Chiudi",
@@ -577,9 +762,58 @@ const es: UiStrings = {
     ctaBlurb: "Responde 12 preguntas y obtén una puntuación de preparación personalizada.",
     ctaButton: "eIDAS Quick Check",
   },
-  chat: {
+  emailCheck: {
     emailInvalid: "Introduce una dirección de correo válida.",
     emailWork: "Usa tu correo corporativo.",
+  },
+  gate: {
+    heading: "Desbloquea la guía completa",
+    step1: "Cuéntanos quién eres. Sigues leyendo aquí y te mandamos una copia por correo.",
+    step2: "Último paso. Después la guía se abre aquí y te mandamos una copia por correo.",
+    stepOf: (n) => `Paso ${n} de 2`,
+    email: "Correo corporativo *",
+    company: "Empresa *",
+    role: "Puesto *",
+    industry: "Sector *",
+    continueLabel: "Continuar",
+    continueLoading: "Un momento…",
+    open: "Abrir la guía",
+    openLoading: "Desbloqueando…",
+    error: "Algo ha fallado. Vuelve a intentarlo.",
+    reassurance: "Gratis y sin spam.",
+    roles: {
+      "CTO / Technical Lead": "CTO / Responsable técnico",
+      "Compliance Officer": "Responsable de cumplimiento",
+      "Product Manager": "Product manager",
+      "Legal Team": "Asesoría jurídica",
+      "Other": "Otro",
+    },
+    industries: {
+      "Financial Services": "Servicios financieros",
+      "Healthcare": "Sanidad",
+      "Government": "Administración pública",
+      "Telecommunications": "Telecomunicaciones",
+      "E-Commerce": "Comercio electrónico",
+      "Travel & Transport": "Viajes y transporte",
+      "Other": "Otro",
+    },
+  },
+  contact: {
+    heading: "Hablar con un experto",
+    blurbService: "Déjanos tus datos y te respondemos con alcance, plazos y presupuesto.",
+    blurbGeneral: "Déjanos tus datos y nuestros especialistas en eIDAS 2.0 se pondrán en contacto.",
+    name: "Nombre",
+    company: "Empresa",
+    email: "Correo corporativo *",
+    message: "¿En qué podemos ayudarte? (opcional)",
+    send: "Enviar mensaje",
+    sending: "Enviando…",
+    error: "Algo ha fallado. Vuelve a intentarlo.",
+    sentHeading: "Mensaje enviado",
+    sentBody: "Nuestro equipo te responderá en breve.",
+    close: "Cerrar",
+  },
+  chat: {
     bubble: "¿Necesitas ayuda para preparar eIDAS 2.0?",
     bubbleCta: "Escríbenos",
     dismiss: "Cerrar",

@@ -133,7 +133,7 @@ export default function HelpChatbot() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const check = checkWorkEmail(form.email, "chatbot", t);
+    const check = checkWorkEmail(form.email, "chatbot", UI[locale].emailCheck);
     if (!check.ok) {
       setError(check.message);
       return;
