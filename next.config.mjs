@@ -4,6 +4,8 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // The quick check is a section of /assessment now, not a page of its own.
+      { source: "/assessment/quick-check", destination: "/assessment", permanent: true },
       {
         // /eidas-timestamp described a tool that does not exist: three steps
         // about uploading a file, hashing it against a qualified Time Stamp

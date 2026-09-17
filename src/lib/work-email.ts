@@ -139,12 +139,24 @@ const SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * than in each caller because a rejection left no trace at all until now, and
  * three forms call this: a fourth would be added without it and nobody would
  * notice, which is the same silence this is meant to end.
+ *
+ * `messages` comes from the caller because this file has no locale: the chatbot
+ * knows which language it is rendering in, and a rejection a reader cannot read
+ * is a lead lost at the last step. The other two callers are not translated yet
+ * and pass nothing, which keeps them exactly as they were.
  */
-export function checkWorkEmail(value: string, source: string): EmailCheck {
+export function checkWorkEmail(
+  value: string,
+  source: string,
+  messages: { emailInvalid: string; emailWork: string } = {
+    emailInvalid: "Please enter a valid email address.",
+    emailWork: "Please use your work email address.",
+  },
+): EmailCheck {
   const email = value.trim().toLowerCase();
 
   if (!SHAPE.test(email)) {
-    return { ok: false, message: "Please enter a valid email address." };
+    return { ok: false, message: messages.emailInvalid };
   }
 
   const domain = email.slice(email.lastIndexOf("@") + 1);
@@ -153,7 +165,7 @@ export function checkWorkEmail(value: string, source: string): EmailCheck {
     trackEmailRejected(source, domain);
     // Same message for consumer and throwaway addresses: naming the reason
     // only explains how to get around it.
-    return { ok: false, message: "Please use your work email address." };
+    return { ok: false, message: messages.emailWork };
   };
 
   if (FREE_PROVIDERS.has(domain)) return reject();

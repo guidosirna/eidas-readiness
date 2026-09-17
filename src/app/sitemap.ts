@@ -89,12 +89,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/assessment/quick-check`,
-      lastModified: LAST_UPDATED,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: `${BASE_URL}/guide/eidas-2-compliance`,
       lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',

@@ -1,13 +1,23 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { trackChatbotOpen, trackLeadSubmit } from "@/lib/analytics";
+import { linkPath, localeFromPathname } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 import { checkWorkEmail } from "@/lib/work-email";
 
 type Step = "initial" | "options" | "lead-form" | "submitted" | "assessment";
 
 export default function HelpChatbot() {
+  // Every string here was English in all four languages. The chat is the one
+  // place on the site a German or Spanish reader could be handed a form, so it
+  // reads from UI like the rest of the chrome.
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname ?? "/");
+  const t = UI[locale].chat;
+
   const [open, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
   const [badgeDismissed, setBadgeDismissed] = useState(() => {
@@ -123,7 +133,7 @@ export default function HelpChatbot() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const check = checkWorkEmail(form.email, "chatbot");
+    const check = checkWorkEmail(form.email, "chatbot", UI[locale].emailCheck);
     if (!check.ok) {
       setError(check.message);
       return;
@@ -140,7 +150,7 @@ export default function HelpChatbot() {
       trackLeadSubmit("chatbot");
     } catch (err) {
       console.error("Chatbot lead submission failed:", err);
-      setError("Something went wrong. Please try again.");
+      setError(t.error);
     } finally {
       setSubmitting(false);
     }
@@ -165,14 +175,14 @@ export default function HelpChatbot() {
             type="button"
             onClick={() => setShowBubble(false)}
             className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-            aria-label="Dismiss"
+            aria-label={t.dismiss}
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <p className="text-sm font-medium pr-6" style={{ color: "#010f62" }}>
-            Need help preparing for eIDAS 2.0?
+            {t.bubble}
           </p>
           <button
             type="button"
@@ -180,7 +190,7 @@ export default function HelpChatbot() {
             className="mt-2 text-sm font-semibold"
             style={{ color: "#0033ff" }}
           >
-            Chat with us
+            {t.bubbleCta}
           </button>
         </div>
       </div>
@@ -201,8 +211,8 @@ export default function HelpChatbot() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: "#010f62" }}>
-          <span className="text-sm font-semibold text-white">eIDAS Readiness Help</span>
-          <button type="button" onClick={() => setOpen(false)} className="text-white/70 hover:text-white" aria-label="Close chat">
+          <span className="text-sm font-semibold text-white">{t.header}</span>
+          <button type="button" onClick={() => setOpen(false)} className="text-white/70 hover:text-white" aria-label={t.close}>
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -220,8 +230,8 @@ export default function HelpChatbot() {
             </div>
             <div className="bg-gray-50 px-3 py-2 text-sm" style={{ borderRadius: "2px", color: "#62718d" }}>
               {step === "submitted"
-                ? "Thanks! We'll be in touch soon. In the meantime, check out our resources."
-                : "Need help preparing for eIDAS 2.0? I can point you in the right direction."}
+                ? t.thanks
+                : t.intro}
             </div>
           </div>
 
@@ -234,7 +244,7 @@ export default function HelpChatbot() {
                 className="w-full text-left px-3 py-2 text-sm font-medium bg-white transition-colors hover:bg-gray-50"
                 style={{ borderRadius: "2px", border: "1px solid #e8e8e8", color: "#010f62" }}
               >
-                Check my readiness
+                {t.optionAssessment}
               </button>
               <button
                 type="button"
@@ -242,7 +252,7 @@ export default function HelpChatbot() {
                 className="w-full text-left px-3 py-2 text-sm font-medium bg-white transition-colors hover:bg-gray-50"
                 style={{ borderRadius: "2px", border: "1px solid #e8e8e8", color: "#010f62" }}
               >
-                Talk to an expert
+                {t.optionExpert}
               </button>
             </div>
           )}
@@ -251,14 +261,14 @@ export default function HelpChatbot() {
           {step === "assessment" && (
             <div className="pl-9 space-y-3">
               <p className="text-sm" style={{ color: "#62718d" }}>
-                Let me help you check your readiness with our quick assessment.
+                {t.assessmentBlurb}
               </p>
               <a
-                href="/assessment"
+                href={linkPath(locale, "/assessment")}
                 className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white transition-colors"
                 style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
               >
-                eIDAS Quick Check
+                {t.assessmentCta}
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -274,7 +284,7 @@ export default function HelpChatbot() {
               </p>
               <input
                 type="text"
-                placeholder="Name"
+                placeholder={t.name}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -282,7 +292,7 @@ export default function HelpChatbot() {
               />
               <input
                 type="email"
-                placeholder="Email *"
+                placeholder={t.email}
                 value={form.email}
                 onChange={(e) => { setForm({ ...form, email: e.target.value }); setError(""); }}
                 className="w-full px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -291,7 +301,7 @@ export default function HelpChatbot() {
               />
               <input
                 type="text"
-                placeholder="Company"
+                placeholder={t.company}
                 value={form.company}
                 onChange={(e) => setForm({ ...form, company: e.target.value })}
                 className="w-full px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -303,7 +313,7 @@ export default function HelpChatbot() {
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors disabled:opacity-60"
                 style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
               >
-                {submitting ? "Sending..." : "Get in Touch"}
+                {submitting ? t.sending : t.submit}
               </button>
               {error && <p className="text-sm text-red-500">{error}</p>}
             </form>
@@ -312,11 +322,11 @@ export default function HelpChatbot() {
           {/* Submitted */}
           {step === "submitted" && (
             <div className="pl-9 space-y-2">
-              <a href="/guide/eidas-2-compliance" className="block text-sm font-medium" style={{ color: "#0033ff" }}>
-                Read the Compliance Guide
+              <a href={linkPath(locale, "/guide/eidas-2-compliance")} className="block text-sm font-medium" style={{ color: "#0033ff" }}>
+                {t.resourceGuide}
               </a>
-              <a href="/assessment" className="block text-sm font-medium" style={{ color: "#0033ff" }}>
-                Take the Assessment
+              <a href={linkPath(locale, "/assessment")} className="block text-sm font-medium" style={{ color: "#0033ff" }}>
+                {t.resourceAssessment}
               </a>
             </div>
           )}
@@ -337,7 +347,7 @@ export default function HelpChatbot() {
           transition: "bottom 0.4s ease, transform 0.2s ease",
           transform: open ? "rotate(90deg)" : "rotate(0deg)",
         }}
-        aria-label={open ? "Close help chat" : "Open help chat"}
+        aria-label={open ? t.toggleClose : t.toggleOpen}
       >
         {open ? (
           <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

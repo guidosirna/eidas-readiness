@@ -4,7 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { X, Send } from "lucide-react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
 import { trackLeadSubmit } from "@/lib/analytics";
+import { usePathname } from "next/navigation";
 import { checkWorkEmail } from "@/lib/work-email";
+import { localeFromPathname } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
 
 interface ContactFormModalProps {
   open: boolean;
@@ -14,6 +17,12 @@ interface ContactFormModalProps {
 }
 
 export default function ContactFormModal({ open, onClose, service }: ContactFormModalProps) {
+  // Opened from /assessment and /services, both of which a German or Spanish
+  // reader can reach; the form was English regardless.
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname ?? "/");
+  const t = UI[locale].contact;
+
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +57,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const check = checkWorkEmail(form.email, "contact_expert");
+    const check = checkWorkEmail(form.email, "contact_expert", UI[locale].emailCheck);
     if (!check.ok) {
       setStatus("error");
       setErrorMessage(check.message);
@@ -67,7 +76,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
     } catch (err) {
       console.error("Contact form submission failed:", err);
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(t.error);
     }
   };
 
@@ -90,7 +99,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
             onClick={onClose}
             className="absolute top-4 right-4 p-1 transition-colors hover:bg-gray-100"
             style={{ borderRadius: "2px" }}
-            aria-label="Close"
+            aria-label={t.close}
           >
             <X className="h-5 w-5" style={{ color: "#62718d" }} />
           </button>
@@ -102,17 +111,17 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                   <Send className="h-5 w-5 text-white" />
                 </div>
                 <h3 className="text-xl font-display font-semibold" style={{ color: "#010f62" }}>
-                  Message sent
+                  {t.sentHeading}
                 </h3>
                 <p className="mt-2 text-base" style={{ color: "#62718d" }}>
-                  Our team will get back to you shortly.
+                  {t.sentBody}
                 </p>
                 <button
                   type="button"
                   onClick={onClose}
                   className="mt-6 btn-primary"
                 >
-                  Close
+                  {t.close}
                 </button>
               </div>
             ) : (
@@ -126,19 +135,19 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                   </p>
                 )}
                 <h3 className="text-xl font-display font-semibold sm:text-2xl" style={{ color: "#010f62" }}>
-                  Talk to an expert
+                  {t.heading}
                 </h3>
                 <p className="mt-2 text-base" style={{ color: "#62718d" }}>
                   {service
-                    ? "Leave your details and we will come back with scope, timing, and a quote."
-                    : "Leave your details and our eIDAS 2.0 specialists will reach out."}
+                    ? t.blurbService
+                    : t.blurbGeneral}
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <input
                       type="text"
-                      placeholder="Name"
+                      placeholder={t.name}
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="w-full bg-white px-4 py-3 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -146,7 +155,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                     />
                     <input
                       type="text"
-                      placeholder="Company"
+                      placeholder={t.company}
                       value={form.company}
                       onChange={(e) => setForm({ ...form, company: e.target.value })}
                       className="w-full bg-white px-4 py-3 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -155,7 +164,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                   </div>
                   <input
                     type="email"
-                    placeholder="Work email *"
+                    placeholder={t.email}
                     value={form.email}
                     onChange={(e) => { setForm({ ...form, email: e.target.value }); if (status === "error") setStatus("idle"); }}
                     className="w-full bg-white px-4 py-3 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10"
@@ -163,7 +172,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                     required
                   />
                   <textarea
-                    placeholder="How can we help? (optional)"
+                    placeholder={t.message}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     rows={3}
@@ -176,7 +185,7 @@ export default function ContactFormModal({ open, onClose, service }: ContactForm
                     className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
                     style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
                   >
-                    {status === "loading" ? "Sending..." : "Send message"}
+                    {status === "loading" ? t.sending : t.send}
                   </button>
                 </form>
 

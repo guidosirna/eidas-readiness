@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { submitNetlifyForm, currentPagePath } from "@/lib/netlify-forms";
+import { usePathname } from "next/navigation";
 import { checkWorkEmail } from "@/lib/work-email";
+import { localeFromPathname } from "@/lib/i18n/config";
+import { UI } from "@/lib/i18n/ui";
 import {
   trackGateView,
   trackGateUnlock,
@@ -31,6 +34,12 @@ const LEGACY_KEY = "content_unlocked";
  */
 const EMAIL_KEY = "content_gate_email";
 
+/**
+ * These are the values that reach the lead, so they stay English in every
+ * language: translating them would deliver the same role under four different
+ * spellings and make the leads impossible to group. Only the labels the reader
+ * sees come from UI.
+ */
 const roleOptions = ["CTO / Technical Lead", "Compliance Officer", "Product Manager", "Legal Team", "Other"];
 const industryOptions = ["Financial Services", "Healthcare", "Government", "Telecommunications", "E-Commerce", "Travel & Transport", "Other"];
 
@@ -38,6 +47,13 @@ export default function ContentGate({
   children,
   previewSections = 3,
 }: ContentGateProps) {
+  // The guide this gate sits on is translated; the gate was not, so a German
+  // reader read the guide in German and hit an English form at the one step
+  // that produces a lead.
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname ?? "/");
+  const t = UI[locale].gate;
+
   const [unlocked, setUnlocked] = useState(false);
   const [checking, setChecking] = useState(true);
   const [step, setStep] = useState<1 | 2>(1);
@@ -99,7 +115,7 @@ export default function ContentGate({
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const check = checkWorkEmail(form.email, "content_gate");
+    const check = checkWorkEmail(form.email, "content_gate", UI[locale].emailCheck);
     if (!check.ok) {
       setStatus("error");
       setErrorMessage(check.message);
@@ -117,7 +133,7 @@ export default function ContentGate({
     } catch (err) {
       console.error("Content gate submission failed:", err);
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(t.error);
       return;
     }
 
@@ -171,7 +187,7 @@ export default function ContentGate({
     } catch (err) {
       console.error("Content gate profile submission failed:", err);
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(t.error);
       return;
     }
 
@@ -252,15 +268,15 @@ export default function ContentGate({
             </div>
 
             <h3 className="text-xl font-display font-semibold sm:text-2xl" style={{ color: "#010f62" }}>
-              Unlock the full guide
+              {t.heading}
             </h3>
             <p className="mt-2 text-base" style={{ color: "#62718d" }}>
               {step === 1
-                ? "Tell us about yourself. You keep reading here, and a copy lands in your inbox."
-                : "Last step. Then the guide opens here and a copy lands in your inbox."}
+                ? t.step1
+                : t.step2}
             </p>
             <p className="mt-2 text-sm" style={{ color: "#62718d" }}>
-              Step {step} of 2
+              {t.stepOf(step)}
             </p>
 
             {step === 1 ? (
@@ -272,7 +288,7 @@ export default function ContentGate({
                     setForm({ ...form, email: e.target.value });
                     if (status === "error") setStatus("idle");
                   }}
-                  placeholder="Work email *"
+                  placeholder={t.email}
                   className={inputClass}
                   style={inputStyle}
                   disabled={status === "loading"}
@@ -284,7 +300,7 @@ export default function ContentGate({
                   className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
                   style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
                 >
-                  {status === "loading" ? "One moment..." : "Continue"}
+                  {status === "loading" ? t.continueLoading : t.continueLabel}
                 </button>
               </form>
             ) : (
@@ -296,7 +312,7 @@ export default function ContentGate({
                     setForm({ ...form, company: e.target.value });
                     if (status === "error") setStatus("idle");
                   }}
-                  placeholder="Company *"
+                  placeholder={t.company}
                   className={inputClass}
                   style={inputStyle}
                   disabled={status === "loading"}
@@ -314,9 +330,9 @@ export default function ContentGate({
                     disabled={status === "loading"}
                     required
                   >
-                    <option value="" disabled>Role *</option>
+                    <option value="" disabled>{t.role}</option>
                     {roleOptions.map((r) => (
-                      <option key={r} value={r}>{r}</option>
+                      <option key={r} value={r}>{t.roles[r] ?? r}</option>
                     ))}
                   </select>
                   <select
@@ -330,9 +346,9 @@ export default function ContentGate({
                     disabled={status === "loading"}
                     required
                   >
-                    <option value="" disabled>Industry *</option>
+                    <option value="" disabled>{t.industry}</option>
                     {industryOptions.map((ind) => (
-                      <option key={ind} value={ind}>{ind}</option>
+                      <option key={ind} value={ind}>{t.industries[ind] ?? ind}</option>
                     ))}
                   </select>
                 </div>
@@ -342,7 +358,7 @@ export default function ContentGate({
                   className="w-full px-6 py-3.5 text-base font-semibold text-white transition-colors duration-200 disabled:opacity-60"
                   style={{ backgroundColor: "#0033ff", borderRadius: "2px" }}
                 >
-                  {status === "loading" ? "Unlocking..." : "Open the guide"}
+                  {status === "loading" ? t.openLoading : t.open}
                 </button>
               </form>
             )}
@@ -352,7 +368,7 @@ export default function ContentGate({
             )}
 
             <p className="mt-4 text-sm" style={{ color: "#62718d" }}>
-              Free, no spam.
+              {t.reassurance}
             </p>
           </div>
         </div>

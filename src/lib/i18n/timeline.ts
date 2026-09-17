@@ -45,6 +45,14 @@ export interface TimelineContent {
   whoThisAffects: { sectors: string; roles: string; terms: string; allTerms: string };
   related: { heading: string; items: { href: string; label: string; desc: string }[] };
   cta: { headline: string; description: string; button: string };
+  /**
+   * The small ask, sitting right under the dates. The page's only request used
+   * to be the CTA at the very bottom, asking for a twelve-question assessment:
+   * over 90 days 313 people read this page, the most-read on the site, and it
+   * produced one lead. They come to look up a date, so what they are offered is
+   * a date.
+   */
+  alerts: { headline: string; description: string; button: string };
 }
 
 const en: TimelineContent = {
@@ -225,6 +233,11 @@ const en: TimelineContent = {
     description:
       "Take our free eIDAS 2.0 readiness assessment to understand your compliance gaps and get a tailored action plan before the key deadlines hit.",
     button: "Check your readiness",
+  },
+  alerts: {
+    headline: "Get told when a date moves",
+    description: "These deadlines have slipped before. One email when one of them changes, nothing else.",
+    button: "Notify me",
   },
 };
 
@@ -407,6 +420,11 @@ const de: TimelineContent = {
       "Mit der kostenlosen eIDAS-2.0-Bereitschaftsanalyse erkennen Sie Ihre Compliance-Lücken und erhalten einen passenden Aktionsplan, bevor die entscheidenden Fristen ablaufen.",
     button: "Bereitschaft prüfen",
   },
+  alerts: {
+    headline: "Erfahren Sie, wenn sich ein Datum verschiebt",
+    description: "Diese Fristen wurden schon einmal verschoben. Eine E-Mail, wenn sich eine davon ändert, nichts weiter.",
+    button: "Benachrichtigen",
+  },
 };
 
 const it: TimelineContent = {
@@ -588,6 +606,11 @@ const it: TimelineContent = {
       "Con l'analisi gratuita di preparazione a eIDAS 2.0 individui le tue lacune di conformità e ottieni un piano d'azione su misura prima che scadano i termini principali.",
     button: "Verifica la tua preparazione",
   },
+  alerts: {
+    headline: "Scopri quando una data si sposta",
+    description: "Queste scadenze sono già slittate in passato. Una email quando una di loro cambia, nient'altro.",
+    button: "Avvisami",
+  },
 };
 
 const es: TimelineContent = {
@@ -768,6 +791,11 @@ const es: TimelineContent = {
     description:
       "Con la evaluación gratuita de preparación para eIDAS 2.0 identificas tus brechas de cumplimiento y obtienes un plan de acción a medida antes de que venzan los plazos clave.",
     button: "Evalúa tu preparación",
+  },
+  alerts: {
+    headline: "Te avisamos si una fecha se mueve",
+    description: "Estos plazos ya se han corrido antes. Un correo cuando uno cambie, nada más.",
+    button: "Avísame",
   },
 };
 
