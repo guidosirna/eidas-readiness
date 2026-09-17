@@ -562,8 +562,8 @@ export default function AssessmentWizard() {
               Start the Assessment
             </h2>
             <p className="leading-relaxed" style={{ color: "#62718d" }}>
-              12 questions. 3 minutes. Find out where your organization stands
-              on digital identity compliance.
+              Find out where your organisation stands on digital identity
+              compliance.
             </p>
           </div>
         )}
