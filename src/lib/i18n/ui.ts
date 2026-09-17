@@ -89,6 +89,31 @@ export interface UiStrings {
     ctaBlurb: string;
     ctaButton: string;
   };
+  chat: {
+    emailInvalid: string;
+    emailWork: string;
+    bubble: string;
+    bubbleCta: string;
+    dismiss: string;
+    header: string;
+    close: string;
+    intro: string;
+    thanks: string;
+    optionAssessment: string;
+    optionExpert: string;
+    assessmentBlurb: string;
+    assessmentCta: string;
+    name: string;
+    email: string;
+    company: string;
+    sending: string;
+    submit: string;
+    error: string;
+    resourceGuide: string;
+    resourceAssessment: string;
+    toggleOpen: string;
+    toggleClose: string;
+  };
   banner: {
     headline: string;
     trust: string;
@@ -185,6 +210,31 @@ const en: UiStrings = {
     ctaQuestion: "Ready to check your compliance?",
     ctaBlurb: "Answer 12 questions and get a personalised readiness score.",
     ctaButton: "eIDAS Quick Check",
+  },
+  chat: {
+    emailInvalid: "Please enter a valid email address.",
+    emailWork: "Please use your work email address.",
+    bubble: "Need help preparing for eIDAS 2.0?",
+    bubbleCta: "Chat with us",
+    dismiss: "Dismiss",
+    header: "eIDAS Readiness Help",
+    close: "Close chat",
+    intro: "Need help preparing for eIDAS 2.0? I can point you in the right direction.",
+    thanks: "Thanks! We'll be in touch soon. In the meantime, check out our resources.",
+    optionAssessment: "Check my readiness",
+    optionExpert: "Talk to an expert",
+    assessmentBlurb: "Let me help you check your readiness with our quick assessment.",
+    assessmentCta: "eIDAS Quick Check",
+    name: "Name",
+    email: "Email *",
+    company: "Company",
+    sending: "Sending...",
+    submit: "Get in Touch",
+    error: "Something went wrong. Please try again.",
+    resourceGuide: "Read the Compliance Guide",
+    resourceAssessment: "Take the Assessment",
+    toggleOpen: "Open help chat",
+    toggleClose: "Close help chat",
   },
   banner: {
     headline: "Free eIDAS 2.0 Readiness Assessment",
@@ -283,6 +333,31 @@ const de: UiStrings = {
     ctaBlurb: "12 Fragen beantworten und den persönlichen Bereitschaftswert erhalten.",
     ctaButton: "eIDAS Quick Check",
   },
+  chat: {
+    emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    emailWork: "Bitte verwenden Sie Ihre geschäftliche E-Mail-Adresse.",
+    bubble: "Brauchen Sie Hilfe bei der Vorbereitung auf eIDAS 2.0?",
+    bubbleCta: "Schreiben Sie uns",
+    dismiss: "Schließen",
+    header: "eIDAS-Readiness-Hilfe",
+    close: "Chat schließen",
+    intro: "Brauchen Sie Hilfe bei der Vorbereitung auf eIDAS 2.0? Ich weise Ihnen den Weg.",
+    thanks: "Danke! Wir melden uns in Kürze. Sehen Sie sich in der Zwischenzeit unsere Ressourcen an.",
+    optionAssessment: "Bereitschaft prüfen",
+    optionExpert: "Mit einem Experten sprechen",
+    assessmentBlurb: "Prüfen Sie Ihre Bereitschaft mit unserer kurzen Analyse.",
+    assessmentCta: "eIDAS Quick Check",
+    name: "Name",
+    email: "E-Mail *",
+    company: "Unternehmen",
+    sending: "Wird gesendet…",
+    submit: "Kontakt aufnehmen",
+    error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    resourceGuide: "Compliance-Leitfaden lesen",
+    resourceAssessment: "Zur Bereitschaftsanalyse",
+    toggleOpen: "Hilfe-Chat öffnen",
+    toggleClose: "Hilfe-Chat schließen",
+  },
   banner: {
     headline: "Kostenlose eIDAS-2.0-Bereitschaftsanalyse",
     trust: "Genutzt von führenden europäischen Organisationen",
@@ -380,6 +455,31 @@ const it: UiStrings = {
     ctaBlurb: "Rispondi a 12 domande e ottieni un punteggio di preparazione personalizzato.",
     ctaButton: "eIDAS Quick Check",
   },
+  chat: {
+    emailInvalid: "Inserisci un indirizzo email valido.",
+    emailWork: "Usa il tuo indirizzo email aziendale.",
+    bubble: "Serve aiuto per prepararsi a eIDAS 2.0?",
+    bubbleCta: "Scrivici",
+    dismiss: "Chiudi",
+    header: "Assistenza eIDAS Readiness",
+    close: "Chiudi la chat",
+    intro: "Serve aiuto per prepararsi a eIDAS 2.0? Posso indicarti la strada giusta.",
+    thanks: "Grazie! Ti contatteremo presto. Nel frattempo dai un'occhiata alle nostre risorse.",
+    optionAssessment: "Verifica la mia preparazione",
+    optionExpert: "Parla con un esperto",
+    assessmentBlurb: "Verifica la tua preparazione con la nostra analisi rapida.",
+    assessmentCta: "eIDAS Quick Check",
+    name: "Nome",
+    email: "Email *",
+    company: "Azienda",
+    sending: "Invio in corso…",
+    submit: "Contattaci",
+    error: "Qualcosa è andato storto. Riprova.",
+    resourceGuide: "Leggi la guida alla conformità",
+    resourceAssessment: "Fai l'analisi di preparazione",
+    toggleOpen: "Apri la chat di assistenza",
+    toggleClose: "Chiudi la chat di assistenza",
+  },
   banner: {
     headline: "Analisi gratuita di preparazione a eIDAS 2.0",
     trust: "Usata da organizzazioni europee di primo piano",
@@ -476,6 +576,31 @@ const es: UiStrings = {
     ctaQuestion: "¿Listo para evaluar tu cumplimiento?",
     ctaBlurb: "Responde 12 preguntas y obtén una puntuación de preparación personalizada.",
     ctaButton: "eIDAS Quick Check",
+  },
+  chat: {
+    emailInvalid: "Introduce una dirección de correo válida.",
+    emailWork: "Usa tu correo corporativo.",
+    bubble: "¿Necesitas ayuda para preparar eIDAS 2.0?",
+    bubbleCta: "Escríbenos",
+    dismiss: "Cerrar",
+    header: "Ayuda de eIDAS Readiness",
+    close: "Cerrar el chat",
+    intro: "¿Necesitas ayuda para preparar eIDAS 2.0? Puedo orientarte.",
+    thanks: "¡Gracias! Te escribimos pronto. Mientras tanto, echa un vistazo a nuestros recursos.",
+    optionAssessment: "Evaluar mi preparación",
+    optionExpert: "Hablar con un experto",
+    assessmentBlurb: "Evalúa tu preparación con nuestra evaluación rápida.",
+    assessmentCta: "eIDAS Quick Check",
+    name: "Nombre",
+    email: "Correo *",
+    company: "Empresa",
+    sending: "Enviando…",
+    submit: "Contactar",
+    error: "Algo ha fallado. Vuelve a intentarlo.",
+    resourceGuide: "Leer la guía de cumplimiento",
+    resourceAssessment: "Hacer la evaluación",
+    toggleOpen: "Abrir el chat de ayuda",
+    toggleClose: "Cerrar el chat de ayuda",
   },
   banner: {
     headline: "Evaluación gratuita de preparación para eIDAS 2.0",

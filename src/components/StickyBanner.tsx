@@ -15,13 +15,22 @@ export default function StickyBanner() {
   const locale = localeFromPathname(pathname ?? "/");
   const t = UI[locale].banner;
 
-  // stripLocale so the suppression still holds if either of these pages is
-  // ever translated: /de/assessment would otherwise show the banner that
-  // /assessment hides.
+  // Where the banner does not appear.
+  //
+  // /assessment and the checklist are the pages it advertises, so it has nothing
+  // to offer there. The guides earn their place on the list by measurement: over
+  // 90 days 35 people closed the banner on /guide/eidas-2-compliance and not one
+  // clicked it, while the content gate on that same page converted 3 of the 18
+  // who saw it. The banner was competing with the thing that works. Every click
+  // the banner does get, six of seven, comes from the timeline.
+  //
+  // stripLocale so the suppression holds in German, Italian and Spanish too:
+  // /de/guide/eidas-2-compliance would otherwise show what /guide/… hides.
   const bare = stripLocale(pathname ?? "/");
   const hidden =
     bare.startsWith("/assessment") ||
     bare.startsWith("/eidas-2-compliance-checklist") ||
+    bare.startsWith("/guide/") ||
     dismissed;
 
   useEffect(() => {

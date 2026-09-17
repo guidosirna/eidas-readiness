@@ -3,6 +3,7 @@ import Image from "next/image";
 import JsonLd from "@/components/JsonLd";
 import FaqAccordion from "@/components/FaqAccordion";
 import CtaBlock from "@/components/CtaBlock";
+import CtaLink from "@/components/CtaLink";
 import HtmlLang from "@/components/HtmlLang";
 import { faqItems } from "@/lib/faq-data";
 import { translateFaq } from "@/lib/i18n/faq";
@@ -99,9 +100,9 @@ export default function HomePage({ locale }: { locale: Locale }) {
             {t.hero.sub}
           </p>
           <div className="mt-10">
-            <a href={linkPath(locale, "/assessment")} className="btn-primary inline-flex">
-              {t.hero.cta} <ArrowUpRight className="h-4 w-4 arrow-animate" />
-            </a>
+            <CtaLink href={linkPath(locale, "/assessment")} label="home: hero">
+              {t.hero.cta}
+            </CtaLink>
           </div>
         </div>
       </section>
@@ -135,9 +136,9 @@ export default function HomePage({ locale }: { locale: Locale }) {
           </div>
 
           <div className="text-center mt-8">
-            <a href={linkPath(locale, "/assessment")} className="btn-primary">
-              {t.how.cta} <ArrowUpRight className="h-4 w-4 arrow-animate" />
-            </a>
+            <CtaLink href={linkPath(locale, "/assessment")} label="home: how it works" className="btn-primary">
+              {t.how.cta}
+            </CtaLink>
           </div>
         </div>
       </section>
